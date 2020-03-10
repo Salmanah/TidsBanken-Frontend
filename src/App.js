@@ -12,12 +12,14 @@ import CreateIneligiblePeriod from './views/create-ineligible-period/index';
 import LoginPage from './views/login-page/index';
 import UserProfile from './views/user-profile/index'
 import ApplicationSettings from './views/application-settings/index';
+import ApplicationFrame from './components/application-frame/index';
 
 
 function App() {
   return (
-  
-    <Container className="App">
+    <div>
+      
+      <Container className="App">
       <Router>
           <Switch>
             <Route exact path="/" component={Main}/>
@@ -31,6 +33,9 @@ function App() {
           </Switch>
       </Router>
     </Container>
+    
+    </div>
+  
   );
 }
 
