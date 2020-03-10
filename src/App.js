@@ -6,13 +6,14 @@ import { Container } from "react-bootstrap";
 
 import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
 import CreateVacationRequest from './views/create-vacation-request/index';
-import ViewVacationRequest from './views/view-vacation-request/index';
-import ViewRequestHistory from './views/vacation-request-history/index';
+import ViewVacationRequest from './components/view-vacation-request/index';
+import ViewRequestHistory from './components/vacation-request-history/index';
 import CreateIneligiblePeriod from './views/create-ineligible-period/index';
 import LoginPage from './views/login-page/index';
 import UserProfile from './views/user-profile/index'
 import ApplicationSettings from './views/application-settings/index';
 import ApplicationFrame from './components/application-frame/index';
+import VacationRequests from './views/vacation-requests';
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
             <Route path="/CreateIneligiblePeriod" component={CreateIneligiblePeriod}/>
             <Route path="/ApplicationSettings" component={ApplicationSettings}/>
             <Route path="/LoginPage" component={LoginPage}/>
+            <Route path="/vacationRequests" component={VacationRequests}/>
           </Switch>
       </Router>
     </Container>
