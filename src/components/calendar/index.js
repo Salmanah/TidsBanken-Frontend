@@ -6,7 +6,7 @@ export default class Calendar extends React.Component {
 
     constructor(props) {
         super(props);
-        this.myRef = React.createRef("");
+        this.myRef = React.createRef(null);
     }
     weekdayshort = moment.weekdaysShort();
 
@@ -20,9 +20,8 @@ export default class Calendar extends React.Component {
     };
 
     componentDidMount() {
-
+        this.illeg1();
     }
-
 
     daysInMonth = () => {
         return this.state.dateObject.daysInMonth();
@@ -162,7 +161,6 @@ export default class Calendar extends React.Component {
         return dateArray;
     }
 
-
     YearTable = props => {
         let months = [];
         let nextten = moment()
@@ -224,6 +222,38 @@ export default class Calendar extends React.Component {
         );
     };
 
+    illeg1 = () => {
+        let illegibledays = [];
+
+        let illegible = this.getDates("2020-03-03", "2020-03-07");
+
+        let mm = moment().month(this.month()).format("MM");
+        illegible.forEach(element => {
+            let el = element.split("-");
+            if (el[1] === mm && el[0] === this.year()) {
+
+                illegibledays.push(el[2]);
+            }
+        });
+
+        this.illeg(illegibledays);
+
+    }
+
+
+    illeg = (illegibledays) => {
+        if (illegibledays.length > 0) {
+            illegibledays.forEach(element => {
+                let day = document.getElementById(`day${element}`);
+                console.log(day)
+                day.className += "illegiable";
+            });
+        }
+
+    }
+
+
+
     render() {
         let weekdayshortname = this.weekdayshort.map(day => {
             return <th key={day}>{day}</th>;
@@ -233,32 +263,8 @@ export default class Calendar extends React.Component {
             blanks.push(<td key={Math.random()} className="calendar-day empty">{""}</td>);
         }
         let daysInMonth = [];
-        let illegibledays = [];
-        let illegible = this.getDates("2020-03-03", "2020-03-07");
 
-        let mm = moment().month(this.month()).format("MM");
 
-        illegible.forEach(element => {
-            let el = element.split("-");
-            if (el[1] === mm && el[0] === this.year()) {
-
-                illegibledays.push(el[2]);
-            }
-        });
-
-        if (illegibledays.length > 0) {
-            illegibledays.forEach(element => {
-                //let day = document.getElementById(`day${element}`);
-                // console.log(this.myRef);
-
-                if (this.myRef) {
-                    if (this.myRef.current) {
-                        console.log(this.myRef);
-                    }
-
-                }
-            });
-        }
 
         for (let d = 1; d <= this.daysInMonth(); d++) {
             // eslint-disable-next-line 
@@ -276,6 +282,10 @@ export default class Calendar extends React.Component {
                 </td>
             );
         }
+
+
+
+
         var totalSlots = [...blanks, ...daysInMonth];
         let rows = [];
         let cells = [];

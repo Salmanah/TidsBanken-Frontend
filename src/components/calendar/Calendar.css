@@ -94,6 +94,8 @@
     border-spacing: 0;
     border-collapse: collapse;
   }
+
+
   .tail-datetime-calendar .calendar-date table thead tr > *,
   .tail-datetime-calendar .calendar-date table tbody tr > * {
     color: #ffffff;
@@ -138,6 +140,10 @@
   }
   .tail-datetime-calendar .calendar-date table tbody tr > *.today {
     color: #3296c8;
+  }
+
+  .tail-datetime-calendar .calendar-date table tbody tr > *.illegiable {
+    background-color: #cd283c75;
   }
   .tail-datetime-calendar .calendar-date table tbody tr > *.today:after {
     border-color: #3296c8;
