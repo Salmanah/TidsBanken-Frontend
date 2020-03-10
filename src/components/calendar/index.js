@@ -1,6 +1,5 @@
 import React from "react";
 import moment from "moment";
-//import { range } from "moment-range";
 import "./Calendar.css";
 export default class Calendar extends React.Component {
 
@@ -8,7 +7,7 @@ export default class Calendar extends React.Component {
         super(props);
         this.myRef = React.createRef(null);
     }
-    weekdayshort = moment.weekdaysShort();
+    weekdayshort = moment.weekdays();
 
     state = {
         showYearTable: false,
@@ -20,7 +19,13 @@ export default class Calendar extends React.Component {
     };
 
     componentDidMount() {
-        this.illeg1();
+        let mm = moment().month(this.month()).format("MM");
+        this.ineligibleVacationDays(mm);
+        //this.MyVacationDays();
+    }
+
+    componentDidUpdate() {
+        this.ineligibleVacationDays();
     }
 
     daysInMonth = () => {
@@ -109,26 +114,38 @@ export default class Calendar extends React.Component {
     };
 
     onPrev = () => {
+        //let mm = moment().month(this.month()).format("MM");
+
         let curr = "";
         if (this.state.showYearTable === true) {
             curr = "year";
         } else {
             curr = "month";
+
         }
         this.setState({
             dateObject: this.state.dateObject.subtract(1, curr)
         });
+        this.forceUpdate();
+        //this.ineligibleVacationDays();
+
     };
     onNext = () => {
+        //let mm = moment().month(this.month()).format("MM");
+
         let curr = "";
         if (this.state.showYearTable === true) {
             curr = "year";
+
         } else {
             curr = "month";
         }
         this.setState({
             dateObject: this.state.dateObject.add(1, curr)
         });
+        this.forceUpdate();
+        //this.ineligibleVacationDays();
+
     };
     setYear = year => {
         // alert(year)
@@ -222,37 +239,49 @@ export default class Calendar extends React.Component {
         );
     };
 
-    illeg1 = () => {
+    ineligibleVacationDays = () => {
         let illegibledays = [];
+        let mm = this.state.dateObject.month() + 1;
+        console.log(mm)
+        // the period that is ineligible for vacation
+        let illegible = this.getDates("2020-02-3", "2020-02-7");
 
-        let illegible = this.getDates("2020-03-03", "2020-03-07");
-
-        let mm = moment().month(this.month()).format("MM");
         illegible.forEach(element => {
             let el = element.split("-");
-            if (el[1] === mm && el[0] === this.year()) {
-
+            // if the calendar is the same year and month
+            //console.log(el[1], mm)
+            //console.log(el[0], this.year())
+            //if (el[0] === this.year()) {
+            if (el[1] == mm && el[0] === this.year()) {
                 illegibledays.push(el[2]);
+
             }
         });
 
-        this.illeg(illegibledays);
+        this.getIneligibleVacationDays(illegibledays, mm);
 
     }
 
-
-    illeg = (illegibledays) => {
+    // adds class 'illegiable' to days that are illegiable for vacation
+    getIneligibleVacationDays = (illegibledays, mm) => {
         if (illegibledays.length > 0) {
             illegibledays.forEach(element => {
-                let day = document.getElementById(`day${element}`);
-                console.log(day)
+                //console.log("day" + element + mm + this.year())
+
+                if (element < 10) {
+                    element = element.split("");
+                    element = element[1];
+                }
+
+                let day = document.getElementById(`day${element}${mm}${this.year()}`);
+                console.log(`day${element}${mm}${this.year()}`)
+                console.log(day);
+                //day.style.backgroundColor = '#cd283c75';
                 day.className += "illegiable";
+
             });
         }
-
     }
-
-
 
     render() {
         let weekdayshortname = this.weekdayshort.map(day => {
@@ -267,11 +296,19 @@ export default class Calendar extends React.Component {
 
 
         for (let d = 1; d <= this.daysInMonth(); d++) {
+
             // eslint-disable-next-line 
             let currentDay = d == this.currentDay() ? "today" : "";
-            //this is where the magic happens
+            let mm = moment().month(this.month()).format("M");
+            let d1;
+            //if (d < 10) {
+            // d1 = '0' + d.toString();
+            // } else {
+            d1 = d;
+            //}
+            // prints out each day of the month
             daysInMonth.push(
-                <td ref={this.myRef} id={`day0${d}`} key={d} className={`calendar-day ${currentDay}`}>
+                <td id={`day${d1}${mm}${this.year()}`} key={d} className={`calendar-day ${currentDay}`}>
                     <span className="float-left pl-3"
                         onClick={e => {
                             this.onDayClick(e, d);
@@ -282,8 +319,6 @@ export default class Calendar extends React.Component {
                 </td>
             );
         }
-
-
 
 
         var totalSlots = [...blanks, ...daysInMonth];
