@@ -2,6 +2,8 @@ import React from 'react';
 import Calendar from "../../components/calendar";
 import { Row, Col } from "react-bootstrap";
 import ApplicationFrame from '../../components/application-frame/index';
+import VacationRequests from '../../views/vacation-requests/index'
+
 
 
 function Main() {

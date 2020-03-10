@@ -15,8 +15,7 @@ class AvailableActions extends Component{
                     <Dropdown.Menu>
                         <Dropdown.Item><Link to="/UserProfile">View user profile</Link></Dropdown.Item>
                         <Dropdown.Item><Link to="/CreateVacationRequest">Create vacation request</Link></Dropdown.Item>
-                        <Dropdown.Item><Link to="/ViewVacationRequest">View vacation request</Link></Dropdown.Item>
-                        <Dropdown.Item><Link to="/ViewRequestHistory">View request history</Link></Dropdown.Item>
+                        <Dropdown.Item><Link to="/VacationRequests">Vacation requests</Link></Dropdown.Item>
                     </Dropdown.Menu>
                     </Dropdown>
                 </div>
