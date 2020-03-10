@@ -3,6 +3,11 @@ import moment from "moment";
 //import { range } from "moment-range";
 import "./Calendar.css";
 export default class Calendar extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.myRef = React.createRef("");
+    }
     weekdayshort = moment.weekdaysShort();
 
     state = {
@@ -13,6 +18,12 @@ export default class Calendar extends React.Component {
         allmonths: moment.months(),
         selectedDay: null
     };
+
+    componentDidMount() {
+
+    }
+
+
     daysInMonth = () => {
         return this.state.dateObject.daysInMonth();
     };
@@ -67,7 +78,7 @@ export default class Calendar extends React.Component {
         let cells = [];
 
         months.forEach((row, i) => {
-            if (i % 3 !== 0 || i === 0) {
+            if (i % 3 !== 0 || !i) {
                 cells.push(row);
             } else {
                 rows.push(cells);
@@ -77,7 +88,7 @@ export default class Calendar extends React.Component {
         });
         rows.push(cells);
         let monthlist = rows.map((d, i) => {
-            return <tr>{d}</tr>;
+            return <tr key={Math.random()}>{d}</tr>;
         });
 
         return (
@@ -133,16 +144,25 @@ export default class Calendar extends React.Component {
     onYearChange = e => {
         this.setYear(e.target.value);
     };
+
     getDates(startDate, stopDate) {
         var dateArray = [];
         var currentDate = moment(startDate);
         stopDate = moment(stopDate);
         while (currentDate <= stopDate) {
-            dateArray.push(moment(currentDate).format("YYYY"));
-            currentDate = moment(currentDate).add(1, "year");
+
+            if (typeof startDate == 'object') {
+                dateArray.push(moment(currentDate).format("YYYY"));
+                currentDate = moment(currentDate).add(1, "year");
+            } else {
+                dateArray.push(moment(currentDate).format('YYYY-MM-DD'))
+                currentDate = moment(currentDate).add(1, 'days');
+            }
         }
         return dateArray;
     }
+
+
     YearTable = props => {
         let months = [];
         let nextten = moment()
@@ -169,7 +189,7 @@ export default class Calendar extends React.Component {
         let cells = [];
 
         months.forEach((row, i) => {
-            if (i % 3 !== 0 || i === 0) {
+            if (i % 3 !== 0 || !i) {
                 cells.push(row);
             } else {
                 rows.push(cells);
@@ -179,14 +199,14 @@ export default class Calendar extends React.Component {
         });
         rows.push(cells);
         let yearlist = rows.map((d, i) => {
-            return <tr>{d}</tr>;
+            return <tr key={Math.random()}>{d}</tr>;
         });
 
         return (
             <table className="calendar-month">
                 <thead>
                     <tr>
-                        <th colSpan="4">Select a Year</th>
+                        <th colSpan="4">Select a Yeah</th>
                     </tr>
                 </thead>
                 <tbody>{yearlist}</tbody>
@@ -203,31 +223,56 @@ export default class Calendar extends React.Component {
             }
         );
     };
+
     render() {
         let weekdayshortname = this.weekdayshort.map(day => {
             return <th key={day}>{day}</th>;
         });
         let blanks = [];
         for (let i = 0; i < this.firstDayOfMonth(); i++) {
-            blanks.push(<td className="calendar-day empty">{""}</td>);
+            blanks.push(<td key={Math.random()} className="calendar-day empty">{""}</td>);
         }
         let daysInMonth = [];
+        let illegibledays = [];
+        let illegible = this.getDates("2020-03-03", "2020-03-07");
+
+        let mm = moment().month(this.month()).format("MM");
+
+        illegible.forEach(element => {
+            let el = element.split("-");
+            if (el[1] === mm && el[0] === this.year()) {
+
+                illegibledays.push(el[2]);
+            }
+        });
+
+        if (illegibledays.length > 0) {
+            illegibledays.forEach(element => {
+                //let day = document.getElementById(`day${element}`);
+                // console.log(this.myRef);
+
+                if (this.myRef) {
+                    if (this.myRef.current) {
+                        console.log(this.myRef);
+                    }
+
+                }
+            });
+        }
+
         for (let d = 1; d <= this.daysInMonth(); d++) {
-            let currentDay = d === this.currentDay() ? "today" : "";
+            // eslint-disable-next-line 
+            let currentDay = d == this.currentDay() ? "today" : "";
+            //this is where the magic happens
             daysInMonth.push(
-                <td key={d} className={`calendar-day ${currentDay}`}>
-                    <div>
-                        <span className="float-left pl-2"
-                            onClick={e => {
-                                this.onDayClick(e, d);
-                            }}
-                        >
-                            {d}
-                        </span>
-                        <p className="float-right pr-2">my vacation</p>
-
-                    </div>
-
+                <td ref={this.myRef} id={`day0${d}`} key={d} className={`calendar-day ${currentDay}`}>
+                    <span className="float-left pl-3"
+                        onClick={e => {
+                            this.onDayClick(e, d);
+                        }}
+                    >
+                        {d}
+                    </span>
                 </td>
             );
         }
@@ -250,7 +295,7 @@ export default class Calendar extends React.Component {
         });
 
         let daysinmonth = rows.map((d, i) => {
-            return <tr key={Math.random()}>{d}</tr>;
+            return <tr key={d + i}>{d}</tr>;
         });
 
         return (
@@ -260,7 +305,8 @@ export default class Calendar extends React.Component {
                         onClick={e => {
                             this.onPrev();
                         }}
-                        className="calendar-button button-prev"></span>
+                        className="calendar-button button-prev"
+                    />
                     {!this.state.showMonthTable && (
                         <span
                             onClick={e => {
@@ -279,7 +325,7 @@ export default class Calendar extends React.Component {
                             this.onNext();
                         }}
                         className="calendar-button button-next"
-                    ></span>
+                    />
                 </div>
 
                 <div className="calendar-date">
