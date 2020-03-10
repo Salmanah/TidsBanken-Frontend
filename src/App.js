@@ -16,6 +16,7 @@ import ApplicationSettings from './views/application-settings/index';
 
 function App() {
   return (
+  
     <Container className="App">
       <Router>
           <Switch>
