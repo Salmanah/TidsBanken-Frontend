@@ -3,6 +3,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Main from "./views/main/";
 import { Container } from "react-bootstrap";
+import {MDBBtn} from 'mdbreact';
 
 import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
 import CreateVacationRequest from './views/create-vacation-request/index';
@@ -22,32 +23,34 @@ function App() {
   return (
     <div>
       <Container className="App">
-      <Router>
-          <div id="userActions">
-            <Link to="/">Home</Link> {' '}
-            <Link to="/UserProfile">User profile</Link> {' '}
-            <Link to="/VacationRequests">Vacation requests</Link> {' '}
-            <Link to="/CreateVacationRequest">Create vacation request</Link>
-          </div>
-          <div id="adminActions">
-            <Link to="ApplicationSettings">Settings</Link> {' '}
-            <Link to="/CreateIneligiblePeriod">Create ineligible period</Link>
-          </div>
-          <CurrentUser />
-          <Notifications />
-          <Switch>
-            <Route exact path="/" component={Main}/>
-            <Route path="/UserProfile" component={UserProfile}/>
-            <Route path="/CreateVacationRequest" component={CreateVacationRequest}/>
-            <Route path="/ViewVacationRequest" component={ViewVacationRequest}/>
-            <Route path="/ViewRequestHistory" component={ViewRequestHistory} />
-            <Route path="/CreateIneligiblePeriod" component={CreateIneligiblePeriod}/>
-            <Route path="/ApplicationSettings" component={ApplicationSettings}/>
-            <Route path="/LoginPage" component={LoginPage}/>
-            <Route path="/VacationRequests" component={VacationRequests}/>
-          </Switch>
-      </Router>
-    </Container>
+        <CurrentUser />
+        <Notifications />
+        <Router>
+            <div id="userActions">
+              <Link to="/">Home</Link> {' '}
+              <Link to="/UserProfile">User profile</Link> {' '}
+              <Link to="/VacationRequests">Vacation requests</Link> {' '}
+              <Link to="/CreateVacationRequest">Create vacation request</Link> {' '}
+              <Link to="/LoginPage"><MDBBtn color="primary">Log out</MDBBtn></Link>
+            </div>
+            <div id="adminActions">
+              <Link to="ApplicationSettings">Settings</Link> {' '}
+              <Link to="/CreateIneligiblePeriod">Create ineligible period</Link> {' '}
+              <Link to="/LoginPage"><MDBBtn color="primary">Log out</MDBBtn></Link>
+            </div>
+            <Switch>
+              <Route exact path="/" component={Main}/>
+              <Route path="/UserProfile" component={UserProfile}/>
+              <Route path="/CreateVacationRequest" component={CreateVacationRequest}/>
+              <Route path="/ViewVacationRequest" component={ViewVacationRequest}/>
+              <Route path="/ViewRequestHistory" component={ViewRequestHistory} />
+              <Route path="/CreateIneligiblePeriod" component={CreateIneligiblePeriod}/>
+              <Route path="/ApplicationSettings" component={ApplicationSettings}/>
+              <Route path="/LoginPage" component={LoginPage}/>
+              <Route path="/VacationRequests" component={VacationRequests}/>
+            </Switch>
+        </Router>
+      </Container>
     
     </div>
   
