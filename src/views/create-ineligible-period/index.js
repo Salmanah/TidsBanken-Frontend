@@ -38,9 +38,7 @@ class CreateIneligiblePeriod extends Component{
 
         return(
             <div>
-                <h1>Create ineligible period</h1>
                 <Button type="primary" onClick={handleShow}>Create ineligible period</Button>
-
                 <Modal show={this.state.show} onHide={handleClose}>
                     <Modal.Header closeButton>
                         <Modal.Title>Create ineligible period</Modal.Title>
