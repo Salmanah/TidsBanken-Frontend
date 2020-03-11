@@ -13,35 +13,19 @@ import CreateIneligiblePeriod from './views/create-ineligible-period/index';
 import LoginPage from './views/login-page/index';
 import UserProfile from './views/user-profile/index'
 import ApplicationSettings from './views/application-settings/index';
-import ApplicationFrame from './components/application-frame/index';
 import VacationRequests from './views/vacation-requests';
-import CurrentUser from './components/current-user/index'
-import Notifications from './components/notifications/index';
+import Cookies from 'universal-cookie';
 
 
 function App() {
+
+  const cookies = new Cookies();
+  cookies.set('name', 'Helene');
+
   return (
     <div>
       <Container className="App">
-        {/*
-        <CurrentUser />
-        <Notifications />
-        */}
         <Router>
-          {/*
-            <div id="userActions">
-              <Link to="/">Home</Link> {' '}
-              <Link to="/UserProfile">User profile</Link> {' '}
-              <Link to="/VacationRequests">Vacation requests</Link> {' '}
-              <Link to="/CreateVacationRequest">Create vacation request</Link> {' '}
-              <Link to="/LoginPage"><MDBBtn color="primary">Log out</MDBBtn></Link>
-            </div>
-            <div id="adminActions">
-              <Link to="ApplicationSettings">Settings</Link> {' '}
-              <Link to="/CreateIneligiblePeriod">Create ineligible period</Link> {' '}
-              <Link to="/LoginPage"><MDBBtn color="primary">Log out</MDBBtn></Link>
-            </div>
-        */}
             <Switch>
               <Route exact path="/" component={Main}/>
               <Route path="/UserProfile" component={UserProfile}/>
