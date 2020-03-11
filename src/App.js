@@ -20,7 +20,7 @@ import Cookies from 'universal-cookie';
 function App() {
 
   const cookie = new Cookies();
-  cookie.set('info', { 'name':'Helene', 'role':'admin'}); 
+  cookie.set('info', {'name':'Helene', 'role':'admin'}); 
 
 
   return (
