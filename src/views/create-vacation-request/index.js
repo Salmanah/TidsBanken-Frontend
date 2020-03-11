@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { MDBBtn, MDBInput, MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody } from 'mdbreact';
 import './createVacationForm.css';
+import ApplicationFrame from '../../components/application-frame/index';
 
 
 class CreateVacationRequest extends Component{
@@ -62,7 +63,8 @@ class CreateVacationRequest extends Component{
     render() {
         return (
             <div>
-                <MDBContainer>
+            <ApplicationFrame/>
+            <MDBContainer>
             <MDBRow>
             <MDBCol md="10">
             <MDBCard>

@@ -23,9 +23,12 @@ function App() {
   return (
     <div>
       <Container className="App">
+        {/*
         <CurrentUser />
         <Notifications />
+        */}
         <Router>
+          {/*
             <div id="userActions">
               <Link to="/">Home</Link> {' '}
               <Link to="/UserProfile">User profile</Link> {' '}
@@ -38,6 +41,7 @@ function App() {
               <Link to="/CreateIneligiblePeriod">Create ineligible period</Link> {' '}
               <Link to="/LoginPage"><MDBBtn color="primary">Log out</MDBBtn></Link>
             </div>
+        */}
             <Switch>
               <Route exact path="/" component={Main}/>
               <Route path="/UserProfile" component={UserProfile}/>

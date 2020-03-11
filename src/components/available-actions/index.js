@@ -2,11 +2,13 @@ import React, {Component} from "react";
 import {Link, NavLink} from 'react-router-dom';
 import { Dropdown, Nav, Navbar, NavDropdown, NavItem } from "react-bootstrap";
 import {LinkContainer} from 'react-router-bootstrap';
+import {MDBBtn} from 'mdbreact';
 
 class AvailableActions extends Component{
     render(){
         return(
             <div>
+                {/*
                 <div>
                     <Dropdown>
                     <Dropdown.Toggle variant="info" id="dropdown-actions">
@@ -30,7 +32,19 @@ class AvailableActions extends Component{
                     </Dropdown.Menu>
                     </Dropdown>
                 </div>
-                
+                */}
+                <div id="userActions">
+                    <Link to="/">Home</Link> {' '}
+                    <Link to="/UserProfile">User profile</Link> {' '}
+                    <Link to="/VacationRequests">Vacation requests</Link> {' '}
+                    <Link to="/CreateVacationRequest">Create vacation request</Link> {' '}
+                    <Link to="/LoginPage"><MDBBtn color="primary">Log out</MDBBtn></Link>
+                </div>
+                <div id="adminActions">
+                    <Link to="ApplicationSettings">Settings</Link> {' '}
+                    <Link to="/CreateIneligiblePeriod">Create ineligible period</Link> {' '}
+                    <Link to="/LoginPage"><MDBBtn color="primary">Log out</MDBBtn></Link>
+                </div>
             </div>
             
         )

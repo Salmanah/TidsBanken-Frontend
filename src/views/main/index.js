@@ -9,6 +9,7 @@ import VacationRequests from '../../views/vacation-requests/index'
 function Main() {
     return (
         <div className="Main">
+            <ApplicationFrame/>
             <h1>Vacation planner</h1>
             <Row>
                 <Col md={12}>
