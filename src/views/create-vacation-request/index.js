@@ -51,10 +51,18 @@ class CreateVacationRequest extends Component{
             }
         }).then(response => {
             console.log("Got response")
-            return response.json()
+            this.props.history.push("/") //redirect after got response
+            //return response.json()
         }).then(json => {
             console.log(json);
-        })
+        }).then(
+            this.setState({
+                title: "",
+                startDate : "",
+                endingDate : "",
+                comment : ""
+            })
+        )
 
     }
 
