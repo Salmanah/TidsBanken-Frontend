@@ -37,12 +37,11 @@ class AvailableActions extends Component{
                     <Link to="/">Home</Link> {' '}
                     <Link to="/UserProfile">User profile</Link> {' '}
                     <Link to="/VacationRequests">Vacation requests</Link> {' '}
-                    <Link to="/CreateVacationRequest">Create vacation request</Link> {' '}
                     <Link to="/LoginPage"><MDBBtn color="primary">Log out</MDBBtn></Link>
                 </div>
                 <div id="adminActions">
+                    <Link to="/">Home</Link> {' '}
                     <Link to="ApplicationSettings">Settings</Link> {' '}
-                    <Link to="/CreateIneligiblePeriod">Create ineligible period</Link> {' '}
                     <Link to="/LoginPage"><MDBBtn color="primary">Log out</MDBBtn></Link>
                 </div>
             </div>

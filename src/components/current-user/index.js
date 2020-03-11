@@ -4,7 +4,7 @@ class CurrentUser extends Component{
     render(){
         return(
             <div>
-                <p>Currently logged in user: Username</p>
+                <p>Currently logged in as: Username</p>
             </div>
         )
     }
