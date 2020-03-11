@@ -5,7 +5,7 @@ import AvailableActions from '../available-actions/index';
 import Notifications from '../notifications/index';
 import CurrentUser from '../current-user/index';
 import './ApplicationFrame.css';
-import {Navbar, Nav, NavDropdown} from 'react-bootstrap';
+import {Navbar, Nav, NavDropdown, NavbarBrand, Button} from 'react-bootstrap';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import SettingsIcon from '@material-ui/icons/Settings';
 
@@ -31,6 +31,7 @@ class ApplicationFrame extends Component{
                         </Nav>
                         <Navbar.Collapse className="justify-content-end">
                             <Navbar.Text> Signed in as: <Link to="/UserProfile">User name</Link></Navbar.Text>
+                            <Button variant="outline-secondary" href="/LoginPage">Log out</Button>
                         </Navbar.Collapse>
                     </Navbar>
                 </div>
@@ -40,7 +41,6 @@ class ApplicationFrame extends Component{
                     <Navbar.Brand>Tidsbanken</Navbar.Brand>
                     <Nav className="mr-auto">
                         <Nav.Link href="/"> Home</Nav.Link>
-                        
                         <NavDropdown title={navDropdownTitle}>
 
                         </NavDropdown>
@@ -50,6 +50,7 @@ class ApplicationFrame extends Component{
                         <Nav>
                             <Nav.Link href="/ApplicationSettings"> <SettingsIcon/></Nav.Link>
                         </Nav>
+                        
                     </Navbar.Collapse>
                     </Navbar>
 

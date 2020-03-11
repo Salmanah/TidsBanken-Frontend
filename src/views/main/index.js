@@ -11,6 +11,7 @@ import CreateVacationRequest from '../../views/create-vacation-request/index';
 
 
 function Main() {
+
     return (
         <div className="Main">
             <ApplicationFrame/>

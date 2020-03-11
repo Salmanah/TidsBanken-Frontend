@@ -1,6 +1,17 @@
 import React, { Component } from "react";
 
 class CurrentUser extends Component{
+
+    constructor(){
+
+    }
+
+
+    componentDidMount(){
+
+    }
+
+
     render(){
         return(
             <div>
