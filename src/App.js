@@ -19,8 +19,9 @@ import Cookies from 'universal-cookie';
 
 function App() {
 
-  const cookies = new Cookies();
-  cookies.set('name', 'Helene');
+  const cookie = new Cookies();
+  cookie.set('info', { 'name':'Helene', 'role':'admin'}); 
+
 
   return (
     <div>

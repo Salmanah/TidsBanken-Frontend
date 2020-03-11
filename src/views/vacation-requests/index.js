@@ -5,11 +5,13 @@ import VacationRequestHistory from '../../components/vacation-request-history/in
 import ViewVacationRequest from '../../components/view-vacation-request/index';
 import ToggleBox from "../../components/toggle-box";
 import ApplicationFrame from '../../components/application-frame/index';
+import Cookies from 'universal-cookie';
 
 
 class VacationRequests extends Component{
 
     render(){
+
         return(
             <div>
                 <ApplicationFrame/>
