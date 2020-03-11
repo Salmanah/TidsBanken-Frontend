@@ -8,18 +8,34 @@ import './ApplicationFrame.css';
 import {Navbar, Nav, NavDropdown, NavbarBrand, Button} from 'react-bootstrap';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import SettingsIcon from '@material-ui/icons/Settings';
+import Cookies from 'universal-cookie';
 
 
 class ApplicationFrame extends Component{
+
+    constructor(props){
+        const cookie = new Cookies();
+        super(props)
+        this.state = {
+            name : cookie.get('info').name,
+
+        }
+    }
     
 
     render(){
-        const navDropdownTitle = ( <span><NotificationsIcon size="sm"/></span> );
-        const settingsTitle = (<span><SettingsIcon size="sm"/></span>);
 
-        return(
-            <div className="container">
-                <div id="apFrameForUsers">
+        const cookie = new Cookies();
+
+        const role = cookie.get('info').role;
+        const name = cookie.get('info').name;
+
+        const navDropdownTitle = ( <span><NotificationsIcon size="sm"/></span> );
+
+        if (role === 'user'){
+            return(
+                <div className="container">
+                    <div id="apFrameForUsers">
                     <Navbar fixed="top" expand="md" bg="dark" variant="dark">
                         <Navbar.Brand>Tidsbanken</Navbar.Brand>
                         <Nav className="mr-auto">
@@ -30,14 +46,19 @@ class ApplicationFrame extends Component{
                             </NavDropdown>
                         </Nav>
                         <Navbar.Collapse className="justify-content-end">
-                            <Navbar.Text> Signed in as: <Link to="/UserProfile">User name</Link></Navbar.Text>
+                            <Navbar.Text> Signed in as: <Link to="/UserProfile">{name}</Link></Navbar.Text>
                             <Button variant="outline-secondary" href="/LoginPage">Log out</Button>
                         </Navbar.Collapse>
                     </Navbar>
+                    </div>
                 </div>
-                {/* Elementet under vises ikke pga fixed="top" i div over*/}
+            )
+        } 
+        else if (role === 'admin') {
+            return (
+                <div className="conatiner">
                 <div id="apFrameForAdmin">
-                    <Navbar expand="md" bg="dark" variant="dark">
+                    <Navbar fixed="top" expand="md" bg="dark" variant="dark">
                     <Navbar.Brand>Tidsbanken</Navbar.Brand>
                     <Nav className="mr-auto">
                         <Nav.Link href="/"> Home</Nav.Link>
@@ -46,7 +67,7 @@ class ApplicationFrame extends Component{
                         </NavDropdown>
                     </Nav>
                     <Navbar.Collapse className="justify-content-end">
-                        <Navbar.Text> Signed in as: <Link to="/UserProfile">Admin name</Link></Navbar.Text>
+                        <Navbar.Text> Signed in as: <Link to="/UserProfile">{name}</Link></Navbar.Text>
                         <Nav>
                             <Nav.Link href="/ApplicationSettings"> <SettingsIcon/></Nav.Link>
                         </Nav>
@@ -55,9 +76,16 @@ class ApplicationFrame extends Component{
                     </Navbar>
 
                 </div>
-                
             </div>
-        )
+            ) 
+        } else {
+            return (
+                <div>
+                    Role not given correctly in cookie
+                </div>
+               
+            )
+        }
     }
 }
 

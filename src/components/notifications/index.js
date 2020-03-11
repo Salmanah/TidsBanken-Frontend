@@ -3,6 +3,7 @@ import {Link, NavLink} from 'react-router-dom';
 import { Dropdown, Nav, Navbar, NavDropdown, NavItem } from "react-bootstrap";
 import {LinkContainer} from 'react-router-bootstrap';
 
+//skal returnere 
 class Notifications extends Component{
     render(){
         return(
