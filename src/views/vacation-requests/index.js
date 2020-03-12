@@ -7,7 +7,6 @@ import ToggleBox from "../../components/toggle-box";
 import ApplicationFrame from '../../components/application-frame/index';
 import Cookies from 'universal-cookie';
 
-
 class VacationRequests extends Component{
 
     render(){
@@ -16,9 +15,9 @@ class VacationRequests extends Component{
             <div>
                 <ApplicationFrame/>
                 <ViewVacationRequest/>
-                <ToggleBox title="Show request history">
-				<VacationRequestHistory />
-			</ToggleBox>
+                <ToggleBox title="request history">
+				    <VacationRequestHistory />
+			    </ToggleBox>
             </div>
         )
     }

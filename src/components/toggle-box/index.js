@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {Button} from 'react-bootstrap';
 //Fra: https://www.golangprograms.com/reactjs-show-hide-component-on-click.html
 
 class ToggleBox extends React.Component {
@@ -23,18 +24,18 @@ class ToggleBox extends React.Component {
 		const { opened } = this.state;
 
 		if (opened){
-			title ='Hide request history';
+			title ='Hide ' + this.props.title;
 		}else{
-			title ='Show request history';
+			title ='Show ' + this.props.title;
 		}
 
 		return (
 			<div className="box">
 				<div className="boxTitle" onClick={this.toggleBox}>
-					<button>{title}</button>
+					<Button>{title}</Button>
 				</div>
 				{opened && (					
-					<div class="boxContent">
+					<div className="boxContent">
 						{children}
 					</div>
 				)}
