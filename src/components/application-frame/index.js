@@ -62,12 +62,10 @@ class ApplicationFrame extends Component{
                     </Nav>
                     <Navbar.Collapse className="justify-content-end">
                         <Navbar.Text> Signed in as: <Link to="/UserProfile">{name}</Link></Navbar.Text>
-                        
-
                         <Nav>
                             <NavDropdown title={settingsDropdownTitle}>
                                 <NavDropdown.Item href="/Users">Users</NavDropdown.Item>
-                                <NavDropdown.Item>Vacations</NavDropdown.Item>
+                                <NavDropdown.Item href="/VacationSettings">Vacations</NavDropdown.Item>
                             </NavDropdown>
                             {/*<Nav.Link href="/ApplicationSettings"> <SettingsIcon/></Nav.Link>*/}
                         </Nav>

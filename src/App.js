@@ -16,6 +16,7 @@ import ApplicationSettings from './views/application-settings/index';
 import VacationRequests from './views/vacation-requests';
 import Cookies from 'universal-cookie';
 import Users from './views/users/index';
+import VacationSettings from './views/vacation-settings/index';
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
               <Route path="/LoginPage" component={LoginPage}/>
               <Route path="/VacationRequests" component={VacationRequests}/>
               <Route path="/Users" component={Users}/>
+              <Route path="/VacationSettings" component={VacationSettings}/>
             </Switch>
         </Router>
       </Container>
