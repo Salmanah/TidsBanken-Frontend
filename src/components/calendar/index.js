@@ -7,7 +7,7 @@ export default class Calendar extends React.Component {
         super(props);
         this.myRef = React.createRef(null);
     }
-    weekdayshort = moment.weekdays();
+    weekdayshort = moment.weekdaysShort();
 
     state = {
         showYearTable: false,
@@ -19,12 +19,18 @@ export default class Calendar extends React.Component {
     };
 
     componentDidMount() {
+        console.log(this.state.dateObject)
         this.ineligibleVacationDays();
-        //this.MyVacationDays();
+        this.approvedVacationDays();
+        this.pendingVacationDays();
     }
 
     componentDidUpdate() {
+        console.log("month: " + this.month() + " has been updated")
+        console.log(this.state.dateObject)
         this.ineligibleVacationDays();
+        this.approvedVacationDays();
+        this.pendingVacationDays();
     }
 
     daysInMonth = () => {
@@ -113,57 +119,26 @@ export default class Calendar extends React.Component {
         });
     };
 
-    onPrev = (month) => {
+    onPrev = () => {
 
-        //let month = 1;
-        //month = moment().month(month).format("MMMM")
-        //let monthNo = this.state.allmonths.indexOf("June");
-        let monthIndex = this.state.allmonths.indexOf(month);
-
-        let dateObject = Object.assign({}, this.state.dateObject);
-        dateObject = moment(dateObject).set("month", monthIndex - 1);
-        console.log(dateObject)
-        this.setState({
-            dateObject: dateObject
-        });
-        console.log(month)
-        this.componentDidUpdate()
-
-
-        /*month = moment().month(month).format("M");
-        month = month - 2;
-        month = moment().month(month).format("M");
-
-        month = moment().month(month - 1).format("MMMM")
-        console.log(month)
-        this.setMonth(month)*/
-
-        //this.setMonth
-        //let months = [];
-        //props.map(data => {
-        /* console.log(data)
-         console.log(this.state.dateObject.month() - 1);
-         return months.push(
-
-             this.setMonth("December")
-
-         );*/
-
-
-        /*let curr = "";
+        let curr = "";
         if (this.state.showYearTable === true) {
             curr = "year";
         } else {
             curr = "month";
- 
+
         }
+
         this.setState({
             dateObject: this.state.dateObject.subtract(1, curr)
         });
-        this.forceUpdate();*/
+
+        this.forceUpdate();
 
     };
     onNext = () => {
+
+        //let monthIndex = this.state.allmonths.indexOf(month);
 
         let curr = "";
         if (this.state.showYearTable === true) {
@@ -252,7 +227,7 @@ export default class Calendar extends React.Component {
             <table className="calendar-month">
                 <thead>
                     <tr>
-                        <th colSpan="4">Select a Yeah</th>
+                        <th colSpan="4">Select a Year</th>
                     </tr>
                 </thead>
                 <tbody>{yearlist}</tbody>
@@ -272,10 +247,12 @@ export default class Calendar extends React.Component {
 
     // function for ineligible vacation days
     ineligibleVacationDays = () => {
+
         let ineligibledays = [];
         let mm = this.state.dateObject.month() + 1;
+
         // the period that is ineligible for vacation
-        let ineligible = this.getDates("2020-02-3", "2020-03-7");
+        let ineligible = this.getDates("2020-03-3", "2020-03-7");
 
         ineligible.forEach(element => {
             let el = element.split("-");
@@ -292,6 +269,8 @@ export default class Calendar extends React.Component {
 
     // adds class 'illegiable' to days that are illegiable for vacation
     getIneligibleVacationDays = (ineligibledays, mm) => {
+        console.log(ineligibledays);
+
         ineligibledays.forEach(element => {
 
             if (element < 10) {
@@ -308,6 +287,80 @@ export default class Calendar extends React.Component {
         });
     }
 
+    // function for ineligible vacation days
+    approvedVacationDays = () => {
+        let approvedVacation = [];
+        let mm = this.state.dateObject.month() + 1;
+        // the period that is ineligible for vacation
+        let approved = this.getDates("2020-03-10", "2020-03-15");
+
+        approved.forEach(element => {
+            let el = element.split("-");
+            // eslint-disable-next-line
+            if (el[1] == mm && el[0] === this.year()) {
+                approvedVacation.push(el[2]);
+            }
+        });
+
+        if (approvedVacation.length > 0) {
+            this.myVacation(approvedVacation, mm);
+        }
+    }
+
+    // adds class 'approved' to days that are illegiable for vacation
+    myVacation = (approvedVacation, mm) => {
+        approvedVacation.forEach(element => {
+
+            if (element < 10) {
+                element = element.split("");
+                element = element[1];
+            }
+
+            let day = document.getElementById(`day${element}${mm}${this.year()}`);
+
+            if (day !== null) {
+                day.classList.add('approved');;
+            }
+        });
+    }
+
+    // function for ineligible vacation days
+    pendingVacationDays = () => {
+        let pendingVacation = [];
+        let mm = this.state.dateObject.month() + 1;
+        // the period that is ineligible for vacation
+        let pending = this.getDates("2020-03-16", "2020-03-24");
+
+        pending.forEach(element => {
+            let el = element.split("-");
+            // eslint-disable-next-line
+            if (el[1] == mm && el[0] === this.year()) {
+                pendingVacation.push(el[2]);
+            }
+        });
+
+        if (pendingVacation.length > 0) {
+            this.pendingVacation(pendingVacation, mm);
+        }
+    }
+
+    // adds class 'approved' to days that are illegiable for vacation
+    pendingVacation = (pendingVacation, mm) => {
+        pendingVacation.forEach(element => {
+
+            if (element < 10) {
+                element = element.split("");
+                element = element[1];
+            }
+
+            let day = document.getElementById(`day${element}${mm}${this.year()}`);
+
+            if (day !== null) {
+                day.classList.add('pending');;
+            }
+        });
+    }
+
     render() {
         let weekdayshortname = this.weekdayshort.map(day => {
             return <th key={day}>{day}</th>;
@@ -320,7 +373,7 @@ export default class Calendar extends React.Component {
 
         for (let d = 1; d <= this.daysInMonth(); d++) {
 
-            console.log(this.year())
+            //console.log(this.year())
 
             // eslint-disable-next-line 
             let currentDay = d == this.currentDay() ? "today" : "";
@@ -368,7 +421,7 @@ export default class Calendar extends React.Component {
                 <div className="calendar-navi">
                     <span
                         onClick={e => {
-                            this.onPrev(this.month());
+                            this.onPrev();
                         }}
                         className="calendar-button button-prev"
                     />

@@ -144,8 +144,17 @@
   }
 
   .tail-datetime-calendar .calendar-date table tbody tr > *.ineligible {
-    background-color: #b9061c;
+    background-color: grey;
     color: white;
+  }
+
+  .tail-datetime-calendar .calendar-date table tbody tr > *.approved {
+    background-color: #63d063;
+    color: white;
+  }
+
+  .tail-datetime-calendar .calendar-date table tbody tr > *.pending {
+    background-color: #ffb90796;
   }
   .tail-datetime-calendar .calendar-date table tbody tr > *.today:after {
     border-color: #3296c8;
