@@ -27,7 +27,7 @@ export function getCurrentUser() {
     if(!localStorage.getItem(ACCESS_TOKEN)) {
         return Promise.reject("No access token set.");
     }
-
+    console.log("SENDING REQUEST TO BACKEND ",API_BASE_URL+"/user/me")
     return request({
         url: API_BASE_URL + "/user/me",
         method: 'GET'
@@ -35,6 +35,7 @@ export function getCurrentUser() {
 }
 
 export function login(loginRequest) {
+    console.log("HERE IS THE REQUEST ",loginRequest)
     return request({
         url: API_BASE_URL + "/auth/login",
         method: 'POST',

@@ -15,11 +15,10 @@ class OAuth2RedirectHandler extends Component{
         const token = this.getUrlParameter('token'); 
         const error = this.getUrlParameter('error');
 
-        console.log("OUTSIDE OAUTH2", token);
         if(token){
             console.log("INSIDE OAUTH2", token);
             localStorage.setItem(ACCESS_TOKEN, token); 
-            return <Redirect to={{pathname: "/profile",
+            return <Redirect to={{pathname: "/Profile",
                 state: {from: this.props.location}
             }}/>
         }else{

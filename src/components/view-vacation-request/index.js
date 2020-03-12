@@ -13,10 +13,11 @@ class ViewVacationRequest extends Component{
             status : "No status"
         }
     }
+    
 
     componentDidMount(){
         let url = "";
-        if (url === ""){
+       /* if (url === ""){
             console.log("not fetching");
         } else {
             //GET /request/:user_id
@@ -57,10 +58,11 @@ class ViewVacationRequest extends Component{
                 }).catch(err => console.log(err))
 
             }).catch(err => console.log(err))
-        }
+        }*/
     }
 
     render() {
+        console.log("RENDERING VIEWVACATIONREQUEST")
         return (
         <div>
             <h1>View vacation request</h1>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import './AppHeader.css';
 
+
 class AppHeader extends Component {
     
     render() {
@@ -18,6 +19,12 @@ class AppHeader extends Component {
                                     <ul>
                                         <li>
                                             <NavLink to="/profile">Profile</NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink to="/ViewVacationRequest">ViewVacationRequest</NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink to="/ViewRequestHistory">ViewRequestHistory</NavLink>
                                         </li>
                                         <li>
                                             <a onClick={this.props.onLogout}>Logout</a>

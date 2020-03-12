@@ -7,14 +7,13 @@ import {MDBBtn} from 'mdbreact';
 
 import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
 import CreateVacationRequest from './views/create-vacation-request/index';
-import ViewVacationRequest from './components/view-vacation-request/index';
+import ViewVacationRequest from './components/view-vacation-request';
 import ViewRequestHistory from './components/vacation-request-history/index';
 import CreateIneligiblePeriod from './views/create-ineligible-period/index';
-import LoginPage from './views/login-page/index';
-import UserProfile from './views/user-profile/index'
+
 import ApplicationSettings from './views/application-settings/index';
 import VacationRequests from './views/vacation-requests';
-import Cookies from 'universal-cookie';
+
 
 import './App.css';
 
@@ -124,11 +123,16 @@ class App extends Component {
           <Router>
             <Switch>
               <Route exact path="/" component={Main}></Route>           
-              <PrivateRoute path="/profile" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
-                component={Profile}></PrivateRoute>
+              <PrivateRoute path="/profile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={Profile}></PrivateRoute>
               <Route path="/login"
                 render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>
-                <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route> 
+                <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>
+                <PrivateRoute path="/CreateVacationRequest" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={CreateVacationRequest}/>
+                <PrivateRoute path="/ViewVacationRequest" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ViewVacationRequest}/>
+                <PrivateRoute path="/ViewRequestHistory" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ViewRequestHistory} >{console.log("BICH ",this.state.authenticated)}</PrivateRoute>
+                <PrivateRoute path="/CreateIneligiblePeriod" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={CreateIneligiblePeriod}/>
+                <PrivateRoute path="/ApplicationSettings" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ApplicationSettings}/>
+                <PrivateRoute path="/VacationRequests" component={VacationRequests}/>
                 <Route component={NotFound}></Route>
             </Switch>
           </Router>
