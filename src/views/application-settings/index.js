@@ -1,3 +1,8 @@
+
+//
+//IKKE LENGER I BRUK 
+//
+
 import React, { Component } from "react";
 import {Button} from 'react-bootstrap';
 import CreateUser from '../../components/create-user/index';
