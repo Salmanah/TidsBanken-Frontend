@@ -12,7 +12,7 @@ import Cookies from 'universal-cookie';
 
 
 class ApplicationFrame extends Component{
-
+/*
     constructor(props){
         const cookie = new Cookies();
         super(props)
@@ -86,7 +86,7 @@ class ApplicationFrame extends Component{
                
             )
         }
-    }
+    }*/
 }
 
 export default ApplicationFrame;
