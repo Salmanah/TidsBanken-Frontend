@@ -65,7 +65,7 @@ class ApplicationFrame extends Component{
                         <Nav>
                             <NavDropdown title={settingsDropdownTitle}>
                                 <NavDropdown.Item href="/Users">Users</NavDropdown.Item>
-                                <NavDropdown.Item>Vacations</NavDropdown.Item>
+                                <NavDropdown.Item href="/VacationSettings">Vacations</NavDropdown.Item>
                             </NavDropdown>
                             {/*<Nav.Link href="/ApplicationSettings"> <SettingsIcon/></Nav.Link>*/}
                         </Nav>
