@@ -1,6 +1,8 @@
 import React from "react";
 import moment from "moment";
 import "./Calendar.css";
+import FilterCalendar from "./filter-calendar.js";
+
 export default class Calendar extends React.Component {
 
     constructor(props) {
@@ -401,6 +403,8 @@ export default class Calendar extends React.Component {
         });
     }
 
+
+
     render() {
         let weekdayshortname = this.weekdayshort.map(day => {
             return <th key={day}>{day}</th>;
@@ -456,52 +460,56 @@ export default class Calendar extends React.Component {
         });
 
         return (
-            <div className="tail-datetime-calendar">
-                <div className="calendar-navi">
-                    <span
-                        onClick={e => {
-                            this.onPrev();
-                        }}
-                        className="calendar-button button-prev"
-                    />
-                    {!this.state.showMonthTable && (
+            <div>
+                <FilterCalendar />
+                <div className="tail-datetime-calendar">
+
+                    <div className="calendar-navi">
                         <span
                             onClick={e => {
-                                this.showMonth();
+                                this.onPrev();
                             }}
-                            className="calendar-label"
-                        >
-                            {this.month()}
+                            className="calendar-button button-prev"
+                        />
+                        {!this.state.showMonthTable && (
+                            <span
+                                onClick={e => {
+                                    this.showMonth();
+                                }}
+                                className="calendar-label"
+                            >
+                                {this.month()}
+                            </span>
+                        )}
+                        <span className="calendar-label" onClick={e => this.showYearTable()}>
+                            {this.year()}
                         </span>
-                    )}
-                    <span className="calendar-label" onClick={e => this.showYearTable()}>
-                        {this.year()}
-                    </span>
-                    <span
-                        onClick={e => {
-                            this.onNext();
-                        }}
-                        className="calendar-button button-next"
-                    />
-                </div>
-
-                <div className="calendar-date">
-                    {this.state.showYearTable && <this.YearTable props={this.year()} />}
-                    {this.state.showMonthTable && (
-                        <this.MonthList data={moment.months()} />
-                    )}
-                </div>
-
-                {this.state.showDateTable && (
-                    <div className="calendar-date">
-                        <table className="calendar-day">
-                            <thead>
-                                <tr>{weekdayshortname}</tr>
-                            </thead>
-                            <tbody>{daysinmonth}</tbody>
-                        </table>
+                        <span
+                            onClick={e => {
+                                this.onNext();
+                            }}
+                            className="calendar-button button-next"
+                        />
                     </div>
-                )}
+
+                    <div className="calendar-date">
+                        {this.state.showYearTable && <this.YearTable props={this.year()} />}
+                        {this.state.showMonthTable && (
+                            <this.MonthList data={moment.months()} />
+                        )}
+                    </div>
+
+                    {this.state.showDateTable && (
+                        <div className="calendar-date">
+                            <table className="calendar-day">
+                                <thead>
+                                    <tr>{weekdayshortname}</tr>
+                                </thead>
+                                <tbody>{daysinmonth}</tbody>
+                            </table>
+                        </div>
+                    )}
+                </div>
             </div>
         );
     }
