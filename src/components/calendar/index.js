@@ -1,75 +1,82 @@
-import React from "react";
+import React, { useEffect } from "react";
 import moment from "moment";
-import "./Calendar.css";
-export default class Calendar extends React.Component {
+import "./calendar.css";
+import CalendarSwitch from "./calendar-switch.js";
+import CalendarSearchSelect from "./calendar-search-select.js";
+import CalendarBadge from "./calendar-badge.js";
+import { Col, Row, Badge } from "react-bootstrap";
 
-    constructor(props) {
-        super(props);
-        this.myRef = React.createRef(null);
-    }
-    weekdayshort = moment.weekdaysShort();
+/*
+    Credit: 
+    Core functionality of calendar component is taken from Mosh Hamedani's tutorial:
+        https://programmingwithmosh.com/react/build-a-react-calendar-component-from-scratch/
+    Hamedani's tutorial is based on Rajesh Pillai's tutorial: 
+        https://www.youtube.com/watch?v=9U0uTNfY1UA&list=PLNIn9uF_2Il5xOLikexgi_yuG2f-LjInP
+*/
 
-    state = {
-        showYearTable: false,
-        showMonthTable: false,
-        showDateTable: true,
-        dateObject: moment(),
-        allmonths: moment.months(),
-        selectedDay: null
+function Calendar() {
+    const [showYearTable, setShowYearTable] = React.useState(false);
+    const [showMonthTable, setShowMonthTable] = React.useState(false);
+    const [showDateTable, setShowDateTable] = React.useState(true);
+    const [dateObject, setDateObject] = React.useState(moment());
+    const [allmonths, setAllmonths] = React.useState(moment.months());
+    const [selectedDay, setSelectedDay] = React.useState(null);
+    const [weekdayshort, setWeekdayshort] = React.useState(moment.weekdaysShort());
+
+    const [selectedPeople, setSelectedPeople] = React.useState([
+        { value: 'Ola Helgesen', label: 'Ola Helgesen' },
+        { value: 'Heidi Furnes', label: 'Heidi Furnes' },
+        { value: 'Åge Alexander', label: 'Åge Alexander' },
+    ]);
+    const [count, setCount] = React.useState(0);
+
+    useEffect(() => {
+        ineligibleVacation();
+        approvedVacation();
+        pendingVacation();
+    }, [count]);                // using a counter to trigger the render
+    // because it doesn't render on changes to the dateObject on next() and prev()
+
+    function daysInMonth() {
+        return dateObject.daysInMonth();
+    };
+    function year() {
+        return dateObject.format("Y");
     };
 
-    componentDidMount() {
-        console.log(this.state.dateObject)
-        this.ineligibleVacationDays();
-        this.approvedVacationDays();
-        this.pendingVacationDays();
-    }
+    // returns today's number of day for each month
+    function currentDay() {
+        return dateObject.format("D");
+    };
 
-    componentDidUpdate() {
-        console.log("month: " + this.month() + " has been updated")
-        console.log(this.state.dateObject)
-        this.ineligibleVacationDays();
-        this.approvedVacationDays();
-        this.pendingVacationDays();
-    }
-
-    daysInMonth = () => {
-        return this.state.dateObject.daysInMonth();
-    };
-    year = () => {
-        return this.state.dateObject.format("Y");
-    };
-    currentDay = () => {
-        return this.state.dateObject.format("D");
-    };
-    firstDayOfMonth = () => {
-        let dateObject = this.state.dateObject;
+    function firstDayOfMonth() {
         let firstDay = moment(dateObject)
             .startOf("month")
             .format("d"); // Day of week 0...1..5...6
         return firstDay;
     };
-    month = () => {
-        return this.state.dateObject.format("MMMM");
+
+    function month() {
+        return dateObject.format("MMMM"); // Month 'March', 'April', 'May'
     };
-    showMonth = (e, month) => {
-        this.setState({
-            showMonthTable: !this.state.showMonthTable,
-            showDateTable: !this.state.showDateTable
-        });
+
+    function showMonth(e, month) {
+        setShowMonthTable(!showMonthTable)
+        setShowDateTable(!showDateTable)
     };
-    setMonth = month => {
-        console.log(month)
-        let monthNo = this.state.allmonths.indexOf(month);
-        let dateObject = Object.assign({}, this.state.dateObject);
-        dateObject = moment(dateObject).set("month", monthNo);
-        this.setState({
-            dateObject: dateObject,
-            showMonthTable: !this.state.showMonthTable,
-            showDateTable: !this.state.showDateTable
-        });
+
+    function setMonth(month) {
+        //console.log(month)
+        let monthNo = allmonths.indexOf(month);
+        let newDateObject = Object.assign({}, dateObject);
+        newDateObject = moment(newDateObject).set("month", monthNo);
+
+        setDateObject(newDateObject)
+        setShowMonthTable(!showMonthTable)
+        setShowDateTable(!showDateTable)
     };
-    MonthList = props => {
+
+    function MonthList(props) {
         let months = [];
         props.data.map(data => {
             return months.push(
@@ -77,7 +84,7 @@ export default class Calendar extends React.Component {
                     key={data}
                     className="calendar-month"
                     onClick={e => {
-                        this.setMonth(data);
+                        setMonth(data);
                     }}
                 >
                     <span>{data}</span>
@@ -112,68 +119,62 @@ export default class Calendar extends React.Component {
             </table>
         );
     };
-    showYearTable = e => {
-        this.setState({
-            showYearTable: !this.state.showYearTable,
-            showDateTable: !this.state.showDateTable
-        });
+    function showYearTablee(e) {
+        setShowYearTable(!showYearTable);
+        setShowDateTable(!showDateTable);
     };
 
-    onPrev = () => {
+    function onPrev() {
 
         let curr = "";
-        if (this.state.showYearTable === true) {
+        if (showYearTable) {
             curr = "year";
         } else {
             curr = "month";
-
         }
 
-        this.setState({
-            dateObject: this.state.dateObject.subtract(1, curr)
-        });
-
-        this.forceUpdate();
-
+        let prevMonth = dateObject.subtract(1, curr);
+        setDateObject(prevMonth);
+        setCount(count + 1);
     };
-    onNext = () => {
 
-        //let monthIndex = this.state.allmonths.indexOf(month);
+    function onNext() {
 
         let curr = "";
-        if (this.state.showYearTable === true) {
+        if (showYearTable) {
             curr = "year";
 
         } else {
             curr = "month";
         }
-        this.setState({
-            dateObject: this.state.dateObject.add(1, curr)
-        });
-        this.forceUpdate();
 
+        let nextMonth = dateObject.add(1, curr);
+        setDateObject(nextMonth);
+        setCount(count + 1);
     };
-    setYear = year => {
-        // alert(year)
-        let dateObject = Object.assign({}, this.state.dateObject);
+
+    function setYear(year) {
+
+        let dateObject = Object.assign({}, dateObject);
         dateObject = moment(dateObject).set("year", year);
-        this.setState({
-            dateObject: dateObject,
-            showMonthTable: !this.state.showMonthTable,
-            showYearTable: !this.state.showYearTable
-        });
-    };
-    onYearChange = e => {
-        this.setYear(e.target.value);
+
+        setDateObject(dateObject)
+        setShowMonthTable(!showMonthTable)
+        setShowYearTable(!showYearTable)
+
     };
 
-    getDates(startDate, stopDate) {
+    function onYearChange(e) {
+        setYear(e.target.value);
+    };
+
+    function getDates(startDate, stopDate) {
         var dateArray = [];
         var currentDate = moment(startDate);
         stopDate = moment(stopDate);
         while (currentDate <= stopDate) {
 
-            if (typeof startDate == 'object') {
+            if (typeof startDate == 'object') { //small hack to separate the dates in calendar from the ones from vacations
                 dateArray.push(moment(currentDate).format("YYYY"));
                 currentDate = moment(currentDate).add(1, "year");
             } else {
@@ -184,14 +185,14 @@ export default class Calendar extends React.Component {
         return dateArray;
     }
 
-    YearTable = props => {
+    function YearTable(props) {
         let months = [];
         let nextten = moment()
             .set("year", props)
             .add("year", 12)
             .format("Y");
 
-        let tenyear = this.getDates(props, nextten);
+        let tenyear = getDates(props, nextten);
 
         tenyear.map(data => {
             return months.push(
@@ -199,7 +200,7 @@ export default class Calendar extends React.Component {
                     key={data}
                     className="calendar-month"
                     onClick={e => {
-                        this.setYear(data);
+                        setYear(data);
                     }}
                 >
                     <span>{data}</span>
@@ -234,236 +235,292 @@ export default class Calendar extends React.Component {
             </table>
         );
     };
-    onDayClick = (e, d) => {
-        this.setState(
-            {
-                selectedDay: d
-            },
-            () => {
-                console.log("SELECTED DAY: ", this.state.selectedDay);
-            }
-        );
+
+    function onDayClick(e, d) {     //get the day you click on in calendar
+
+        setSelectedDay(d);
+        console.log("SELECTED DAY: ", selectedDay);
     };
 
-    // function for ineligible vacation days
-    ineligibleVacationDays = () => {
+    function ineligibleVacation() {
 
         let ineligibledays = [];
-        let mm = this.state.dateObject.month() + 1;
+        let mm = dateObject.month() + 1;
 
         // the period that is ineligible for vacation
-        let ineligible = this.getDates("2020-03-3", "2020-03-7");
+        let ineligible = getDates("2020-03-3", "2020-03-7");
 
         ineligible.forEach(element => {
             let el = element.split("-");
             // eslint-disable-next-line
-            if (el[1] == mm && el[0] === this.year()) {
+            if (el[1] == mm && el[0] === year()) {
                 ineligibledays.push(el[2]);
             }
         });
 
         if (ineligibledays.length > 0) {
-            this.getIneligibleVacationDays(ineligibledays, mm);
+            showIneligibleVacation(ineligibledays, mm);
+        } else { // for some reason the calendar does not always update the vacations on next() and prev() 
+            let el = document.getElementsByClassName("calendar-day");
+            for (let i = 0; i < el.length; i++) {
+
+                if (!el[i].className.includes("empty")) {
+                    if (
+                        el[i].className.includes("ineligible") ||
+                        el[i].className.includes("approved") ||
+                        el[i].className.includes("pending")) {
+                        el[i].className = "calendar-day";
+                    }
+                }
+            }
         }
     }
 
     // adds class 'illegiable' to days that are illegiable for vacation
-    getIneligibleVacationDays = (ineligibledays, mm) => {
-        console.log(ineligibledays);
+    function showIneligibleVacation(ineligibledays, month) {
 
-        ineligibledays.forEach(element => {
+        ineligibledays.forEach(day => {
 
-            if (element < 10) {
-                element = element.split("");
-                element = element[1];
+            if (day < 10) {
+                day = day.split("");
+                day = day[1];
             }
 
-            let day = document.getElementById(`day${element}${mm}${this.year()}`);
-            //console.log(`day${element}${mm}${this.year()}`)
+            let showDay = document.getElementById(`day${day}${month}${year()}`);
 
-            if (day !== null) {
-                day.classList.add('ineligible');;
+            if (showDay !== null) {
+                showDay.classList.add('ineligible');;
             }
         });
     }
 
-    // function for ineligible vacation days
-    approvedVacationDays = () => {
-        let approvedVacation = [];
-        let mm = this.state.dateObject.month() + 1;
-        // the period that is ineligible for vacation
-        let approved = this.getDates("2020-03-10", "2020-03-15");
+    function approvedVacation() {
+        let approvedDays = [];
+        let month = dateObject.month() + 1;
+        // the period that is approved for vacation
+        let approved = getDates("2020-3-10", "2020-3-15");
 
         approved.forEach(element => {
             let el = element.split("-");
             // eslint-disable-next-line
-            if (el[1] == mm && el[0] === this.year()) {
-                approvedVacation.push(el[2]);
+            if (el[1] == month && el[0] === year()) {
+                approvedDays.push(el[2]);
             }
         });
 
-        if (approvedVacation.length > 0) {
-            this.myVacation(approvedVacation, mm);
+        if (approvedDays.length > 0) {
+            showApprovedVacation(approvedDays, month);
+        } else {
+            let el = document.getElementsByClassName("calendar-day");
+
+            for (let i = 0; i < el.length; i++) {
+
+                if (!el[i].className.includes("empty")) {
+                    if (el[i].className.includes("approved")) {
+                        el[i].className = "calendar-day";
+                    }
+                }
+            }
         }
     }
 
-    // adds class 'approved' to days that are illegiable for vacation
-    myVacation = (approvedVacation, mm) => {
-        approvedVacation.forEach(element => {
+    // adds class 'approved' to days that are approved for vacation
+    function showApprovedVacation(approvedDays, month) {
+        approvedDays.forEach(day => {
 
-            if (element < 10) {
-                element = element.split("");
-                element = element[1];
+            if (day < 10) {
+                day = day.split("");
+                day = day[1];
             }
 
-            let day = document.getElementById(`day${element}${mm}${this.year()}`);
+            let showDay = document.getElementById(`day${day}${month}${year()}`);
 
-            if (day !== null) {
-                day.classList.add('approved');;
+            if (showDay !== null) {
+                showDay.classList.add('approved');;
             }
         });
     }
 
-    // function for ineligible vacation days
-    pendingVacationDays = () => {
-        let pendingVacation = [];
-        let mm = this.state.dateObject.month() + 1;
+    // function for pending vacation 
+    function pendingVacation() {
+        let pendingDays = [];
+        let month = dateObject.month() + 1;
         // the period that is ineligible for vacation
-        let pending = this.getDates("2020-03-16", "2020-03-24");
+        let pending = getDates("2020-04-16", "2020-05-20");
 
         pending.forEach(element => {
             let el = element.split("-");
             // eslint-disable-next-line
-            if (el[1] == mm && el[0] === this.year()) {
-                pendingVacation.push(el[2]);
+            if (el[1] == month && el[0] === year()) {
+
+                pendingDays.push(el[2]); // push days
             }
         });
 
-        if (pendingVacation.length > 0) {
-            this.pendingVacation(pendingVacation, mm);
+        if (pendingDays.length > 0) {
+            showPendingVacation(pendingDays, month);
+
+        } else {
+            let el = document.getElementsByClassName("calendar-day");
+            for (let i = 0; i < el.length; i++) {
+
+                if (!el[i].className.includes("empty")) {
+                    if (el[i].className.includes("pending")) {
+                        el[i].className = "calendar-day";
+                    }
+                }
+            }
         }
     }
 
-    // adds class 'approved' to days that are illegiable for vacation
-    pendingVacation = (pendingVacation, mm) => {
-        pendingVacation.forEach(element => {
+    // adds class 'pending' to days that are pending for vacation
+    function showPendingVacation(pendingDays, month) {
+        pendingDays.forEach(day => {
 
-            if (element < 10) {
-                element = element.split("");
-                element = element[1];
+            if (day < 10) {
+                day = day.split("");
+                day = day[1];
             }
 
-            let day = document.getElementById(`day${element}${mm}${this.year()}`);
+            let showDay = document.getElementById(`day${day}${month}${year()}`);
 
-            if (day !== null) {
-                day.classList.add('pending');;
+            if (showDay !== null) {
+                showDay.classList.add('pending');;
             }
         });
     }
 
-    render() {
-        let weekdayshortname = this.weekdayshort.map(day => {
-            return <th key={day}>{day}</th>;
-        });
-        let blanks = [];
-        for (let i = 0; i < this.firstDayOfMonth(); i++) {
-            blanks.push(<td key={Math.random()} className="calendar-day empty">{""}</td>);
-        }
-        let daysInMonth = [];
+    let weekdayshortname = weekdayshort.map(day => {
+        return <th key={day}>{day}</th>;
+    });
+    let blanks = [];
+    for (let i = 0; i < firstDayOfMonth(); i++) {
+        blanks.push(<td key={Math.random()} className="calendar-day empty">{""}</td>);
+    }
+    let daysInMonthArray = [];
 
-        for (let d = 1; d <= this.daysInMonth(); d++) {
+    for (let d = 1; d <= daysInMonth(); d++) {
 
-            //console.log(this.year())
 
-            // eslint-disable-next-line 
-            let currentDay = d == this.currentDay() ? "today" : "";
-            let mm = moment().month(this.month()).format("M");
+        // eslint-disable-next-line 
+        //let currentDay;
+        //currentDay = d == currentDay() ? "today" : "";
+        let mm = moment().month(month()).format("M");
 
-            //console.log(mm, moment().month())
+        //console.log(mm, moment().month())
 
-            daysInMonth.push(
-                <td id={`day${d}${mm}${this.year()}`} key={d} className={`calendar-day ${currentDay}`}>
-                    <span className="float-left pl-3"
-                        onClick={e => {
-                            this.onDayClick(e, d);
-                        }}
-                    >
-                        {d}
-                    </span>
-                </td>
-            );
-        }
-
-        var totalSlots = [...blanks, ...daysInMonth];
-        let rows = [];
-        let cells = [];
-
-        totalSlots.forEach((row, i) => {
-            if (i % 7 !== 0) {
-                cells.push(row);
-            } else {
-                rows.push(cells);
-                cells = [];
-                cells.push(row);
-            }
-            if (i === totalSlots.length - 1) {
-                // let insertRow = cells.slice();
-                rows.push(cells);
-            }
-        });
-
-        let daysinmonth = rows.map((d, i) => {
-            return <tr key={d + i}>{d}</tr>;
-        });
-
-        return (
-            <div className="tail-datetime-calendar">
-                <div className="calendar-navi">
-                    <span
-                        onClick={e => {
-                            this.onPrev();
-                        }}
-                        className="calendar-button button-prev"
-                    />
-                    {!this.state.showMonthTable && (
-                        <span
-                            onClick={e => {
-                                this.showMonth();
-                            }}
-                            className="calendar-label"
-                        >
-                            {this.month()}
-                        </span>
-                    )}
-                    <span className="calendar-label" onClick={e => this.showYearTable()}>
-                        {this.year()}
-                    </span>
-                    <span
-                        onClick={e => {
-                            this.onNext();
-                        }}
-                        className="calendar-button button-next"
-                    />
-                </div>
-
-                <div className="calendar-date">
-                    {this.state.showYearTable && <this.YearTable props={this.year()} />}
-                    {this.state.showMonthTable && (
-                        <this.MonthList data={moment.months()} />
-                    )}
-                </div>
-
-                {this.state.showDateTable && (
-                    <div className="calendar-date">
-                        <table className="calendar-day">
-                            <thead>
-                                <tr>{weekdayshortname}</tr>
-                            </thead>
-                            <tbody>{daysinmonth}</tbody>
-                        </table>
-                    </div>
-                )}
-            </div>
+        daysInMonthArray.push(
+            <td id={`day${d}${mm}${year()}`} key={d} className={`calendar-day ${currentDay}`}>
+                <span className="float-left pl-3"
+                    onClick={e => {
+                        onDayClick(e, d);
+                    }}
+                >
+                    {d}
+                </span>
+            </td>
         );
     }
+
+    var totalSlots = [...blanks, ...daysInMonthArray];
+    let rows = [];
+    let cells = [];
+
+    totalSlots.forEach((row, i) => {
+        if (i % 7 !== 0) {
+            cells.push(row);
+        } else {
+            rows.push(cells);
+            cells = [];
+            cells.push(row);
+        }
+        if (i === totalSlots.length - 1) {
+            // let insertRow = cells.slice();
+            rows.push(cells);
+        }
+    });
+
+    let daysinmonthArray = rows.map((d, i) => {
+        return <tr key={d + i}>{d}</tr>;
+    });
+
+    let selectedPeopleMap = selectedPeople.map((person) => {
+        return <CalendarBadge key={person.value} name={person.value} />
+    });
+
+
+
+    return (
+        <div>
+            <Row>
+                <CalendarSwitch />
+                <Col md={6}>
+                    <CalendarSearchSelect />
+                </Col>
+            </Row>
+
+
+            <Row>
+                <Col>
+                    {selectedPeopleMap}
+                </Col>
+
+            </Row>
+
+            <Row>
+                <Col>
+                    <div className="tail-datetime-calendar mb-2 mt-2">
+
+                        <div className="calendar-navi">
+                            <span
+                                onClick={e => {
+                                    onPrev();
+                                }}
+                                className="calendar-button button-prev"
+                            />
+                            {!showMonthTable && (
+                                <span
+                                    onClick={e => {
+                                        showMonth();
+                                    }}
+                                    className="calendar-label"
+                                >
+                                    {month()}
+                                </span>
+                            )}
+                            <span className="calendar-label" onClick={e => showYearTablee()}>
+                                {year()}
+                            </span>
+                            <span
+                                onClick={e => {
+                                    onNext();
+                                }}
+                                className="calendar-button button-next"
+                            />
+                        </div>
+
+                        <div className="calendar-date">
+                            {showYearTable && <YearTable props={year()} />}
+                            {showMonthTable && (
+                                <MonthList data={moment.months()} />
+                            )}
+                        </div>
+
+                        {showDateTable && (
+                            <div className="calendar-date">
+                                <table className="calendar-day">
+                                    <thead>
+                                        <tr>{weekdayshortname}</tr>
+                                    </thead>
+                                    <tbody>{daysinmonthArray}</tbody>
+                                </table>
+                            </div>
+                        )}
+                    </div>
+                </Col>
+            </Row>
+        </div>
+    );
 }
+
+export default Calendar;

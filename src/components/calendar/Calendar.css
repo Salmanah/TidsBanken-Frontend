@@ -11,9 +11,9 @@
 
 /* @start tail.DateTime */
 .tail-datetime-calendar {
-    width: 100%;
+    width: 97%;
     height: auto;
-    margin: 15px;
+    margin: 25px 0px;
     padding: 0;
     display: block;
     overflow: hidden;
@@ -143,6 +143,8 @@
     color: #3296c8;
   }
 
+
+
   .tail-datetime-calendar .calendar-date table tbody tr > *.ineligible {
     background-color: grey;
     color: white;
@@ -156,11 +158,18 @@
   .tail-datetime-calendar .calendar-date table tbody tr > *.pending {
     background-color: #ffb90796;
   }
-  .tail-datetime-calendar .calendar-date table tbody tr > *.today:after {
+
+  .tail-datetime-calendar .calendar-date table tbody tr > *.ordinary {
+    background-color: white !important;
+    color: black !important;
+  }
+
+
+  /*.tail-datetime-calendar .calendar-date table tbody tr > *.today:after {
     border-color: #3296c8;
     padding-left: 40px;
     
-  }
+  }*/
   .tail-datetime-calendar .calendar-date table tbody tr > *:hover {
     color: #cd283c;
   }
