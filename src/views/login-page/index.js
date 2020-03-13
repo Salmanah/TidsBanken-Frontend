@@ -1,15 +1,13 @@
 import React, {Component} from "react";
 import {withCookies, Cookies, useCookies} from 'react-cookie';
+import { Link, NavLink } from 'react-router-dom';
 
 
 class LoginPage extends Component {
 
    
 
-    render(){
 
-        return(<h1>Login page</h1>)
-    }
 }
 
 export default LoginPage;

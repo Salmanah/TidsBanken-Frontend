@@ -12,7 +12,12 @@ import Cookies from 'universal-cookie';
 
 
 class ApplicationFrame extends Component{
-
+/*
+    constructor(props){
+        const cookie = new Cookies();
+        super(props)
+        this.state = {
+            name : cookie.get('info').name,
 
     
 
@@ -89,7 +94,7 @@ class ApplicationFrame extends Component{
                
             )
         }
-    }
+    }*/
 }
 
 export default ApplicationFrame;

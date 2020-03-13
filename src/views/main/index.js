@@ -13,7 +13,14 @@ import './main.css';
 
 
 function Main() {
-    const cookie = new Cookies();
+
+   
+        return (
+            <div><h1>MAIN INDEX.JS</h1></div>
+        )
+}    
+    
+  /*  const cookie = new Cookies();
     console.log(cookie.get('info').name)
     console.log(cookie.get('info').role)
 
@@ -60,26 +67,7 @@ function Main() {
         </div> 
         )
         
-    }
-    {/*} OLD
-    return (
-        <div className="Main">
-            <ApplicationFrame/>
-            <h1>Vacation planner</h1>
-            
-            <div id="createForAdmin">
-                <CreateIneligiblePeriod />
-            </div>
-            <div id="createForUser">
-                
-            </div>
-            <Row>
-                <Col md={12}>
-                    <Calendar />
-                </Col>
-            </Row>
-        </div>
-    ); */}
-}
+    }*/
+
 
 export default Main;
