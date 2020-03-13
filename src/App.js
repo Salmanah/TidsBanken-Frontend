@@ -30,40 +30,6 @@ import NotFound from './common/NotFound';
 import Profile from './user/profile/Profile'; 
 
 
-/*
-function App() {
-
-  const cookie = new Cookies();
-  cookie.set('info', { 'name':'Helene', 'role':'admin'}); 
-  
-
-
-  return (
-    <div>
-      <Container className="App">
-        <Router>
-            <Switch>
-              <Route exact path="/" component={Main}/>
-              <Route path="/UserProfile" component={UserProfile}/>
-              <Route path="/CreateVacationRequest" component={CreateVacationRequest}/>
-              <Route path="/ViewVacationRequest" component={ViewVacationRequest}/>
-              <Route path="/ViewRequestHistory" component={ViewRequestHistory} />
-              <Route path="/CreateIneligiblePeriod" component={CreateIneligiblePeriod}/>
-              <Route path="/ApplicationSettings" component={ApplicationSettings}/>
-              <Route path="/LoginPage" component={LoginPage}/>
-              <Route path="/VacationRequests" component={VacationRequests}/>
-            </Switch>
-        </Router>
-      </Container>
-    
-    </div>
-  
-  );
-}
-
-export default App;
-*/
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -116,28 +82,26 @@ class App extends Component {
 
     return (
       <div className="app">
-        <div className="app-top-box">
+          <Router>
+          <div className="app-top-box">
           <AppHeader authenticated={this.state.authenticated} onLogout={this.handleLogout} />
         </div>
         <div className="app-body">
-          <Router>
             <Switch>
               <Route exact path="/" component={Main}></Route>           
-              <PrivateRoute path="/profile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={Profile}></PrivateRoute>
-              <Route path="/login"
-                render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>
-                <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>
-                <PrivateRoute path="/CreateVacationRequest" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={CreateVacationRequest}/>
-                <PrivateRoute path="/ViewVacationRequest" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ViewVacationRequest}/>
-                <PrivateRoute path="/ViewRequestHistory" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ViewRequestHistory} >{console.log("BICH ",this.state.authenticated)}</PrivateRoute>
-                <PrivateRoute path="/CreateIneligiblePeriod" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={CreateIneligiblePeriod}/>
-                <PrivateRoute path="/ApplicationSettings" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ApplicationSettings}/>
-                <PrivateRoute path="/VacationRequests" component={VacationRequests}/>
-                <Route component={NotFound}></Route>
+              <PrivateRoute path="/profile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={Profile}/>
+              <Route path="/login" render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>
+              <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>
+              <PrivateRoute path="/CreateVacationRequest" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={CreateVacationRequest}/>
+              <PrivateRoute path="/ViewVacationRequest" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ViewVacationRequest}/>
+              <PrivateRoute path="/ViewRequestHistory" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ViewRequestHistory} />
+              <PrivateRoute path="/CreateIneligiblePeriod" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={CreateIneligiblePeriod}/>
+              <PrivateRoute path="/ApplicationSettings" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ApplicationSettings}/>
+              <PrivateRoute path="/VacationRequests" component={VacationRequests}/>
+              <Route component={NotFound}></Route>
             </Switch>
+            </div>
           </Router>
-          
-        </div>
       </div>
     );
   }

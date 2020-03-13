@@ -11,7 +11,6 @@ import Cookies from 'universal-cookie';
 class VacationRequests extends Component{
     constructor(props) {
         super(props);
-        console.log("SHIIIIIIIT ",props);
     }
 
     render(){

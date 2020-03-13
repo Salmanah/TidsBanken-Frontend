@@ -2,12 +2,10 @@ import React, { Component } from 'react';
 import './Profile.css';
 
 class Profile extends Component {
-    constructor(props) {
-        super(props);
-        console.log("SHIIIIIIIT ",props);
-    }
+  
+    
     render() {
-        console.log("PROFILEIMAGEURL ",this.props.currentUser.imageUrl)
+       
         return (
             <div className="profile-container">
                 <div className="container">

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, Router } from 'react-router-dom';
 import './AppHeader.css';
 
 
@@ -16,27 +16,34 @@ class AppHeader extends Component {
                         <nav className="app-nav">
                             {console.log("INSIDE APP HEADER ",this.props.authenticated)}
                                 { this.props.authenticated ? (
-                                    <ul>
+                                  
+                                        <ul>
                                         <li>
-                                            <NavLink to="/profile">Profile</NavLink>
+                                            <Link to="/profile">Profile</Link>
                                         </li>
                                         <li>
-                                            <NavLink to="/ViewVacationRequest">ViewVacationRequest</NavLink>
+    
+                                            <Link to="/ViewVacationRequest">ViewVacationRequest</Link>
+                                        
                                         </li>
                                         <li>
-                                            <NavLink to="/ViewRequestHistory">ViewRequestHistory</NavLink>
+                                            <Link to="/ViewRequestHistory">ViewRequestHistory</Link>
                                         </li>
                                         <li>
                                             <a onClick={this.props.onLogout}>Logout</a>
                                         </li>
+                                        <li>
+                                            <a href="/ViewRequestHistory">PRess here, not virus</a>
+                                        </li>
                                     </ul>
+                                  
                                 ): (
                                     <ul>
                                         <li>
-                                            <NavLink to="/login">Login</NavLink>        
+                                            <Link to="/login">Login</Link>        
                                         </li>
                                         <li>
-                                            <NavLink to="/signup">Signup</NavLink>        
+                                            <Link to="/signup">Signup</Link>        
                                         </li>
                                     </ul>
                                 )}
