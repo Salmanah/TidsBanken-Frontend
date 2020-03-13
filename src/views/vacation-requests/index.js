@@ -25,17 +25,17 @@ class VacationRequests extends Component{
             <div>
                 <ApplicationFrame/>
                 <div className="vacationRequestContent">
-                    Her ser jeg for meg: <br/>
-                    En liste over alle vacation requests tilhørende innlogget user. <br/>
-                    Hver request er presentert ved å displaye tittelen og er clickable. <br/>
-
                     <List>
-                        <RequestListItem parentProps={this.props} />
+                        <RequestListItem title="Request 1" parentProps={this.props} />
+                        <Divider/>
+                        <RequestListItem title="Request 2" parentProps={this.props}/>
                         <Divider/>
                     </List>
+                    {/*
                     <ToggleBox title="request history">
                         <VacationRequestHistory />
                     </ToggleBox>
+                    */}
                 </div>    
             </div>
         )
