@@ -19,8 +19,6 @@ class ApplicationFrame extends Component{
         this.state = {
             name : cookie.get('info').name,
 
-        }
-    }
     
 
     render(){
@@ -31,6 +29,7 @@ class ApplicationFrame extends Component{
         const name = cookie.get('info').name;
 
         const navDropdownTitle = ( <span><NotificationsIcon size="sm"/></span> );
+        const settingsDropdownTitle = (<span><SettingsIcon/></span>);
 
         if (role === 'user'){
             return(
@@ -47,7 +46,9 @@ class ApplicationFrame extends Component{
                         </Nav>
                         <Navbar.Collapse className="justify-content-end">
                             <Navbar.Text> Signed in as: <Link to="/UserProfile">{name}</Link></Navbar.Text>
-                            <Button variant="outline-secondary" href="/LoginPage">Log out</Button>
+                            <Nav>
+                                <Nav.Link></Nav.Link><Button variant="outline-info" size="sm" href="/LoginPage">Log out</Button>
+                            </Nav>                            
                         </Navbar.Collapse>
                     </Navbar>
                     </div>
@@ -69,9 +70,16 @@ class ApplicationFrame extends Component{
                     <Navbar.Collapse className="justify-content-end">
                         <Navbar.Text> Signed in as: <Link to="/UserProfile">{name}</Link></Navbar.Text>
                         <Nav>
-                            <Nav.Link href="/ApplicationSettings"> <SettingsIcon/></Nav.Link>
+                            <NavDropdown title={settingsDropdownTitle}>
+                                <NavDropdown.Item href="/Users">Users</NavDropdown.Item>
+                                <NavDropdown.Item href="/VacationSettings">Vacations</NavDropdown.Item>
+                            </NavDropdown>
+                            {/*<Nav.Link href="/ApplicationSettings"> <SettingsIcon/></Nav.Link>*/}
                         </Nav>
-                        
+                        <Navbar.Text><i>Admin</i></Navbar.Text>
+                        <Nav>
+                            <Nav.Link></Nav.Link><Button variant="outline-info" size="sm" href="/LoginPage">Log out</Button>
+                        </Nav>
                     </Navbar.Collapse>
                     </Navbar>
 

@@ -44,9 +44,10 @@
     display: table;
     border-spacing: 0;
     border-collapse: separate;
-    background-color: #cd283c;
+    background-color: #223344;
     border-radius: 3px 3px 0 0;
     -webkit-border-radius: 3px 3px 0 0;
+    border-bottom: 1px solid white;
   }
   .tail-datetime-calendar .calendar-navi span {
     cursor: pointer;
@@ -54,9 +55,9 @@
     margin: 0;
     padding: 0;
     display: table-cell;
-    font-size: 14px;
+    font-size: 22px;
     text-align: center;
-    line-height: 30px;
+    line-height: 45px;
     text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.15);
     background-repeat: no-repeat;
     background-position: center center;
@@ -94,6 +95,8 @@
     border-spacing: 0;
     border-collapse: collapse;
   }
+
+
   .tail-datetime-calendar .calendar-date table thead tr > *,
   .tail-datetime-calendar .calendar-date table tbody tr > * {
     color: #ffffff;
@@ -104,8 +107,8 @@
     text-align: center;
     font-weight: normal;
     line-height: 35px;
-    border: 0;
-    background-color: #223344;
+    border-bottom: 3px solid white;
+    background-color: #223344cf;
   }
   .tail-datetime-calendar .calendar-date table tbody tr > * {
       border: 0.5px solid #33445529;
@@ -139,8 +142,24 @@
   .tail-datetime-calendar .calendar-date table tbody tr > *.today {
     color: #3296c8;
   }
+
+  .tail-datetime-calendar .calendar-date table tbody tr > *.ineligible {
+    background-color: grey;
+    color: white;
+  }
+
+  .tail-datetime-calendar .calendar-date table tbody tr > *.approved {
+    background-color: #63d063;
+    color: white;
+  }
+
+  .tail-datetime-calendar .calendar-date table tbody tr > *.pending {
+    background-color: #ffb90796;
+  }
   .tail-datetime-calendar .calendar-date table tbody tr > *.today:after {
     border-color: #3296c8;
+    padding-left: 40px;
+    
   }
   .tail-datetime-calendar .calendar-date table tbody tr > *:hover {
     color: #cd283c;
