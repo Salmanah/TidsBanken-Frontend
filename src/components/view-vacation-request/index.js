@@ -7,10 +7,12 @@ class ViewVacationRequest extends Component{
 
     constructor(props){
         super(props)
-        this.state = {}
+        this.state = {
+        }
     }
 
     render(){
+        console.log(this.props.location.state.id);
         return(
             <div className="vacationRequestContent">
                 <h1>Vacation request</h1>
