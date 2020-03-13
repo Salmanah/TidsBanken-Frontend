@@ -22,7 +22,7 @@ import VacationSettings from './views/vacation-settings/index';
 function App() {
 
   const cookie = new Cookies();
-  cookie.set('info', {'name':'Helene', 'role':'user'}); 
+  cookie.set('info', {'name':'Helene', 'role':'admin'}); 
 
 
   return (
