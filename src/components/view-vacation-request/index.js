@@ -1,4 +1,32 @@
 import React, { Component } from "react";
+import './viewVacationRequest.css';
+
+
+//Tar inn en request id og displayer korresponderende request
+class ViewVacationRequest extends Component{
+
+    constructor(props){
+        super(props)
+        this.state = {}
+    }
+
+    render(){
+        return(
+            <div className="vacationRequestContent">
+                <h1>Vacation request</h1>
+
+            </div>
+        )
+    }
+}
+
+export default ViewVacationRequest;
+
+
+
+
+
+{/*
 
 class ViewVacationRequest extends Component{
 
@@ -13,6 +41,7 @@ class ViewVacationRequest extends Component{
             status : "No status"
         }
     }
+
 
     componentDidMount(){
         let url = "";
@@ -79,3 +108,4 @@ class ViewVacationRequest extends Component{
 }
 
 export default ViewVacationRequest;
+*/}
