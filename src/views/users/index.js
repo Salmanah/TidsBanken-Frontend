@@ -9,9 +9,6 @@ import ViewAllUsers from '../../components/view-all-users/index';
 class Users extends Component{
 
     
-
-
-
     render(){
         return(
             <div>

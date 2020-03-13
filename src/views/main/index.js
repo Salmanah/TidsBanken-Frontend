@@ -16,7 +16,10 @@ function Main() {
 
    
         return (
-            <div><h1>MAIN INDEX.JS</h1></div>
+            <div>
+                <ApplicationFrame/>
+                <h1>MAIN INDEX.JS</h1>
+            </div>
         )
 }    
     

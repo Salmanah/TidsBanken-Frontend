@@ -12,21 +12,24 @@ import Cookies from 'universal-cookie';
 
 
 class ApplicationFrame extends Component{
-/*
+
     constructor(props){
-        const cookie = new Cookies();
+        //const cookie = new Cookies();
         super(props)
         this.state = {
-            name : cookie.get('info').name,
-
-    
+            //name : cookie.get('info').name
+            name : 'Noname'
+        }
+    }
 
     render(){
 
-        const cookie = new Cookies();
+        //const cookie = new Cookies();
 
-        const role = cookie.get('info').role;
-        const name = cookie.get('info').name;
+        //const role = cookie.get('info').role;
+        const role = 'admin';
+        //const name = cookie.get('info').name;
+        const name = 'Helene';
 
         const navDropdownTitle = ( <span><NotificationsIcon size="sm"/></span> );
         const settingsDropdownTitle = (<span><SettingsIcon/></span>);
@@ -74,7 +77,7 @@ class ApplicationFrame extends Component{
                                 <NavDropdown.Item href="/Users">Users</NavDropdown.Item>
                                 <NavDropdown.Item href="/VacationSettings">Vacations</NavDropdown.Item>
                             </NavDropdown>
-                            {/*<Nav.Link href="/ApplicationSettings"> <SettingsIcon/></Nav.Link>}
+                            {/*<Nav.Link href="/ApplicationSettings"> <SettingsIcon/></Nav.Link>}*/}
                         </Nav>
                         <Navbar.Text><i>Admin</i></Navbar.Text>
                         <Nav>
@@ -94,7 +97,7 @@ class ApplicationFrame extends Component{
                
             )
         }
-    }*/
+    }
 }
 
 export default ApplicationFrame;
