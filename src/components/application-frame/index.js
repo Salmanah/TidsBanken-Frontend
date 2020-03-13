@@ -41,7 +41,9 @@ class ApplicationFrame extends Component{
                         </Nav>
                         <Navbar.Collapse className="justify-content-end">
                             <Navbar.Text> Signed in as: <Link to="/UserProfile">{name}</Link></Navbar.Text>
-                            <Button variant="outline-secondary" href="/LoginPage">Log out</Button>
+                            <Nav>
+                                <Nav.Link></Nav.Link><Button variant="outline-info" size="sm" href="/LoginPage">Log out</Button>
+                            </Nav>                            
                         </Navbar.Collapse>
                     </Navbar>
                     </div>
@@ -70,6 +72,9 @@ class ApplicationFrame extends Component{
                             {/*<Nav.Link href="/ApplicationSettings"> <SettingsIcon/></Nav.Link>*/}
                         </Nav>
                         <Navbar.Text><i>Admin</i></Navbar.Text>
+                        <Nav>
+                            <Nav.Link></Nav.Link><Button variant="outline-info" size="sm" href="/LoginPage">Log out</Button>
+                        </Nav>
                     </Navbar.Collapse>
                     </Navbar>
 
