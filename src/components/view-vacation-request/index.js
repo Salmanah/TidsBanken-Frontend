@@ -137,7 +137,7 @@ class ViewVacationRequest extends Component{
                 }).catch(err => console.log(err))
 
             }).catch(err => console.log(err))
-        }*/
+        }
     }
 
     render() {
@@ -157,7 +157,4 @@ class ViewVacationRequest extends Component{
         </div>)
 
     }
-}
-
-export default ViewVacationRequest;
 */}

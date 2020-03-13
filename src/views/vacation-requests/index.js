@@ -15,9 +15,7 @@ class VacationRequests extends Component{
         super(props);
     }
 
-    constructor(props){
-        super(props)
-    }
+
 
     render(){
 
