@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
 import moment from "moment";
-import "./calendar.css";
-import CalendarSwitch from "./calendar-switch.js";
-import CalendarSearchSelect from "./calendar-search-select.js";
-import CalendarBadge from "./calendar-badge.js";
-import { Col, Row, Badge } from "react-bootstrap";
+import "./Calendar.css";
+import { Col, Row } from "react-bootstrap";
+import { Badge } from '@material-ui/core/';
+import { People, ThreeDRotation } from '@material-ui/icons';
 
 /*
     Credit: 
@@ -23,11 +22,6 @@ function Calendar() {
     const [selectedDay, setSelectedDay] = React.useState(null);
     const [weekdayshort, setWeekdayshort] = React.useState(moment.weekdaysShort());
 
-    const [selectedPeople, setSelectedPeople] = React.useState([
-        { value: 'Ola Helgesen', label: 'Ola Helgesen' },
-        { value: 'Heidi Furnes', label: 'Heidi Furnes' },
-        { value: 'Åge Alexander', label: 'Åge Alexander' },
-    ]);
     const [count, setCount] = React.useState(0);
 
     useEffect(() => {
@@ -417,7 +411,15 @@ function Calendar() {
                     }}
                 >
                     {d}
+
                 </span>
+                <span className="float-right pr-3">
+                    <Badge color="secondary" overlap="circle" badgeContent="2">
+                        <People />
+                    </Badge>
+
+                </span>
+
             </td>
         );
     }
@@ -444,82 +446,57 @@ function Calendar() {
         return <tr key={d + i}>{d}</tr>;
     });
 
-    let selectedPeopleMap = selectedPeople.map((person) => {
-        return <CalendarBadge key={person.value} name={person.value} />
-    });
-
-
-
     return (
         <div>
-            <Row>
-                <CalendarSwitch />
-                <Col md={6}>
-                    <CalendarSearchSelect />
-                </Col>
-            </Row>
+            <div className="tail-datetime-calendar mb-2 mt-2">
 
+                <div className="calendar-navi">
+                    <span
+                        onClick={e => {
+                            onPrev();
+                        }}
+                        className="calendar-button button-prev"
+                    />
+                    {!showMonthTable && (
+                        <span
+                            onClick={e => {
+                                showMonth();
+                            }}
+                            className="calendar-label"
+                        >
+                            {month()}
+                        </span>
+                    )}
+                    <span className="calendar-label" onClick={e => showYearTablee()}>
+                        {year()}
+                    </span>
+                    <span
+                        onClick={e => {
+                            onNext();
+                        }}
+                        className="calendar-button button-next"
+                    />
+                </div>
 
-            <Row>
-                <Col>
-                    {selectedPeopleMap}
-                </Col>
+                <div className="calendar-date">
+                    {showYearTable && <YearTable props={year()} />}
+                    {showMonthTable && (
+                        <MonthList data={moment.months()} />
+                    )}
+                </div>
 
-            </Row>
-
-            <Row>
-                <Col>
-                    <div className="tail-datetime-calendar mb-2 mt-2">
-
-                        <div className="calendar-navi">
-                            <span
-                                onClick={e => {
-                                    onPrev();
-                                }}
-                                className="calendar-button button-prev"
-                            />
-                            {!showMonthTable && (
-                                <span
-                                    onClick={e => {
-                                        showMonth();
-                                    }}
-                                    className="calendar-label"
-                                >
-                                    {month()}
-                                </span>
-                            )}
-                            <span className="calendar-label" onClick={e => showYearTablee()}>
-                                {year()}
-                            </span>
-                            <span
-                                onClick={e => {
-                                    onNext();
-                                }}
-                                className="calendar-button button-next"
-                            />
-                        </div>
-
-                        <div className="calendar-date">
-                            {showYearTable && <YearTable props={year()} />}
-                            {showMonthTable && (
-                                <MonthList data={moment.months()} />
-                            )}
-                        </div>
-
-                        {showDateTable && (
-                            <div className="calendar-date">
-                                <table className="calendar-day">
-                                    <thead>
-                                        <tr>{weekdayshortname}</tr>
-                                    </thead>
-                                    <tbody>{daysinmonthArray}</tbody>
-                                </table>
-                            </div>
-                        )}
+                {showDateTable && (
+                    <div className="calendar-date">
+                        <table className="calendar-day">
+                            <thead>
+                                <tr>{weekdayshortname}</tr>
+                            </thead>
+                            <tbody>{daysinmonthArray}</tbody>
+                        </table>
                     </div>
-                </Col>
-            </Row>
-        </div>
+                )}
+            </div>
+        </div >
     );
 }
 

@@ -1,0 +1,17 @@
+.MuiSwitch-colorSecondary.Mui-checked +.MuiSwitch-track {
+    background-color: rgb(245, 0, 87) !important;
+}
+
+.MuiSwitch-colorSecondary.Mui-checked {
+    color: rgb(245, 0, 87) !important;
+}
+
+
+.MuiSwitch-colorSecondary + .MuiSwitch-track {
+    background-color:#009688 !important;
+}
+
+.MuiSwitch-colorSecondary {
+    color:#009688 !important;
+}
+
