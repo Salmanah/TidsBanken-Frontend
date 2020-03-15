@@ -28,7 +28,8 @@ function Calendar() {
         ineligibleVacation();
         approvedVacation();
         pendingVacation();
-    }, [count]);                // using a counter to trigger the render
+        console.log(count);
+    }, [count, dateObject]);                // using a counter to trigger the render
     // because it doesn't render on changes to the dateObject on next() and prev()
 
     function daysInMonth() {
@@ -340,7 +341,7 @@ function Calendar() {
         let pendingDays = [];
         let month = dateObject.month() + 1;
         // the period that is ineligible for vacation
-        let pending = getDates("2020-04-16", "2020-05-20");
+        let pending = getDates("2020-03-24", "2020-05-20");
 
         pending.forEach(element => {
             let el = element.split("-");
@@ -379,6 +380,7 @@ function Calendar() {
             let showDay = document.getElementById(`day${day}${month}${year()}`);
 
             if (showDay !== null) {
+                console.log(showDay)
                 showDay.classList.add('pending');;
             }
         });
@@ -404,7 +406,7 @@ function Calendar() {
         //console.log(mm, moment().month())
 
         daysInMonthArray.push(
-            <td id={`day${d}${mm}${year()}`} key={d} className={`calendar-day ${currentDay}`}>
+            <td id={`day${d}${mm}${year()}`} key={d} className="calendar-day">
                 <span className="float-left pl-3"
                     onClick={e => {
                         onDayClick(e, d);
@@ -417,7 +419,6 @@ function Calendar() {
                     <Badge color="secondary" overlap="circle" badgeContent="2">
                         <People />
                     </Badge>
-
                 </span>
 
             </td>
