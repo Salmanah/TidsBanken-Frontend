@@ -6,24 +6,10 @@ import './calendar-switch.css';
 const ToggleVacationsCalendar = props => {
     let { isChecked } = props;
 
-    ///const [checked, setChecked] = React.useState(false);
-
     useEffect(() => {
         checkSelected();
-        console.log(isChecked)
     });
 
-    const toggleChecked = () => {
-        if (isChecked === false) {
-            isChecked = true;
-        }
-        if (isChecked === true) {
-            isChecked = false;
-        }
-
-        console.log(isChecked)
-        //props.isChecked(prev => !prev);
-    };
 
     function checkSelected() {
         let allVacations = document.getElementById("viewAllVacationsCalendar");
@@ -44,7 +30,7 @@ const ToggleVacationsCalendar = props => {
     return (
         <div>
             <label id="viewMyVacationRequestsCalendar">My vacation requests</label>
-            <Switch checked={isChecked} onChange={toggleChecked} />
+            <Switch checked={isChecked} onChange={props.toggleChecked} />
             <label id="viewAllVacationsCalendar">All co-workers vacation</label>
         </div>
     )

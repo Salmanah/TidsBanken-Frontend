@@ -28,7 +28,7 @@ function Calendar() {
         ineligibleVacation();
         approvedVacation();
         pendingVacation();
-        console.log(count);
+        //console.log(count);
     }, [count, dateObject]);                // using a counter to trigger the render
     // because it doesn't render on changes to the dateObject on next() and prev()
 
@@ -380,7 +380,7 @@ function Calendar() {
             let showDay = document.getElementById(`day${day}${month}${year()}`);
 
             if (showDay !== null) {
-                console.log(showDay)
+                //console.log(showDay)
                 showDay.classList.add('pending');;
             }
         });
