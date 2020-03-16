@@ -9,6 +9,8 @@ import { Link } from 'react-router-dom';
 import CreateVacationRequest from '../../views/create-vacation-request/index';
 import Cookies from 'universal-cookie';
 import './main.css';
+import {MDBBtn} from 'mdbreact';
+import AppHeader from '../../common/AppHeader';
 
 
 
@@ -16,8 +18,8 @@ function Main(props) {
    
         return (
             <div>
-                <h1>Vacation planner</h1>
                 <Link to="/CreateVacationRequest"><MDBBtn color="primary">Create vacation request</MDBBtn></Link>
+                <CalendarView/>
             </div>
         )
 }    

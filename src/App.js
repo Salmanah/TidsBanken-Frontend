@@ -84,7 +84,7 @@ class App extends Component {
       <div className="app">
         <Router>
           <div className="app-top-box">
-            {/*<AppHeader authenticated={this.state.authenticated} onLogout={this.handleLogout} />*/}
+            <AppHeader authenticated={this.state.authenticated} onLogout={this.handleLogout} />
           </div>
           <div className="app-body">
             <Switch>

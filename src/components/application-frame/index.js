@@ -25,6 +25,8 @@ class ApplicationFrame extends Component{
 
     render(){
 
+        console.log(this.props)
+
 
         //const cookie = new Cookies();
 
@@ -52,7 +54,7 @@ class ApplicationFrame extends Component{
                             <Navbar.Text> Signed in as: <Link to="/profile">Username</Link></Navbar.Text>
                             <Nav>
                                 <Nav.Link></Nav.Link><Button variant="outline-info" size="sm" onClick={this.props.parentProps.onLogout}>Logout</Button>
-                            </Nav>                            
+                            </Nav>                      
                         </Navbar.Collapse>
                     </Navbar>
                     </div>
@@ -81,9 +83,10 @@ class ApplicationFrame extends Component{
                             {/*<Nav.Link href="/ApplicationSettings"> <SettingsIcon/></Nav.Link>}*/}
                         </Nav>
                         <Navbar.Text><i>Admin</i></Navbar.Text>
+                    
                         <Nav>
                             <Nav.Link></Nav.Link><Button variant="outline-info" size="sm" onClick={this.props.parentProps.onLogout}>Logout</Button>
-                        </Nav>
+                        </Nav> 
                     </Navbar.Collapse>
                     </Navbar>
 

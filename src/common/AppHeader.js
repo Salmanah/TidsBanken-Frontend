@@ -7,6 +7,10 @@ import ApplicationFrame from '../components/application-frame/index';
 class AppHeader extends Component {
     
     render() {
+
+        console.log("this.props i appheader:")
+        console.log(this.props)
+
         return (
             <header className="app-header">
                 <div className="container">
