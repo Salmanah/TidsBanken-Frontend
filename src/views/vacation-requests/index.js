@@ -17,6 +17,9 @@ class VacationRequests extends Component{
 
 
     render(){
+        console.log("In vacation requests")
+        console.log(this.props)
+
         return(
             <div>
                 <ApplicationFrame parentProps={this.props}/>
@@ -24,6 +27,8 @@ class VacationRequests extends Component{
                     Her ser jeg for meg: <br/>
                     En liste over alle vacation requests tilhørende innlogget user. <br/>
                     Hver request er presentert ved å displaye tittelen og er clickable. <br/>
+                    <h3>This is the request list of user with id: {this.props.currentUser.id}</h3>
+                    <h4>Name: {this.props.currentUser.name}</h4>
                     <List>
                         <RequestListItem parentProps={this.props} />
                         <Divider/>

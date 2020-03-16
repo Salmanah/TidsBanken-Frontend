@@ -84,7 +84,7 @@ class App extends Component {
       <div className="app">
         <Router>
           <div className="app-top-box">
-            <AppHeader authenticated={this.state.authenticated} onLogout={this.handleLogout} />
+            <AppHeader authenticated={this.state.authenticated} currentUser={this.state.currentUser} onLogout={this.handleLogout} />
           </div>
           <div className="app-body">
             <Switch>
@@ -98,7 +98,7 @@ class App extends Component {
               <PrivateRoute path="/ViewRequestHistory" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ViewRequestHistory} />
               <PrivateRoute path="/CreateIneligiblePeriod" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={CreateIneligiblePeriod} />
               <PrivateRoute path="/ApplicationSettings" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ApplicationSettings} />
-              <PrivateRoute path="/VacationRequests" component={VacationRequests} />
+              <PrivateRoute path="/VacationRequests" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationRequests} />
               <Route component={NotFound}></Route>
             </Switch>
           </div>
