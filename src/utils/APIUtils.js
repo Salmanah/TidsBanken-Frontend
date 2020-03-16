@@ -27,9 +27,20 @@ export function getCurrentUser() {
     if(!localStorage.getItem(ACCESS_TOKEN)) {
         return Promise.reject("No access token set.");
     }
-    console.log("SENDING REQUEST TO BACKEND ",API_BASE_URL+"/user/me")
+    console.log("SENDING REQUEST TO BACKEND ",API_BASE_URL+"/user/1")
     return request({
-        url: API_BASE_URL + "/user/me",
+        url: API_BASE_URL + "/user/1",
+        method: 'GET'
+    });
+}
+
+export function getOtherUser(id) {
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+    console.log("SENDING REQUEST TO BACKEND ",API_BASE_URL+`/user/${id}`)
+    return request({
+        url: API_BASE_URL +`/user/${id}`,
         method: 'GET'
     });
 }
