@@ -1,6 +1,6 @@
 import React, { Component, useEffect} from 'react';
 import './Profile.css';
-import { getOtherUser } from '../../utils/APIUtils';
+import { getOtherUser, getOtherUserAsAdmin, createVacationRequest} from '../../utils/APIUtils';
 
 function Profile(props){
     let [count, setCount] = React.useState(0); 
@@ -8,7 +8,7 @@ function Profile(props){
     
     useEffect(() =>{
         if(count < 3){
-            getOtherUser(2)
+            createVacationRequest()
             .then(response => {
               console.log("HELLOOO ",response); 
             }).catch(error => {
