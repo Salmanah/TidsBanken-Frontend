@@ -19,15 +19,11 @@ class ViewVacationRequest extends Component{
 
     handleViewComments(event){
         this.setState({commentRevealed : !this.state.commentRevealed})
-        console.log(this.state.commentRevealed)
     }
 
     render(){
-        console.log(this.state.commentRevealed)
-        console.log(this.props.location.state.id);
         return(
             <div>
-                <ApplicationFrame/>
                 <div className="vacationRequestContent">
                 <h1>Vacation request</h1>
                 <List>
@@ -71,6 +67,7 @@ class ViewVacationRequest extends Component{
 }
 
 export default ViewVacationRequest;
+
 
 
 

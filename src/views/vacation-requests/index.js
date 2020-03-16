@@ -17,22 +17,30 @@ class VacationRequests extends Component{
 
 
     render(){
+        console.log("In vacation requests")
+        console.log(this.props)
+
         return(
             <div>
                 <ApplicationFrame parentProps={this.props}/>
                 <div className="vacationRequestContent">
-                    Her ser jeg for meg: <br/>
-                    En liste over alle vacation requests tilhørende innlogget user. <br/>
-                    Hver request er presentert ved å displaye tittelen og er clickable. <br/>
+                    <h3>This is the request list of user with id: {this.props.currentUser.id}</h3>
+                    <h4>Name: {this.props.currentUser.name}</h4>
+                    <div>
                     <List>
-                        <RequestListItem parentProps={this.props} />
+                        <RequestListItem title="Request 1" parentProps={this.props} />
+                        <Divider/>
+                        <RequestListItem title="Request 2" parentProps={this.props}/>
                         <Divider/>
                     </List>
+                    {/*
                     <ToggleBox title="request history">
                         <VacationRequestHistory />
                     </ToggleBox>
+                    */}
                 </div>    
             </div>
+                </div>    
         )
     }
 }

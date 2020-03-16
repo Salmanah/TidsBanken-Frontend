@@ -5,39 +5,35 @@ import AvailableActions from '../available-actions/index';
 import Notifications from '../notifications/index';
 import CurrentUser from '../current-user/index';
 import './ApplicationFrame.css';
-import {Navbar, Nav, NavDropdown, NavbarBrand, Button} from 'react-bootstrap';
+import {Navbar, Nav, NavDropdown, NavbarBrand, Button, Alert} from 'react-bootstrap';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Cookies from 'universal-cookie';
+import {getCurrentUser} from '../../utils/APIUtils';
 
 
 class ApplicationFrame extends Component{
 
     constructor(props){
-        //const cookie = new Cookies();
         super(props)
-        this.state = {
-            //name : cookie.get('info').name
-            name : 'Noname'
-        }
+    }
+
+    componentDidMount(){
+
     }
 
 
     render(){
 
+        console.log("props in application frame:")
         console.log(this.props)
 
-
-        //const cookie = new Cookies();
-
-        //const role = cookie.get('info').role;
-        const role = 'user';
-        //const name = cookie.get('info').name;
+        const username = this.props.parentProps.currentUser.name;
 
         const navDropdownTitle = ( <span><NotificationsIcon size="sm"/></span> );
         const settingsDropdownTitle = (<span><SettingsIcon/></span>);
 
-        if (role === 'user'){
+        if (!this.props.parentProps.currentUser.admin){
             return(
                 <div className="container">
                     <div id="apFrameForUsers">
@@ -51,7 +47,7 @@ class ApplicationFrame extends Component{
                             </NavDropdown>
                         </Nav>
                         <Navbar.Collapse className="justify-content-end">
-                            <Navbar.Text> Signed in as: <Link to="/profile">Username</Link></Navbar.Text>
+                            <Navbar.Text> Signed in as: <Link to="/profile">{username}</Link></Navbar.Text>
                             <Nav>
                                 <Nav.Link></Nav.Link><Button variant="outline-info" size="sm" onClick={this.props.parentProps.onLogout}>Logout</Button>
                             </Nav>                      
@@ -61,7 +57,7 @@ class ApplicationFrame extends Component{
                 </div>
             )
         } 
-        else if (role === 'admin') {
+        else if (this.props.parentProps.currentUser.admin) {
             return (
                 <div className="conatiner">
                 <div id="apFrameForAdmin">
@@ -74,7 +70,7 @@ class ApplicationFrame extends Component{
                         </NavDropdown>
                     </Nav>
                     <Navbar.Collapse className="justify-content-end">
-                        <Navbar.Text> Signed in as: <Link to="/profile">Username</Link></Navbar.Text>
+                        <Navbar.Text> Signed in as: <Link to="/profile">{username}</Link></Navbar.Text>
                         <Nav>
                             <NavDropdown title={settingsDropdownTitle}>
                                 <NavDropdown.Item href="/Users">Users</NavDropdown.Item>
