@@ -92,8 +92,9 @@ class App extends Component {
               <PrivateRoute path="/profile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={Profile} />
               <Route path="/login" render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>
               <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>
-              <PrivateRoute path="/CreateVacationRequest" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={CreateVacationRequest} />
-              <PrivateRoute path="/ViewVacationRequest" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ViewVacationRequest} />
+              <PrivateRoute path="/VacationRequests" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationRequests}/>
+              <PrivateRoute path="/CreateVacationRequest" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={CreateVacationRequest}/>
+              <PrivateRoute path="/ViewVacationRequest" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ViewVacationRequest}/>
               <PrivateRoute path="/ViewRequestHistory" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ViewRequestHistory} />
               <PrivateRoute path="/CreateIneligiblePeriod" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={CreateIneligiblePeriod} />
               <PrivateRoute path="/ApplicationSettings" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ApplicationSettings} />

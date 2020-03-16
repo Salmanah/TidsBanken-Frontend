@@ -16,17 +16,14 @@ class VacationRequests extends Component{
     }
 
 
-
     render(){
-
         return(
             <div>
-                <ApplicationFrame/>
+                <ApplicationFrame parentProps={this.props}/>
                 <div className="vacationRequestContent">
                     Her ser jeg for meg: <br/>
                     En liste over alle vacation requests tilhørende innlogget user. <br/>
                     Hver request er presentert ved å displaye tittelen og er clickable. <br/>
-
                     <List>
                         <RequestListItem parentProps={this.props} />
                         <Divider/>

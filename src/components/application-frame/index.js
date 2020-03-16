@@ -22,14 +22,15 @@ class ApplicationFrame extends Component{
         }
     }
 
+
     render(){
+
 
         //const cookie = new Cookies();
 
         //const role = cookie.get('info').role;
-        const role = 'admin';
+        const role = 'user';
         //const name = cookie.get('info').name;
-        const name = 'Helene';
 
         const navDropdownTitle = ( <span><NotificationsIcon size="sm"/></span> );
         const settingsDropdownTitle = (<span><SettingsIcon/></span>);
@@ -41,16 +42,16 @@ class ApplicationFrame extends Component{
                     <Navbar fixed="top" expand="md" bg="dark" variant="dark">
                         <Navbar.Brand>Tidsbanken</Navbar.Brand>
                         <Nav className="mr-auto">
-                            <Nav.Link href="/"> Home</Nav.Link>
-                            <Nav.Link href="/VacationRequests">Vacation requests</Nav.Link>
+                            <Nav.Link><Link to="/">Home</Link></Nav.Link>
+                            <Nav.Link><Link to="/VacationRequests">Vacation requests</Link></Nav.Link>
                             <NavDropdown title={navDropdownTitle}>
-
+                                <NavDropdown.Item>Notification 1</NavDropdown.Item>
                             </NavDropdown>
                         </Nav>
                         <Navbar.Collapse className="justify-content-end">
-                            <Navbar.Text> Signed in as: <Link to="/UserProfile">{name}</Link></Navbar.Text>
+                            <Navbar.Text> Signed in as: <Link to="/profile">Username</Link></Navbar.Text>
                             <Nav>
-                                <Nav.Link></Nav.Link><Button variant="outline-info" size="sm" href="/LoginPage">Log out</Button>
+                                <Nav.Link></Nav.Link><Button variant="outline-info" size="sm" onClick={this.props.parentProps.onLogout}>Logout</Button>
                             </Nav>                            
                         </Navbar.Collapse>
                     </Navbar>
@@ -65,13 +66,13 @@ class ApplicationFrame extends Component{
                     <Navbar fixed="top" expand="md" bg="dark" variant="dark">
                     <Navbar.Brand>Tidsbanken</Navbar.Brand>
                     <Nav className="mr-auto">
-                        <Nav.Link href="/"> Home</Nav.Link>
+                        <Nav.Link><Link to="/">Home</Link></Nav.Link>
                         <NavDropdown title={navDropdownTitle}>
-
+                            <NavDropdown.Item>Notification 1</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
                     <Navbar.Collapse className="justify-content-end">
-                        <Navbar.Text> Signed in as: <Link to="/UserProfile">{name}</Link></Navbar.Text>
+                        <Navbar.Text> Signed in as: <Link to="/profile">Username</Link></Navbar.Text>
                         <Nav>
                             <NavDropdown title={settingsDropdownTitle}>
                                 <NavDropdown.Item href="/Users">Users</NavDropdown.Item>
@@ -81,7 +82,7 @@ class ApplicationFrame extends Component{
                         </Nav>
                         <Navbar.Text><i>Admin</i></Navbar.Text>
                         <Nav>
-                            <Nav.Link></Nav.Link><Button variant="outline-info" size="sm" href="/LoginPage">Log out</Button>
+                            <Nav.Link></Nav.Link><Button variant="outline-info" size="sm" onClick={this.props.parentProps.onLogout}>Logout</Button>
                         </Nav>
                     </Navbar.Collapse>
                     </Navbar>

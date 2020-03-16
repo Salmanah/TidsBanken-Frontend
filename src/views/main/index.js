@@ -12,15 +12,19 @@ import './main.css';
 
 
 
-function Main() {
-
-    return (
-        <>
-            <ApplicationFrame />
-            <CalendarView />
-        </ >
-    )
-}
+function Main(props) {
+   
+        return (
+            <div>
+                <h1>Vacation planner</h1>
+                <Link to="/CreateVacationRequest"><MDBBtn color="primary">Create vacation request</MDBBtn></Link>
+            </div>
+        )
+}    
+    
+  /*  const cookie = new Cookies();
+    console.log(cookie.get('info').name)
+    console.log(cookie.get('info').role)
 
 /*  const cookie = new Cookies();
   console.log(cookie.get('info').name)

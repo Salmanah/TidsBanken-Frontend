@@ -17,7 +17,7 @@ class OAuth2RedirectHandler extends Component{
 
         if(token){
             localStorage.setItem(ACCESS_TOKEN, token); 
-            return <Redirect to={{pathname: "/Profile",
+            return <Redirect to={{pathname: "/", //Endret denne fra "/Profile for å havne på "/" etter login
                 state: {from: this.props.location}
             }}/>
         }else{

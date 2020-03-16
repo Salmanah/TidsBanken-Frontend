@@ -71,7 +71,7 @@ class CreateVacationRequest extends Component{
     render() {
         return (
             <div>
-            <ApplicationFrame/>
+            {/*<ApplicationFrame/>*/}
             <MDBContainer>
             <MDBRow>
             <MDBCol md="10">
@@ -83,7 +83,7 @@ class CreateVacationRequest extends Component{
                         Request title
                         </label>
                         <input
-                         type="text"
+                        type="text"
                         id="defaultFormCardNameEx"
                         className="form-control"
                         value ={this.state.title}
