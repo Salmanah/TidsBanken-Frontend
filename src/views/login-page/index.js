@@ -1,3 +1,5 @@
+//IKKE I BRUK
+
 import React, {Component} from "react";
 import {withCookies, Cookies, useCookies} from 'react-cookie';
 import { Link, NavLink } from 'react-router-dom';

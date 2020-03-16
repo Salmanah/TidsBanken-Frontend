@@ -12,13 +12,12 @@ import './main.css';
 
 
 
-function Main() {
-
+function Main(props) {
    
         return (
             <div>
-                <ApplicationFrame/>
-                <h1>MAIN INDEX.JS</h1>
+                <h1>Vacation planner</h1>
+                <Link to="/CreateVacationRequest"><MDBBtn color="primary">Create vacation request</MDBBtn></Link>
             </div>
         )
 }    
