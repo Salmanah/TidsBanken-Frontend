@@ -15,11 +15,9 @@ class RequestListItem extends Component{
 
     handleMoreInfoClick(){
         this.setState({open : !this.state.open})
-        console.log(this.state.open)
     }
 
     itemClicked(event){
-        console.log("Clicked")
         this.props.parentProps.history.push({ 
             pathname: "/ViewVacationRequest",
             state: {
@@ -30,7 +28,6 @@ class RequestListItem extends Component{
 
 
     render(){
-        //console.log(this.props.parentProps)
         return(
             <div>
                 <ListItem button onClick={e => this.handleMoreInfoClick(e)}>
