@@ -1,0 +1,17 @@
+span.calendar-label {
+    height: 15px;
+    width: 50px;
+}
+
+span.ineligible-label {
+    background: linear-gradient(0deg, rgba(90, 90, 90, 0.65) 0%, #80808082, #9696969e 100%);
+}
+
+span.approved-label {
+    background: linear-gradient(0deg, rgba(63, 165, 68, 0.49) 0%, #60c260a3, #caecca 100%);
+  
+}
+
+span.pending-label {
+    background: linear-gradient(0deg, rgba(218, 218, 34, 0.59) 0%, #fdfd078c, #ffff7a26 100%);
+}
