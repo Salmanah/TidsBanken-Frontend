@@ -24,25 +24,3 @@ import {
 );
   
 export default PrivateRoute
-
-/***
- * 
- * const PrivateRoute = ({ component: Component, authenticated, ...rest }) => (
-    <Route
-      {...rest}
-      render={props =>
-        authenticated ? (
-          <Component {...rest} {...props} />
-        ) : (
-          <Redirect
-            to={{
-              pathname: '/login',
-              state: { from: props.location }
-            }}
-          />
-        )
-      }
-    />
-    
-);
- */
