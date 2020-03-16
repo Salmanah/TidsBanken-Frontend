@@ -27,7 +27,6 @@ class ViewVacationRequest extends Component{
         console.log(this.props.location.state.id);
         return(
             <div>
-                <ApplicationFrame/>
                 <div className="vacationRequestContent">
                 <h1>Vacation request</h1>
                 <List>
@@ -71,6 +70,7 @@ class ViewVacationRequest extends Component{
 }
 
 export default ViewVacationRequest;
+
 
 
 
