@@ -1,5 +1,6 @@
 import React from 'react';
 import Select from 'react-select';
+import './calendar-search-select.css';
 
 function SearchSelect() {
     const [options, setOptions] = React.useState
@@ -17,6 +18,8 @@ function SearchSelect() {
 
     return (
         <Select
+            className='react-select-container' //class needed to style the search-select
+            classNamePrefix="react-select" //prefix needed to style the search-select
             value={selectedOption}
             onChange={handleChange}
             options={options}

@@ -1,0 +1,10 @@
+
+
+div.react-select-container {
+    border-bottom: 1px solid #0000004a;
+}
+
+div.react-select__control {
+    border: 0;
+    border-radius: 0;
+}
