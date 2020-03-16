@@ -3,22 +3,32 @@ import { Switch } from '@material-ui/core/';
 import { Col } from "react-bootstrap";
 import './calendar-switch.css';
 
-function ToggleVacationsCalendar() {
+const ToggleVacationsCalendar = props => {
+    let { isChecked } = props;
 
-    const [checked, setChecked] = React.useState(false);
+    ///const [checked, setChecked] = React.useState(false);
 
     useEffect(() => {
         checkSelected();
+        console.log(isChecked)
     });
 
     const toggleChecked = () => {
-        setChecked(prev => !prev);
+        if (isChecked === false) {
+            isChecked = true;
+        }
+        if (isChecked === true) {
+            isChecked = false;
+        }
+
+        console.log(isChecked)
+        //props.isChecked(prev => !prev);
     };
 
     function checkSelected() {
         let allVacations = document.getElementById("viewAllVacationsCalendar");
         let myVacations = document.getElementById("viewMyVacationRequestsCalendar");
-        if (!checked) {
+        if (!isChecked) {
             myVacations.style.color = "#009688"
             allVacations.style.color = "black"
             myVacations.style.textDecoration = "underline";
@@ -34,7 +44,7 @@ function ToggleVacationsCalendar() {
     return (
         <div>
             <label id="viewMyVacationRequestsCalendar">My vacation requests</label>
-            <Switch checked={checked} onChange={toggleChecked} />
+            <Switch checked={isChecked} onChange={toggleChecked} />
             <label id="viewAllVacationsCalendar">All co-workers vacation</label>
         </div>
     )
