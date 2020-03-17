@@ -12,8 +12,6 @@ function CalendarView() {
 
     const [checked, setChecked] = React.useState(false);
 
-
-
     const [selectedPeople, setSelectedPeople] = React.useState([
         { value: 'Ola Helgesen', label: 'Ola Helgesen' },
         { value: 'Heidi Furnes', label: 'Heidi Furnes' },
@@ -44,19 +42,35 @@ function CalendarView() {
         { value: 'Malin Rud', label: 'Malin Rud' }
     ]);
 
-    const [selectedOption, setSelectedOption] = React.useState(null)
+    const [selected] = React.useState([]);
+    const [selectedOptions, setSelectedOptions] = React.useState(selected);
+
 
     const handleChange = selectedOption => {
-        setSelectedOption(selectedOption)
+        let alreadySelected = selectedOptions.includes(selectedOption);
+
+        if (!alreadySelected) {
+            setSelectedOptions(selected => [...selected, selectedOption]);
+        } else {
+            console.log("you have already selected this user")
+        }
     };
 
-    let selectedPeopleBadges = selectedPeople.map((person) => {
-        return <CalendarBadge key={person.value} name={person.value} />
+    let selectedPeopleBadges = selectedOptions.map((person) => {
+        return <CalendarBadge key={person.value} name={person.value} delete={() => handleDelete(person.value)} />
     });
 
     const handleToggleChecked = () => {
         setChecked(prev => !prev);
     };
+
+    const handleDelete = id => {
+
+        let newArray = selectedOptions.filter(e =>
+            e.value !== id
+        );
+        setSelectedOptions(newArray);
+    }
 
     return (
         <div>
@@ -71,13 +85,12 @@ function CalendarView() {
                         <CalendarSwitch isChecked={checked} toggleChecked={handleToggleChecked} />
                     </Col>
                     <Col md={{ span: 4 }}>
-                        {checked ? <CalendarSearchSelect options={selectedPeople} /> : null}
+                        {checked ? <CalendarSearchSelect options={selectedPeople} change={handleChange} /> : null}
                     </Col>
                 </Row>
                 <Row>
                     <Col className="mx-5 my-2 p-2">
                         {checked ? selectedPeopleBadges : null}
-
                     </Col>
                 </Row>
                 <Row>
