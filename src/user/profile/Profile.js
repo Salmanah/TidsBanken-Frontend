@@ -1,6 +1,6 @@
 import React, { Component, useEffect} from 'react';
 import './Profile.css';
-import { getOtherUser } from '../../utils/APIUtils';
+import { getOtherUser, getOtherUserAsAdmin, createVacationRequest} from '../../utils/APIUtils';
 
 function Profile(props){
     let [count, setCount] = React.useState(0); 
