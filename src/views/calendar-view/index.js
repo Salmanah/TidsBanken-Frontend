@@ -86,8 +86,7 @@ function CalendarView(props) {
                     </Col>
                     <Col className="my-4 text-right my-auto">
                         <Link to="/CreateVacationRequest"><MDBBtn className="btn btn-elegant mr-2">Create vacation request</MDBBtn></Link>
-                        {/*<Link to="/CreateIneligiblePeriod"><MDBBtn className="btn btn-elegant">Create ineligible period</MDBBtn></Link>*/}
-                        <CreateIneligiblePeriod/>
+                        {props.admin ? <CreateIneligiblePeriod /> : null}
                     </Col>
                 </Row>
 

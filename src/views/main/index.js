@@ -23,7 +23,7 @@ function Main() {
 
     return (
         <div>
-            <CalendarView />
+            <CalendarView admin={admin} />
         </div>
     )
 }
