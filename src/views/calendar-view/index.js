@@ -4,11 +4,14 @@ import CalendarBadge from "../../components/calendar-badge/";
 import CalendarSearchSelect from "../../components/calendar-search-select/";
 import CalendarSwitch from "../../components/calendar-switch/";
 import { Row, Col, Container } from "react-bootstrap";
-import ApplicationFrame from '../../components/application-frame/index';
 import CalendarLabel from '../../components/calendar-label/';
 import './calendar-view.css';
+import { MDBBtn } from "mdbreact";
+import { Link } from 'react-router-dom';
 
-function CalendarView() {
+
+function CalendarView(props) {
+    console.log(props)
 
     const [checked, setChecked] = React.useState(false);
 
@@ -79,7 +82,12 @@ function CalendarView() {
                     <Col>
                         <h1>My calendar</h1>
                     </Col>
+                    <Col className="my-4 text-right my-auto">
+                        <Link to="/CreateVacationRequest"><MDBBtn className="btn btn-elegant mr-2">Create vacation request</MDBBtn></Link>
+                        <Link to="/CreateIneligiblePeriod"><MDBBtn className="btn btn-elegant">Create ineligible period</MDBBtn></Link>
+                    </Col>
                 </Row>
+
                 <Row>
                     <Col md={{ span: 5 }}>
                         <CalendarSwitch isChecked={checked} toggleChecked={handleToggleChecked} />

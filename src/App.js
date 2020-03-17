@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Main from "./views/main/";
 import { Container } from "react-bootstrap";
 import { MDBBtn } from 'mdbreact';
+import 'mdbreact/dist/css/mdb.css'
 
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import CreateVacationRequest from './views/create-vacation-request/index';
@@ -83,6 +84,8 @@ class App extends Component {
       return <LoadingIndicator />
     }
 
+    console.log("elissi", this.state.authenticated)
+
     return (
       <div className="app">
         <Router>
@@ -91,13 +94,18 @@ class App extends Component {
           </div>
           <div className="app-body">
             <Switch>
-              <Route exact path="/" component={Main}></Route>
+
+              {this.state.authenticated ?
+                (<Route exact path="/" component={Main}></Route>)
+                :
+                (<Route exact path="/" component={Login}></Route>)}
+
               <PrivateRoute path="/profile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={Profile} />
               <Route path="/login" render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>
               <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>
-              <PrivateRoute path="/VacationRequests" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationRequests}/>
-              <PrivateRoute path="/CreateVacationRequest" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={CreateVacationRequest}/>
-              <PrivateRoute path="/ViewVacationRequest" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ViewVacationRequest}/>
+              <PrivateRoute path="/VacationRequests" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationRequests} />
+              <PrivateRoute path="/CreateVacationRequest" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={CreateVacationRequest} />
+              <PrivateRoute path="/ViewVacationRequest" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ViewVacationRequest} />
               <PrivateRoute path="/ViewRequestHistory" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ViewRequestHistory} />
               <PrivateRoute path="/CreateIneligiblePeriod" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={CreateIneligiblePeriod} />
               <PrivateRoute path="/ApplicationSettings" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ApplicationSettings} />
