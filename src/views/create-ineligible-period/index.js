@@ -1,7 +1,5 @@
 import React, {Component} from "react";
-import ApplicationFrame from '../../components/application-frame/index';
 import {Modal, Button} from 'react-bootstrap';
-import Cookies from 'universal-cookie';
 
 
 
@@ -37,14 +35,9 @@ class CreateIneligiblePeriod extends Component{
         const handleClose = () => this.setState({show:false});
         const handleShow = () => this.setState({show:true});
 
-        const cookie = new Cookies();
-        const role = cookie.get('info').role;
-
-
-        if (role === 'admin') {
-            return(
+        return(
             <div>
-                <Button type="primary" onClick={handleShow}>Create ineligible period</Button>
+                <Button onClick={handleShow}>Create ineligible period</Button>
                 <Modal show={this.state.show} onHide={handleClose}>
                     <Modal.Header closeButton>
                         <Modal.Title>Create ineligible period</Modal.Title>
@@ -64,12 +57,7 @@ class CreateIneligiblePeriod extends Component{
                 </Modal>
             </div>
         )
-    } else {
-        return(<div></div>)
-    }
-        
-        
-    }
+    } 
 }
 
 export default CreateIneligiblePeriod;

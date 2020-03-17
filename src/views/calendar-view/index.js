@@ -8,6 +8,8 @@ import CalendarLabel from '../../components/calendar-label/';
 import './calendar-view.css';
 import { MDBBtn } from "mdbreact";
 import { Link } from 'react-router-dom';
+//import CreateIneligiblePeriod from '../create-ineligible-period/';
+import CreateIneligiblePeriod from '../../views/create-ineligible-period/index';
 
 
 function CalendarView(props) {
@@ -84,7 +86,8 @@ function CalendarView(props) {
                     </Col>
                     <Col className="my-4 text-right my-auto">
                         <Link to="/CreateVacationRequest"><MDBBtn className="btn btn-elegant mr-2">Create vacation request</MDBBtn></Link>
-                        <Link to="/CreateIneligiblePeriod"><MDBBtn className="btn btn-elegant">Create ineligible period</MDBBtn></Link>
+                        {/*<Link to="/CreateIneligiblePeriod"><MDBBtn className="btn btn-elegant">Create ineligible period</MDBBtn></Link>*/}
+                        <CreateIneligiblePeriod/>
                     </Col>
                 </Row>
 
