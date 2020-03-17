@@ -9,7 +9,6 @@ class VacationSettings extends Component{
     render() {
         return (
             <div>
-                <ApplicationFrame />
                 <div className="settingsContent">
                     <h1>Vacation settings</h1>
                     <Button> Change max vacation period </Button> <br/> <br/>
