@@ -8,7 +8,7 @@ function Profile(props){
     
     useEffect(() =>{
         if(count < 3){
-            createVacationRequest()
+            getOtherUser(2)
             .then(response => {
               console.log("HELLOOO ",response); 
             }).catch(error => {

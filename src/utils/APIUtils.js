@@ -65,7 +65,8 @@ export function createVacationRequest() {
         url: API_BASE_URL +`/request`,
         method: 'POST',
         body: JSON.stringify({
-        tittle: "First Request",
+        request_id : -1,
+        title: "First Request",
         period_start: "12122020",
         period_end: "14122020",
   }),
