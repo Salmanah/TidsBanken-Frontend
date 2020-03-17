@@ -9,7 +9,7 @@ const SearchSelect = props => {
             className='react-select-container' //class needed to style the search-select
             classNamePrefix="react-select" //prefix needed to style the search-select
             value={props.selectedOption}
-            onChange={props.handleChange}
+            onChange={props.change}
             options={props.options}
         />
     );
