@@ -45,17 +45,6 @@ export function getOtherUser(id) {
     });
 }
 
-export function getOtherUser(id) {
-    if(!localStorage.getItem(ACCESS_TOKEN)) {
-        return Promise.reject("No access token set.");
-    }
-    console.log("SENDING REQUEST TO BACKEND for OTHER USER ",API_BASE_URL+`/user/${id}`)
-    return request({
-        url: API_BASE_URL +`/user/${id}`,
-        method: 'GET'
-    });
-}
-
 export function login(loginRequest) {
     console.log("HERE IS THE REQUEST ",loginRequest)
     return request({
