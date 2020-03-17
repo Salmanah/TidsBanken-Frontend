@@ -75,7 +75,6 @@ function CalendarView() {
 
     return (
         <div>
-            <ApplicationFrame />
             <Container className="contentContainer">
                 <Row>
                     <Col>

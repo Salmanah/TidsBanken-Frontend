@@ -38,7 +38,6 @@ class UserProfile extends Component{
     render() {
         return(
             <div>
-                <ApplicationFrame/>
                 <h1>User profile</h1>
                 <p>Name: {this.state.name}</p>  
                 <p>Email: {this.state.email} <Button variant="outline-secondary" size="sm" onClick={e => this.editClick(e)}><EditIcon /></Button></p>
