@@ -67,11 +67,24 @@ export function createVacationRequest() {
         body: JSON.stringify({
         request_id : -1,
         title: "First Request",
-        period_start: "12122020",
-        period_end: "14122020",
+        period_start: "04042020",
+        period_end: "08082020",
   }),
     });
 }
+
+export function getUserRequestsById(id) {
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+    console.log("SENDING REQUEST TO BACKEND ",API_BASE_URL+`/user/${id}/requests`)
+    return request({
+        url: API_BASE_URL +`/user/${id}/requests`,
+        method: 'GET'
+    });
+}
+
+
 
 export function login(loginRequest) {
     console.log("HERE IS THE REQUEST ",loginRequest)
