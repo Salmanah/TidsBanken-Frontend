@@ -90,19 +90,37 @@ function CalendarView(props) {
                     </Col>
                 </Row>
 
-                <Row>
-                    <Col md={{ span: 5 }}>
-                        <CalendarSwitch isChecked={checked} toggleChecked={handleToggleChecked} />
-                    </Col>
-                    <Col md={{ span: 4 }}>
-                        {checked ? <CalendarSearchSelect options={selectedPeople} change={handleChange} /> : null}
-                    </Col>
-                </Row>
-                <Row>
-                    <Col className="mx-5 my-2 p-2">
-                        {checked ? selectedPeopleBadges : null}
-                    </Col>
-                </Row>
+
+                {props.admin ?
+                    (<>
+                        <Row>
+                            <Col>
+                                <CalendarSearchSelect options={selectedPeople} change={handleChange} />
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col className="mx-5 my-2 p-2">
+                                {selectedPeopleBadges}
+                            </Col>
+                        </Row>
+                    </>)
+                    :
+                    (<>
+                        <Row>
+                            <Col md={{ span: 5 }}>
+                                <CalendarSwitch isChecked={checked} toggleChecked={handleToggleChecked} />
+                            </Col>
+                            <Col md={{ span: 4 }}>
+                                {checked ? <CalendarSearchSelect options={selectedPeople} change={handleChange} /> : null}
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col className="mx-5 my-2 p-2">
+                                {checked ? selectedPeopleBadges : null}
+                            </Col>
+                        </Row>
+                    </>)
+                }
                 <Row>
                     <Col>
                         <Calendar />
