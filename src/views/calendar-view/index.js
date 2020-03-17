@@ -94,7 +94,7 @@ function CalendarView(props) {
                 {props.admin ?
                     (<>
                         <Row>
-                            <Col>
+                            <Col md={5}>
                                 <CalendarSearchSelect options={selectedPeople} change={handleChange} />
                             </Col>
                         </Row>
@@ -107,10 +107,10 @@ function CalendarView(props) {
                     :
                     (<>
                         <Row>
-                            <Col md={{ span: 5 }}>
+                            <Col md={5}>
                                 <CalendarSwitch isChecked={checked} toggleChecked={handleToggleChecked} />
                             </Col>
-                            <Col md={{ span: 4 }}>
+                            <Col md={4}>
                                 {checked ? <CalendarSearchSelect options={selectedPeople} change={handleChange} /> : null}
                             </Col>
                         </Row>
