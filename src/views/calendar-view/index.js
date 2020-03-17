@@ -56,8 +56,8 @@ function CalendarView() {
         }
     };
 
-    let selectedPeopleBadges = selectedPeople.map((person) => {
-        return <CalendarBadge key={person.value} name={person.value} />
+    let selectedPeopleBadges = selectedOptions.map((person) => {
+        return <CalendarBadge key={person.value} name={person.value} delete={() => handleDelete(person.value)} />
     });
 
     const handleToggleChecked = () => {
@@ -72,10 +72,8 @@ function CalendarView() {
         setSelectedOptions(newArray);
     }
 
-
     return (
         <div>
-            <ApplicationFrame />
             <Container className="contentContainer">
                 <Row>
                     <Col>
@@ -93,7 +91,6 @@ function CalendarView() {
                 <Row>
                     <Col className="mx-5 my-2 p-2">
                         {checked ? selectedPeopleBadges : null}
-
                     </Col>
                 </Row>
                 <Row>

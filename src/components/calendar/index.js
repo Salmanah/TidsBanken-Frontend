@@ -150,10 +150,10 @@ function Calendar() {
 
     function setYear(year) {
 
-        let dateObject = Object.assign({}, dateObject);
-        dateObject = moment(dateObject).set("year", year);
+        let newDateObject = Object.assign({}, dateObject);
+        newDateObject = moment(newDateObject).set("year", year);
 
-        setDateObject(dateObject)
+        setDateObject(newDateObject)
         setShowMonthTable(!showMonthTable)
         setShowYearTable(!showYearTable)
 
