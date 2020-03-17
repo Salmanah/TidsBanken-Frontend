@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Calendar from "../../components/calendar";
 import CalendarBadge from "../../components/calendar-badge/";
 import CalendarSearchSelect from "../../components/calendar-search-select/";
@@ -13,7 +13,6 @@ import CreateIneligiblePeriod from '../../views/create-ineligible-period/index';
 
 
 function CalendarView(props) {
-    console.log(props)
 
     const [checked, setChecked] = React.useState(false);
 
@@ -46,6 +45,22 @@ function CalendarView(props) {
         { value: 'Ida Susanne Rud', label: 'Ida Susanne Rud' },
         { value: 'Malin Rud', label: 'Malin Rud' }
     ]);
+
+    const [pendingDates, setPendingDates] = React.useState([
+        { start: '2020-3-23', end: '2020-3-25' },
+        { start: '2020-4-3', end: '2020-4-7' }
+    ]);
+
+    const [ineligibleDates, setIneligibleDates] = React.useState([
+        { start: '2020-03-8', end: '2020-03-10' },
+        { start: '2020-04-9', end: '2020-04-11' }
+    ]);
+
+    const [approvedDates, setApprovedDates] = React.useState([
+        { start: '2020-03-12', end: '2020-03-15' },
+        { start: '2020-04-12', end: '2020-04-14' }
+    ]);
+
 
     const [selected] = React.useState([]);
     const [selectedOptions, setSelectedOptions] = React.useState(selected);
@@ -123,7 +138,7 @@ function CalendarView(props) {
                 }
                 <Row>
                     <Col>
-                        <Calendar />
+                        {props.admin ? <Calendar /> : <Calendar pending={pendingDates} approved={approvedDates} ineligible={ineligibleDates} />}
                     </Col>
                 </Row>
                 <Row>

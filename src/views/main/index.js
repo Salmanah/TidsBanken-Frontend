@@ -7,7 +7,7 @@ import { getCurrentUser } from '../../utils/APIUtils';
 
 function Main() {
 
-    const [admin, setAdmin] = React.useState(false);
+    const [admin, setAdmin] = React.useState(null);
 
     useEffect(() => {
         getCurrentUser()
@@ -19,11 +19,10 @@ function Main() {
 
     }, [])
 
-    console.log(admin)
 
     return (
         <div>
-            <CalendarView admin={admin} />
+            {admin !== null ? <CalendarView admin={admin} /> : null}
         </div>
     )
 }
