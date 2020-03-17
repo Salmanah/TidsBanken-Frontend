@@ -3,6 +3,9 @@ import ApplicationFrame from '../../components/application-frame/index';
 import EditIcon from '@material-ui/icons/Edit';
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import {Button} from 'react-bootstrap';
+import {List, ListItem, ListItemIcon, ListItemText, IconButton} from '@material-ui/core';
+import PersonIcon from '@material-ui/icons/Person';
+import MailIcon from '@material-ui/icons/Mail';
 
 class UserProfile extends Component{
 
@@ -16,21 +19,6 @@ class UserProfile extends Component{
         }
     }
 
-    componentDidMount(){
-        let url = "https://rickandmortyapi.com/api/character/1";
-        if (url === ""){
-            console.log("not fetching");
-        } else {
-            fetch(url)
-            .then(resp => resp.json())
-            .then(resp => {
-                console.log(resp);
-                console.log(resp.name)
-                //this.setState({name:resp.name, email:resp.email, profilePic: resp.profile_pic, isAdmin:resp.isAdmin})
-            })
-        }
-    }
-
     editClick(event){
         console.log("edit pushed");
     }
@@ -39,10 +27,18 @@ class UserProfile extends Component{
         return(
             <div>
                 <h1>User profile</h1>
-                <p>Name: {this.state.name}</p>  
-                <p>Email: {this.state.email} <Button variant="outline-secondary" size="sm" onClick={e => this.editClick(e)}><EditIcon /></Button></p>
-                <img src={this.state.profilePic} alt="No image"/><Button variant="outline-secondary" size="sm" onClick={e => this.editClick(e)}><EditIcon /></Button>
-               
+                <List>
+                    <ListItem>
+                        <ListItemIcon><PersonIcon/></ListItemIcon>
+                        <ListItemText>{this.props.currentUser.name}</ListItemText>
+                    </ListItem>
+                    <ListItem>
+                        <ListItemIcon><MailIcon/></ListItemIcon>
+                        <ListItemText>{this.props.currentUser.email}</ListItemText>
+                        <IconButton edge="end" aria-label="edit"><EditIcon/></IconButton>
+                    </ListItem>
+                </List>
+                <img src={this.props.currentUser.imageUrl} alt="No image"/><Button variant="outline-secondary" size="sm" onClick={e => this.editClick(e)}><EditIcon /></Button>
             </div>
         ) 
     }
