@@ -66,7 +66,7 @@ export function createVacationRequest() {
         method: 'POST',
         body: JSON.stringify({
         request_id : -1,
-        title: "First Request",
+        title: "Second Request",
         period_start: "04042020",
         period_end: "08082020",
   }),
@@ -80,6 +80,27 @@ export function getUserRequestsById(id) {
     console.log("SENDING REQUEST TO BACKEND ",API_BASE_URL+`/user/${id}/requests`)
     return request({
         url: API_BASE_URL +`/user/${id}/requests`,
+        method: 'GET'
+    });
+}
+
+export function getUserRequestAndApproved(id) {
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+    console.log("SENDING REQUEST TO BACKEND ",API_BASE_URL+`/request`)
+    return request({
+        url: API_BASE_URL +`/request`,
+        method: 'GET'
+    });
+}
+export function getAllVacationRequestsAsAdmin() {
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+    console.log("SENDING REQUEST TO BACKEND ",API_BASE_URL+`/admin/request`)
+    return request({
+        url: API_BASE_URL +`/admin/request`,
         method: 'GET'
     });
 }
