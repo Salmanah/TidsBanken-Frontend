@@ -12,7 +12,6 @@ class Users extends Component{
     render(){
         return(
             <div>
-                <ApplicationFrame/>
                 <div className="usersContent">
                     <h1> User settings </h1>
                     <CreateUser /> <br/>
