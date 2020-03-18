@@ -1,9 +1,6 @@
 import React, { useEffect } from "react";
 import moment from "moment";
 import "./Calendar.css";
-import { Col, Row } from "react-bootstrap";
-import { Badge } from '@material-ui/core/';
-import { People, ThreeDRotation } from '@material-ui/icons';
 
 /*
     Credit: 
@@ -13,24 +10,42 @@ import { People, ThreeDRotation } from '@material-ui/icons';
         https://www.youtube.com/watch?v=9U0uTNfY1UA&list=PLNIn9uF_2Il5xOLikexgi_yuG2f-LjInP
 */
 
-function Calendar() {
+function Calendar(props) {
     const [showYearTable, setShowYearTable] = React.useState(false);
     const [showMonthTable, setShowMonthTable] = React.useState(false);
     const [showDateTable, setShowDateTable] = React.useState(true);
     const [dateObject, setDateObject] = React.useState(moment());
-    const [allmonths, setAllmonths] = React.useState(moment.months());
+    const [allmonths] = React.useState(moment.months());
     const [selectedDay, setSelectedDay] = React.useState(null);
-    const [weekdayshort, setWeekdayshort] = React.useState(moment.weekdaysShort());
+    const [weekdayshort] = React.useState(moment.weekdaysShort());
 
     const [count, setCount] = React.useState(0);
 
     useEffect(() => {
-        ineligibleVacation();
-        approvedVacation();
-        pendingVacation();
-        //console.log(count);
-    }, [count, dateObject]);                // using a counter to trigger the render
+
+        if (props.ineligible) {
+            props.ineligible.forEach(date => {
+                ineligibleVacation(date.start, date.end);
+            });
+        }
+
+        if (props.approved) {
+            props.approved.forEach(date => {
+                approvedVacation(date.start, date.end);
+            });
+
+        }
+
+        if (props.pending) {
+            props.pending.forEach(date => {
+                pendingVacation(date.start, date.end);
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [count]);                // using a counter to trigger the render
     // because it doesn't render on changes to the dateObject on next() and prev()
+
+
 
     function daysInMonth() {
         return dateObject.daysInMonth();
@@ -40,9 +55,9 @@ function Calendar() {
     };
 
     // returns today's number of day for each month
-    function currentDay() {
+    /*function currentDay() {
         return dateObject.format("D");
-    };
+    };*/
 
     function firstDayOfMonth() {
         let firstDay = moment(dateObject)
@@ -159,32 +174,36 @@ function Calendar() {
 
     };
 
-    function onYearChange(e) {
-        setYear(e.target.value);
-    };
-
     function getDates(startDate, stopDate) {
         var dateArray = [];
-        var currentDate = moment(startDate);
-        stopDate = moment(stopDate);
-        while (currentDate <= stopDate) {
 
-            if (typeof startDate == 'object') { //small hack to separate the dates in calendar from the ones from vacations
+        if (typeof startDate == 'object') {  //small hack to separate the dates in calendar from the ones from vacations
+            let currentDate = moment(startDate);
+            stopDate = moment(stopDate, "YYYY");
+
+            while (currentDate <= stopDate) {
+
                 dateArray.push(moment(currentDate).format("YYYY"));
                 currentDate = moment(currentDate).add(1, "year");
-            } else {
+            }
+            return dateArray;
+
+        } else if (typeof startDate == 'string') {
+            let currentDate = moment(startDate, 'YYYY-MM-DD');
+            stopDate = moment(stopDate, 'YYYY-MM-DD');
+            while (currentDate <= stopDate) {
                 dateArray.push(moment(currentDate).format('YYYY-MM-DD'))
                 currentDate = moment(currentDate).add(1, 'days');
             }
+            return dateArray;
         }
-        return dateArray;
     }
 
     function YearTable(props) {
         let months = [];
         let nextten = moment()
             .set("year", props)
-            .add("year", 12)
+            .add(12, "year")
             .format("Y");
 
         let tenyear = getDates(props, nextten);
@@ -237,13 +256,13 @@ function Calendar() {
         console.log("SELECTED DAY: ", selectedDay);
     };
 
-    function ineligibleVacation() {
+    function ineligibleVacation(start, end) {
 
         let ineligibledays = [];
         let mm = dateObject.month() + 1;
 
         // the period that is ineligible for vacation
-        let ineligible = getDates("2020-03-3", "2020-03-7");
+        let ineligible = getDates(start, end);
 
         ineligible.forEach(element => {
             let el = element.split("-");
@@ -284,16 +303,17 @@ function Calendar() {
             let showDay = document.getElementById(`day${day}${month}${year()}`);
 
             if (showDay !== null) {
-                showDay.classList.add('ineligible');;
+                showDay.classList.add('ineligible');
+                showDay.style.backgroundColor = "grey"
             }
         });
     }
 
-    function approvedVacation() {
+    function approvedVacation(start, end) {
         let approvedDays = [];
         let month = dateObject.month() + 1;
         // the period that is approved for vacation
-        let approved = getDates("2020-3-10", "2020-3-15");
+        let approved = getDates(start, end);
 
         approved.forEach(element => {
             let el = element.split("-");
@@ -331,25 +351,27 @@ function Calendar() {
             let showDay = document.getElementById(`day${day}${month}${year()}`);
 
             if (showDay !== null) {
-                showDay.classList.add('approved');;
+                showDay.classList.add('approved');
+                showDay.style.backgroundColor = "green"
             }
         });
     }
 
     // function for pending vacation 
-    function pendingVacation() {
+    function pendingVacation(start, end) {
         let pendingDays = [];
         let month = dateObject.month() + 1;
         // the period that is ineligible for vacation
-        let pending = getDates("2020-03-24", "2020-05-20");
+        let pending = getDates(start, end);
 
         pending.forEach(element => {
             let el = element.split("-");
             // eslint-disable-next-line
-            if (el[1] == month && el[0] === year()) {
+            if (el[0] === year() && el[1] === "0" + month) {
 
                 pendingDays.push(el[2]); // push days
             }
+
         });
 
         if (pendingDays.length > 0) {
@@ -378,11 +400,15 @@ function Calendar() {
             }
 
             let showDay = document.getElementById(`day${day}${month}${year()}`);
+            //console.log(showDay)
 
             if (showDay !== null) {
                 //console.log(showDay)
-                showDay.classList.add('pending');;
+                showDay.classList.add('pending');
+                showDay.style.backgroundColor = "yellow"
+
             }
+
         });
     }
 
@@ -415,13 +441,16 @@ function Calendar() {
                     {d}
 
                 </span>
-                <span className="float-right pr-3">
-                    <Badge color="secondary" overlap="circle" badgeContent="2">
+                <span>1 pending</span><br />
+                <span>2 approved</span><br />
+                <span>3 denied</span>
+                {/*<span className="float-right pr-3">
+                     <Badge color="secondary" overlap="circle" badgeContent="2">
                         <People />
-                    </Badge>
-                </span>
+                </Badge>
+                </span>*/}
 
-            </td>
+            </td >
         );
     }
 
