@@ -55,8 +55,7 @@ export function getOtherUserAsAdmin(id) {
         method: 'GET'
     });
 }
-
-
+/*
 export function createVacationRequest() {
     if(!localStorage.getItem(ACCESS_TOKEN)) {
         return Promise.reject("No access token set.");
@@ -68,11 +67,11 @@ export function createVacationRequest() {
         body: JSON.stringify({
         request_id : -1,
         title: "First Request",
-        period_start: "04042020",
-        period_end: "08082020",
+        period_start: "03042020",
+        period_end: "03082020",
   }),
     });
-}
+}*/
 
 export function getUserRequestsById(id) {
     if(!localStorage.getItem(ACCESS_TOKEN)) {
@@ -85,7 +84,27 @@ export function getUserRequestsById(id) {
     });
 }
 
+export function getUserRequestAndApproved() {
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+    console.log("SENDING REQUEST TO BACKEND ",API_BASE_URL+`/request`)
+    return request({
+        url: API_BASE_URL +`/request`,
+        method: 'GET'
+    });
+}
 
+export function getAllUsers() {
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+    console.log("SENDING REQUEST TO BACKEND ",API_BASE_URL+`/users`)
+    return request({
+        url: API_BASE_URL +`/users`,
+        method: 'GET'
+    });
+}
 
 export function login(loginRequest) {
     console.log("HERE IS THE REQUEST ", loginRequest)
