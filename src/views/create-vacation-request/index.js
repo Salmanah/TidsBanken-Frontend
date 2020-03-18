@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { MDBBtn, MDBInput, MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody } from 'mdbreact';
 import './createVacationForm.css';
 import ApplicationFrame from '../../components/application-frame/index';
+import { createVacationRequest } from "../../utils/APIUtils";
+import { AddAlertTwoTone } from "@material-ui/icons";
 
 
 class CreateVacationRequest extends Component{
@@ -40,9 +42,16 @@ class CreateVacationRequest extends Component{
         console.log("Start date: " + this.state.startDate);
         console.log("End date: " + this.state.endingDate);
         console.log("Comment: " + this.state.comment);
+
+        createVacationRequest(this.state.title, this.state.startDate, this.state.endingDate).then(response => {
+            console.log("POST REQUEST RESPONSE: Request_id " + response)
+            alert("Request successfully submitted")
+            this.props.history.push("/")
+        })
+    }
         
         //Aner ikke om dette funker, usikker på hvordan jeg skal teste det
-        let url = "https://jsonplaceholder.typicode.com/posts";
+        /*let url = "https://jsonplaceholder.typicode.com/posts";
         fetch(url, {
             method: 'POST',
             body: this.state,
@@ -63,15 +72,12 @@ class CreateVacationRequest extends Component{
                 comment : ""
             })
         )
-
-    }
-
+    }*/
 
 
     render() {
         return (
             <div>
-            {/*<ApplicationFrame/>*/}
             <MDBContainer>
             <MDBRow>
             <MDBCol md="10">
