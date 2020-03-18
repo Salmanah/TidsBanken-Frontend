@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Switch } from '@material-ui/core/';
-import { Col } from "react-bootstrap";
 import './calendar-switch.css';
 
 const ToggleVacationsCalendar = props => {

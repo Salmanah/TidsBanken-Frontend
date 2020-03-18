@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Main from "./views/main/";
-import { Container } from "react-bootstrap";
-import { MDBBtn } from 'mdbreact';
 import 'mdbreact/dist/css/mdb.css'
 
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import CreateVacationRequest from './views/create-vacation-request/index';
 import ViewVacationRequest from './components/view-vacation-request';
 import ViewRequestHistory from './components/vacation-request-history/index';
@@ -15,9 +13,7 @@ import CreateIneligiblePeriod from './views/create-ineligible-period/index';
 import ApplicationSettings from './views/application-settings/index';
 import VacationRequests from './views/vacation-requests';
 
-
 import './App.css';
-
 
 import { getCurrentUser } from './utils/APIUtils';
 import { ACCESS_TOKEN } from './constants';
@@ -32,7 +28,6 @@ import Profile from './user/profile/Profile';
 import UserProfile from './views/user-profile/index';
 import Users from './views/users/index';
 import VacationSettings from './views/vacation-settings/index';
-
 
 class App extends Component {
   constructor(props) {
@@ -84,8 +79,6 @@ class App extends Component {
       return <LoadingIndicator />
     }
 
-    console.log("elissi", this.state.authenticated)
-
     return (
       <div className="app">
         <Router>
@@ -110,9 +103,9 @@ class App extends Component {
               <PrivateRoute path="/CreateIneligiblePeriod" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={CreateIneligiblePeriod} />
               <PrivateRoute path="/ApplicationSettings" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ApplicationSettings} />
               <PrivateRoute path="/VacationRequests" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationRequests} />
-              <PrivateRoute path="/UserProfile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={UserProfile}/>
-              <PrivateRoute path="/Users" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={Users}/>
-              <PrivateRoute path="/VacationSettings" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationSettings}/>
+              <PrivateRoute path="/UserProfile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={UserProfile} />
+              <PrivateRoute path="/Users" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={Users} />
+              <PrivateRoute path="/VacationSettings" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationSettings} />
               <Route component={NotFound}></Route>
             </Switch>
           </div>
