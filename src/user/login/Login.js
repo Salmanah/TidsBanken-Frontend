@@ -3,6 +3,8 @@ import {Redirect} from 'react-router-dom';
 import {GOOGLE_AUTH_URL, ACCESS_TOKEN} from '../../constants';
 import {login} from '../../utils/APIUtils';
 import Alert from 'react-s-alert';
+import './login.css';
+import {Button} from 'react-bootstrap';
 
 
 class Login extends Component{
@@ -32,12 +34,15 @@ class Login extends Component{
         }
 
         return (
-            <div className="login-container">
+            <div className="loginPageContainer">
+                <div className="login-container">
                 <div className="login-constent">
-                    <h1 className="login-title">Login to our App</h1>
+                    <h1 className="login-title">Login to Tidsbanken vacation planner</h1>
                     <GoogleLogin/>
                 </div>
             </div>
+            </div>
+            
         )
     }
 }
@@ -48,9 +53,10 @@ class GoogleLogin extends Component{
     render(){
         return(
             <div className="social-login">
-                <a className="btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>
+                <Button href={GOOGLE_AUTH_URL}>Log in with Google</Button>
+                {/*<a className="btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>
                     <p>Log in with GOOGLE</p>
-                </a>
+                </a> */}
             </div>
         ); 
     }

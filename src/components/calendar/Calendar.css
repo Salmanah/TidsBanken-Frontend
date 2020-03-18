@@ -122,6 +122,7 @@
     position: relative;
     font-size: 14px;
     background-color: #ffffff;
+    z-index: 1;
   }
   .tail-datetime-calendar .calendar-date table tbody tr > * > span {
     color: inherit;

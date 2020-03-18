@@ -35,6 +35,7 @@ export function getCurrentUser() {
 }
  
 export function getOtherUser(id) {
+
     if (!localStorage.getItem(ACCESS_TOKEN)) {
         return Promise.reject("No access token set.");
     }

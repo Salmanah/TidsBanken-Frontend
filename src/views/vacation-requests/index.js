@@ -22,7 +22,6 @@ class VacationRequests extends Component{
 
         return(
             <div>
-                <ApplicationFrame parentProps={this.props}/>
                 <div className="vacationRequestContent">
                     <h3>This is the request list of user with id: {this.props.currentUser.id}</h3>
                     <h4>Name: {this.props.currentUser.name}</h4>
