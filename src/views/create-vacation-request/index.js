@@ -11,6 +11,7 @@ class CreateVacationRequest extends Component{
     constructor(props){
         super(props);
         this.state = {
+            maxVacationLength : 21, //skal kunne endres av admin i settings
             title : "",
             startDate : "",
             endingDate : "",
@@ -43,39 +44,49 @@ class CreateVacationRequest extends Component{
         console.log("End date: " + this.state.endingDate);
         console.log("Comment: " + this.state.comment);
 
+        this.validateVacationPeriod(this.state.startDate, this.state.endingDate) ? (
+            console.log("period ok")
+            ) : (
+            console.log("period not ok")
+            );
+
+        
+        /*
         createVacationRequest(this.state.title, this.state.startDate, this.state.endingDate).then(response => {
             console.log("POST REQUEST RESPONSE: Request_id " + response)
             alert("Request successfully submitted")
             this.props.history.push("/")
-        })
+        })*/
     }
-        
-        //Aner ikke om dette funker, usikker på hvordan jeg skal teste det
-        /*let url = "https://jsonplaceholder.typicode.com/posts";
-        fetch(url, {
-            method: 'POST',
-            body: this.state,
-            headers: {
-                "Content-type" : "application/json, charset=UTF-8"
-            }
-        }).then(response => {
-            console.log("Got response")
-            this.props.history.push("/") //redirect after got response
-            //return response.json()
-        }).then(json => {
-            console.log(json);
-        }).then(
-            this.setState({
-                title: "",
-                startDate : "",
-                endingDate : "",
-                comment : ""
-            })
-        )
-    }*/
+
+
+    validateVacationPeriod(startDate, endingDate){
+        return false;
+    }
+
+    getFormattedDate(date){
+        //var today = new Date();
+        var dd = String(date.getDate()).padStart(2, '0');
+        var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = date.getFullYear();
+        return yyyy+"-"+mm+"-"+dd;
+    }
+
+    addDays(date, days) {
+        var result = new Date(date);
+        result.setDate(result.getDate() + days);
+        return result;
+      }
 
 
     render() {
+
+        let today = new Date();
+        let maxEndDate = this.addDays(this.state.startDate, this.state.maxVacationLength);
+        let minEndDate = this.addDays(this.state.startDate, 1);
+
+        
+
         return (
             <div>
             <MDBContainer>
@@ -90,7 +101,6 @@ class CreateVacationRequest extends Component{
                         </label>
                         <input
                         type="text"
-                        id="defaultFormCardNameEx"
                         className="form-control"
                         value ={this.state.title}
                         onChange={e => this.handleTitleChange(e)}
@@ -104,7 +114,8 @@ class CreateVacationRequest extends Component{
                         <input 
                             type="date"
                             className="form-control"
-                            onChange={e => this.handleEndDateChange(e)}
+                            min={this.getFormattedDate(today)}
+                            onChange={e => this.handleStartDateChange(e)}
                             required
                             />
                         <br/>
@@ -114,7 +125,9 @@ class CreateVacationRequest extends Component{
                         <input 
                             type="date"
                             className="form-control"
-                            onChange={e => this.handleStartDateChange(e)}
+                            min={this.getFormattedDate(minEndDate)}
+                            max={this.getFormattedDate(maxEndDate)}
+                            onChange={e => this.handleEndDateChange(e)}
                             required
                             />
                         <br/>
@@ -130,7 +143,7 @@ class CreateVacationRequest extends Component{
                         <div className="text-center py-4 mt-3">
                             <button type="button" className="btn btn-primary" onClick={e => this.handleSubmitClick(e)}>
                                 Submit
-                            </button>
+                             </button>
                         </div>
                     </form>
                 </MDBCardBody>
