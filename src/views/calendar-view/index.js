@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Calendar from "../../components/calendar";
 import CalendarBadge from "../../components/calendar-badge/";
 import CalendarSearchSelect from "../../components/calendar-search-select/";
@@ -8,7 +8,6 @@ import CalendarLabel from '../../components/calendar-label/';
 import './calendar-view.css';
 import { MDBBtn } from "mdbreact";
 import { Link } from 'react-router-dom';
-//import CreateIneligiblePeriod from '../create-ineligible-period/';
 import CreateIneligiblePeriod from '../../views/create-ineligible-period/index';
 
 
@@ -16,55 +15,53 @@ function CalendarView(props) {
 
     const [checked, setChecked] = React.useState(false);
 
-    const [selectedPeople, setSelectedPeople] = React.useState([
-        { value: 'Ola Helgesen', label: 'Ola Helgesen' },
-        { value: 'Heidi Furnes', label: 'Heidi Furnes' },
-        { value: 'Åge Alexandersson', label: 'Åge Alexandersson' },
-        { value: 'Arne Hoie', label: 'Arne Hoie' },
-        { value: 'Hege Aarnes', label: 'Hege Aarnes' },
-        { value: 'Ørjan Sagstuen', label: 'Ørjan Sagstuen' },
-        { value: 'Pernille Frisli', label: 'Pernille Frisli' },
-        { value: 'Cecilie Nordstrand', label: 'Cecilie Nordstrand' },
-        { value: 'Rasmus Andersen', label: 'Rasmus Andersen' },
-        { value: 'Marie Nes', label: 'Marie Nes' },
-        { value: 'Suzanne Smith', label: 'Suzanne Smith' },
-        { value: 'Cecilie Andersen', label: 'Cecilie Andersen' },
-        { value: 'Phong Fui', label: 'Phong Fui' },
-        { value: 'Kim-Andrè Mernes', label: 'Kim-Andrè Mernes' },
-        { value: 'Ahmet Finasso', label: 'Ahmet Finasso' },
-        { value: 'Henrik Eriksson', label: 'Henrik Eriksson' },
-        { value: 'Anita Rud Rosenborg', label: 'Anita Rud Rosenborg' },
-        { value: 'Espen Medlien', label: 'Espen Medlien' },
-        { value: 'Jorunn Elisabeth Rud', label: 'Jorunn Elisabeth Rud' },
-        { value: 'Torkel Medlien', label: 'Torkel Medlien' },
-        { value: 'Marit Dybsand', label: 'Marit Dybsand' },
-        { value: 'Carl-Emil Rud Engelberg', label: 'Carl-Emil Rud Engelberg' },
-        { value: 'Tonje Athina Rud Engelberg', label: 'Tonje Athina Rud Engelberg' },
-        { value: 'Dennis Rud Rosenborg', label: 'Dennis Rud Rosenborg' },
-        { value: 'Daniel Medlien', label: 'Daniel Medlien' },
-        { value: 'Ida Susanne Rud', label: 'Ida Susanne Rud' },
-        { value: 'Malin Rud', label: 'Malin Rud' }
+    const [selectedPeople] = React.useState([
+        { value: 1, label: 'Ola Helgesen' },
+        { value: 2, label: 'Hevaluei Furnes' },
+        { value: 3, label: 'Åge Alexandersson' },
+        { value: 4, label: 'Arne Hoie' },
+        { value: 5, label: 'Hege Aarnes' },
+        { value: 6, label: 'Ørjan Sagstuen' },
+        { value: 7, label: 'Pernille Frisli' },
+        { value: 8, label: 'Cecilie Nordstrand' },
+        { value: 9, label: 'Rasmus Andersen' },
+        { value: 10, label: 'Marie Nes' },
+        { value: 11, label: 'Suzanne Smith' },
+        { value: 12, label: 'Cecilie Andersen' },
+        { value: 13, label: 'Phong Fui' },
+        { value: 14, label: 'Kim-Andrè Mernes' },
+        { value: 15, label: 'Ahmet Finasso' },
+        { value: 16, label: 'Henrik Eriksson' },
+        { value: 17, label: 'Anita Rud Rosenborg' },
+        { value: 18, label: 'Espen Medlien' },
+        { value: 19, label: 'Jorunn Elisabeth Rud' },
+        { value: 20, label: 'Torkel Medlien' },
+        { value: 21, label: 'Marit Dybsand' },
+        { value: 22, label: 'Carl-Emil Rud Engelberg' },
+        { value: 23, label: 'Tonje Athina Rud Engelberg' },
+        { value: 24, label: 'Dennis Rud Rosenborg' },
+        { value: 25, label: 'Daniel Medlien' },
+        { value: 26, label: 'valuea Susanne Rud' },
+        { value: 27, label: 'Malin Rud' }
     ]);
 
-    const [pendingDates, setPendingDates] = React.useState([
-        { start: '2020-3-23', end: '2020-3-25' },
-        { start: '2020-4-3', end: '2020-4-7' }
+    const [pendingDates] = React.useState([
+        { start: '2020-03-03', end: '2020-3-7' },
+        { start: '2020-05-3', end: '2020-05-7' }
     ]);
 
-    const [ineligibleDates, setIneligibleDates] = React.useState([
-        { start: '2020-03-8', end: '2020-03-10' },
-        { start: '2020-04-9', end: '2020-04-11' }
+    const [ineligibleDates] = React.useState([
+        { start: '2020-04-9', end: '2020-04-11' },
+        { start: '2020-03-9', end: '2020-03-11' }
     ]);
 
-    const [approvedDates, setApprovedDates] = React.useState([
+    const [approvedDates] = React.useState([
         { start: '2020-03-12', end: '2020-03-15' },
         { start: '2020-04-12', end: '2020-04-14' }
     ]);
 
-
     const [selected] = React.useState([]);
     const [selectedOptions, setSelectedOptions] = React.useState(selected);
-
 
     const handleChange = selectedOption => {
         let alreadySelected = selectedOptions.includes(selectedOption);
@@ -77,7 +74,7 @@ function CalendarView(props) {
     };
 
     let selectedPeopleBadges = selectedOptions.map((person) => {
-        return <CalendarBadge key={person.value} name={person.value} delete={() => handleDelete(person.value)} />
+        return <CalendarBadge key={person.value} name={person.label} delete={() => handleDelete(person.value)} />
     });
 
     const handleToggleChecked = () => {
@@ -100,11 +97,9 @@ function CalendarView(props) {
                         <h1>My calendar</h1>
                     </Col>
                     <Col className="my-4 text-right my-auto">
-
                         {props.admin ? <CreateIneligiblePeriod /> : <Link to="/CreateVacationRequest"><MDBBtn className="btn btn-elegant mr-2">Create vacation request</MDBBtn></Link>}
                     </Col>
                 </Row>
-
 
                 {props.admin ?
                     (<>
@@ -138,7 +133,7 @@ function CalendarView(props) {
                 }
                 <Row>
                     <Col>
-                        {props.admin ? <Calendar /> : <Calendar pending={pendingDates} approved={approvedDates} ineligible={ineligibleDates} />}
+                        {props.admin ? <Calendar ineligible={ineligibleDates} /> : <Calendar pending={pendingDates} approved={approvedDates} ineligible={ineligibleDates} />}
                     </Col>
                 </Row>
                 <Row>

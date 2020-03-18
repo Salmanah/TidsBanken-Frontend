@@ -1,9 +1,6 @@
 import React, { useEffect } from "react";
 import moment from "moment";
 import "./Calendar.css";
-import { Col, Row } from "react-bootstrap";
-import { Badge } from '@material-ui/core/';
-import { People, ThreeDRotation } from '@material-ui/icons';
 
 /*
     Credit: 
@@ -18,9 +15,9 @@ function Calendar(props) {
     const [showMonthTable, setShowMonthTable] = React.useState(false);
     const [showDateTable, setShowDateTable] = React.useState(true);
     const [dateObject, setDateObject] = React.useState(moment());
-    const [allmonths, setAllmonths] = React.useState(moment.months());
+    const [allmonths] = React.useState(moment.months());
     const [selectedDay, setSelectedDay] = React.useState(null);
-    const [weekdayshort, setWeekdayshort] = React.useState(moment.weekdaysShort());
+    const [weekdayshort] = React.useState(moment.weekdaysShort());
 
     const [count, setCount] = React.useState(0);
 
@@ -34,20 +31,18 @@ function Calendar(props) {
 
         if (props.approved) {
             props.approved.forEach(date => {
-                pendingVacation(date.start, date.end);
+                approvedVacation(date.start, date.end);
             });
 
         }
 
         if (props.pending) {
             props.pending.forEach(date => {
-                approvedVacation(date.start, date.end);
+                pendingVacation(date.start, date.end);
             });
         }
-
-
-
-    }, [count, dateObject]);                // using a counter to trigger the render
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [count]);                // using a counter to trigger the render
     // because it doesn't render on changes to the dateObject on next() and prev()
 
 
@@ -60,9 +55,9 @@ function Calendar(props) {
     };
 
     // returns today's number of day for each month
-    function currentDay() {
+    /*function currentDay() {
         return dateObject.format("D");
-    };
+    };*/
 
     function firstDayOfMonth() {
         let firstDay = moment(dateObject)
@@ -179,32 +174,36 @@ function Calendar(props) {
 
     };
 
-    function onYearChange(e) {
-        setYear(e.target.value);
-    };
-
     function getDates(startDate, stopDate) {
         var dateArray = [];
-        var currentDate = moment(startDate);
-        stopDate = moment(stopDate);
-        while (currentDate <= stopDate) {
 
-            if (typeof startDate == 'object') { //small hack to separate the dates in calendar from the ones from vacations
+        if (typeof startDate == 'object') {  //small hack to separate the dates in calendar from the ones from vacations
+            let currentDate = moment(startDate);
+            stopDate = moment(stopDate, "YYYY");
+
+            while (currentDate <= stopDate) {
+
                 dateArray.push(moment(currentDate).format("YYYY"));
                 currentDate = moment(currentDate).add(1, "year");
-            } else {
+            }
+            return dateArray;
+
+        } else if (typeof startDate == 'string') {
+            let currentDate = moment(startDate, 'YYYY-MM-DD');
+            stopDate = moment(stopDate, 'YYYY-MM-DD');
+            while (currentDate <= stopDate) {
                 dateArray.push(moment(currentDate).format('YYYY-MM-DD'))
                 currentDate = moment(currentDate).add(1, 'days');
             }
+            return dateArray;
         }
-        return dateArray;
     }
 
     function YearTable(props) {
         let months = [];
         let nextten = moment()
             .set("year", props)
-            .add("year", 12)
+            .add(12, "year")
             .format("Y");
 
         let tenyear = getDates(props, nextten);
@@ -442,13 +441,16 @@ function Calendar(props) {
                     {d}
 
                 </span>
-                <span className="float-right pr-3">
-                    <Badge color="secondary" overlap="circle" badgeContent="2">
+                <span>1 pending</span><br />
+                <span>2 approved</span><br />
+                <span>3 denied</span>
+                {/*<span className="float-right pr-3">
+                     <Badge color="secondary" overlap="circle" badgeContent="2">
                         <People />
-                    </Badge>
-                </span>
+                </Badge>
+                </span>*/}
 
-            </td>
+            </td >
         );
     }
 
