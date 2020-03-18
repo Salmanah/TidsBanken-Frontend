@@ -1,67 +1,64 @@
 import React, { Component } from "react";
 import './viewVacationRequest.css';
-import {List, ListItem, Divider, Collapse, ListItemText} from '@material-ui/core';
-import {ExpandLess, ExpandMore} from '@material-ui/icons';
+import { List, ListItem, Divider, Collapse, ListItemText } from '@material-ui/core';
+import { ExpandLess, ExpandMore } from '@material-ui/icons';
 import EditIcon from '@material-ui/icons/Edit';
-import ApplicationFrame from '../application-frame/index';
-
-
 
 //Tar inn en request id og displayer korresponderende request
-class ViewVacationRequest extends Component{
+class ViewVacationRequest extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
-            commentRevealed : false
+            commentRevealed: false
         }
     }
 
-    handleViewComments(event){
-        this.setState({commentRevealed : !this.state.commentRevealed})
+    handleViewComments(event) {
+        this.setState({ commentRevealed: !this.state.commentRevealed })
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <div>
                 <div className="vacationRequestContent">
-                <h1>Vacation request</h1>
-                <List>
-                    <ListItem>
-                        <ListItemText>Title:</ListItemText> <EditIcon/>
-                    </ListItem>
-                    <Divider/>
-                    <ListItem button>
-                        <ListItemText>Owner:</ListItemText>
-                    </ListItem>
-                    <Divider/>
-                    <ListItem>
-                        <ListItemText>Period:</ListItemText> <EditIcon/>
-                    </ListItem>
-                    <Divider/>
-                    <ListItem>
-                        <ListItemText> Status:</ListItemText>
-                    </ListItem>
-                    <Divider/>
-                    <ListItem button onClick={e => this.handleViewComments(e)} >
-                        <ListItemText>Comments</ListItemText>
-                        {this.state.commentRevealed ? <ExpandLess/> : <ExpandMore/>}
-                    </ListItem>
-                    <Collapse in={this.state.commentRevealed} timeout="auto" unmountOnExit>
-                        <List>
-                            <ListItem>
-                            "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
+                    <h1>Vacation request</h1>
+                    <List>
+                        <ListItem>
+                            <ListItemText>Title:</ListItemText> <EditIcon />
+                        </ListItem>
+                        <Divider />
+                        <ListItem button>
+                            <ListItemText>Owner:</ListItemText>
+                        </ListItem>
+                        <Divider />
+                        <ListItem>
+                            <ListItemText>Period:</ListItemText> <EditIcon />
+                        </ListItem>
+                        <Divider />
+                        <ListItem>
+                            <ListItemText> Status:</ListItemText>
+                        </ListItem>
+                        <Divider />
+                        <ListItem button onClick={e => this.handleViewComments(e)} >
+                            <ListItemText>Comments</ListItemText>
+                            {this.state.commentRevealed ? <ExpandLess /> : <ExpandMore />}
+                        </ListItem>
+                        <Collapse in={this.state.commentRevealed} timeout="auto" unmountOnExit>
+                            <List>
+                                <ListItem>
+                                    "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
                             </ListItem>
-                        </List>
-                    </Collapse>
-                </List>
+                            </List>
+                        </Collapse>
+                    </List>
 
 
+
+                </div>
 
             </div>
 
-            </div>
-            
         )
     }
 }
@@ -73,7 +70,7 @@ export default ViewVacationRequest;
 
 
 
-{/*
+/*
 
 class ViewVacationRequest extends Component{
 
@@ -82,13 +79,13 @@ class ViewVacationRequest extends Component{
         this.state = {
             owner : "No owner",
             title : "No title",
-            startDate : "No start date", 
+            startDate : "No start date",
             endDate : "No end date",
             comment : "No comment",
             status : "No status"
         }
     }
-    
+
 
 
     componentDidMount(){
@@ -122,7 +119,7 @@ class ViewVacationRequest extends Component{
                         comment: comments
                     })
                 }).catch(err => console.log(err))
-                
+
                 //GET /request/:status_id/status
                 fetch(url)
                 .then(resp => resp.json())
@@ -154,4 +151,4 @@ class ViewVacationRequest extends Component{
         </div>)
 
     }
-*/}
+*/
