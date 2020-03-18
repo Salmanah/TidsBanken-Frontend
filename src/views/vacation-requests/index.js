@@ -9,6 +9,7 @@ import Cookies from 'universal-cookie';
 import './vacationRequests.css';
 import {List, ListItem, Divider} from '@material-ui/core';
 import RequestListItem from '../../components/requestListItem/index';
+import { getVacationRequests, createVacationRequest } from "../../utils/APIUtils";
 
 class VacationRequests extends Component{
     constructor(props) {
@@ -17,8 +18,8 @@ class VacationRequests extends Component{
 
 
     render(){
-        console.log("In vacation requests")
-        console.log(this.props)
+        //console.log("In vacation requests")
+        //console.log(this.props)
 
         return(
             <div>

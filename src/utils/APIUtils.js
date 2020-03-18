@@ -56,19 +56,22 @@ export function getOtherUserAsAdmin(id) {
 }
 
 
-export function createVacationRequest() {
+export function createVacationRequest(requestTitle, requestPeriodStart, requestPeriodEnd) {
     if(!localStorage.getItem(ACCESS_TOKEN)) {
         return Promise.reject("No access token set.");
     }
-    console.log("SENDING REQUEST TO BACKEND ",API_BASE_URL+`/request`)
+    console.log("SENDING POST REQUEST TO BACKEND ",API_BASE_URL+`/request`)
     return request({
         url: API_BASE_URL +`/request`,
         method: 'POST',
         body: JSON.stringify({
         request_id : -1,
-        title: "First Request",
-        period_start: "12122020",
-        period_end: "14122020",
+        //title: "First Request",
+        //period_start: "12122020",
+        //period_end: "14122020",
+        title : requestTitle, 
+        period_start : requestPeriodStart,
+        period_end : requestPeriodEnd
   }),
     });
 }
