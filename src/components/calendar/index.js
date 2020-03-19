@@ -21,32 +21,71 @@ function Calendar(props) {
 
     const [count, setCount] = React.useState(0);
 
+    const [pending, setPending] = React.useState([]);
+    const [approved, setApproved] = React.useState([]);
+    const [ineligible, setIneligible] = React.useState([]);
+
     useEffect(() => {
-
-        if (props.ineligible) {
-            props.ineligible.forEach(date => {
-                ineligibleVacation(date.start, date.end);
-            });
-        }
-
-        if (props.approved) {
-            props.approved.forEach(date => {
-                approvedVacation(date.start, date.end);
-            });
-
-        }
-
-        if (props.pending) {
-            props.pending.forEach(date => {
-                pendingVacation(date.start, date.end);
-            });
+        ineligibleVacation();
+        if (!props.checked) {
+            pendingVacation();
+            approvedVacation()
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [count]);                // using a counter to trigger the render
+    }, [count, props.checked, props.pending]);                // using a counter to trigger the render
     // because it doesn't render on changes to the dateObject on next() and prev()
 
+    function ineligibleVacation() {
+        let allInel = [];
+        let inel = [];
+        if (props.ineligible) {
+            props.ineligible.forEach(date => {
+                inel.push(getDates(date.start, date.end));
+            });
+        }
 
+        for (let i = 0; i < inel.length; i++) {
+            inel[i].forEach(element => {
+                allInel.push(element)
+            });
+        }
+        setIneligible(allInel)
 
+    }
+    function pendingVacation() {
+        let allPend = [];
+        let pend = [];
+        if (props.pending) {
+            props.pending.forEach(date => {
+                pend.push(getDates(date.start, date.end));
+            });
+        }
+
+        for (let i = 0; i < pend.length; i++) {
+            pend[i].forEach(element => {
+                allPend.push(element)
+            });
+        }
+        setPending(allPend)
+    }
+
+    function approvedVacation() {
+        let allAppr = [];
+        let appr = [];
+        if (props.approved) {
+            props.approved.forEach(date => {
+                appr.push(getDates(date.start, date.end));
+            });
+        }
+
+        for (let i = 0; i < appr.length; i++) {
+            appr[i].forEach(element => {
+                allAppr.push(element)
+            });
+        }
+        setApproved(allAppr)
+
+    }
     function daysInMonth() {
         return dateObject.daysInMonth();
     };
@@ -256,162 +295,6 @@ function Calendar(props) {
         console.log("SELECTED DAY: ", selectedDay);
     };
 
-    function ineligibleVacation(start, end) {
-
-        let ineligibledays = [];
-        let mm = dateObject.month() + 1;
-
-        // the period that is ineligible for vacation
-        let ineligible = getDates(start, end);
-
-        ineligible.forEach(element => {
-            let el = element.split("-");
-            // eslint-disable-next-line
-            if (el[1] == mm && el[0] === year()) {
-                ineligibledays.push(el[2]);
-            }
-        });
-
-        if (ineligibledays.length > 0) {
-            showIneligibleVacation(ineligibledays, mm);
-        } else { // for some reason the calendar does not always update the vacations on next() and prev() 
-            let el = document.getElementsByClassName("calendar-day");
-            for (let i = 0; i < el.length; i++) {
-
-                if (!el[i].className.includes("empty")) {
-                    if (
-                        el[i].className.includes("ineligible") ||
-                        el[i].className.includes("approved") ||
-                        el[i].className.includes("pending")) {
-                        el[i].className = "calendar-day";
-                    }
-                }
-            }
-        }
-    }
-
-    // adds class 'illegiable' to days that are illegiable for vacation
-    function showIneligibleVacation(ineligibledays, month) {
-
-        ineligibledays.forEach(day => {
-
-            if (day < 10) {
-                day = day.split("");
-                day = day[1];
-            }
-
-            let showDay = document.getElementById(`day${day}${month}${year()}`);
-
-            if (showDay !== null) {
-                showDay.classList.add('ineligible');
-                showDay.style.backgroundColor = "grey"
-            }
-        });
-    }
-
-    function approvedVacation(start, end) {
-        let approvedDays = [];
-        let month = dateObject.month() + 1;
-        // the period that is approved for vacation
-        let approved = getDates(start, end);
-
-        approved.forEach(element => {
-            let el = element.split("-");
-            // eslint-disable-next-line
-            if (el[1] == month && el[0] === year()) {
-                approvedDays.push(el[2]);
-            }
-        });
-
-        if (approvedDays.length > 0) {
-            showApprovedVacation(approvedDays, month);
-        } else {
-            let el = document.getElementsByClassName("calendar-day");
-
-            for (let i = 0; i < el.length; i++) {
-
-                if (!el[i].className.includes("empty")) {
-                    if (el[i].className.includes("approved")) {
-                        el[i].className = "calendar-day";
-                    }
-                }
-            }
-        }
-    }
-
-    // adds class 'approved' to days that are approved for vacation
-    function showApprovedVacation(approvedDays, month) {
-        approvedDays.forEach(day => {
-
-            if (day < 10) {
-                day = day.split("");
-                day = day[1];
-            }
-
-            let showDay = document.getElementById(`day${day}${month}${year()}`);
-
-            if (showDay !== null) {
-                showDay.classList.add('approved');
-                showDay.style.backgroundColor = "green"
-            }
-        });
-    }
-
-    // function for pending vacation 
-    function pendingVacation(start, end) {
-        let pendingDays = [];
-        let month = dateObject.month() + 1;
-        // the period that is ineligible for vacation
-        let pending = getDates(start, end);
-
-        pending.forEach(element => {
-            let el = element.split("-");
-            // eslint-disable-next-line
-            if (el[0] === year() && el[1] === "0" + month) {
-
-                pendingDays.push(el[2]); // push days
-            }
-
-        });
-
-        if (pendingDays.length > 0) {
-            showPendingVacation(pendingDays, month);
-
-        } else {
-            let el = document.getElementsByClassName("calendar-day");
-            for (let i = 0; i < el.length; i++) {
-
-                if (!el[i].className.includes("empty")) {
-                    if (el[i].className.includes("pending")) {
-                        el[i].className = "calendar-day";
-                    }
-                }
-            }
-        }
-    }
-
-    // adds class 'pending' to days that are pending for vacation
-    function showPendingVacation(pendingDays, month) {
-        pendingDays.forEach(day => {
-
-            if (day < 10) {
-                day = day.split("");
-                day = day[1];
-            }
-
-            let showDay = document.getElementById(`day${day}${month}${year()}`);
-            //console.log(showDay)
-
-            if (showDay !== null) {
-                //console.log(showDay)
-                showDay.classList.add('pending');
-                showDay.style.backgroundColor = "yellow"
-
-            }
-
-        });
-    }
-
     let weekdayshortname = weekdayshort.map(day => {
         return <th key={day}>{day}</th>;
     });
@@ -423,16 +306,63 @@ function Calendar(props) {
 
     for (let d = 1; d <= daysInMonth(); d++) {
 
+        if (d < 10) {
+            d = '0' + d;
+        }
+        let status = "";
+        let mm = moment().month(month()).format("MM");
+        if (!props.checked && pending.includes(year() + "-" + mm + "-" + d)) {
+            status = "pending";
+        }
+        else if (!props.checked && approved.includes(year() + "-" + mm + "-" + d)) {
+            status = "approved"
+
+        }
+        else if (ineligible.includes(year() + "-" + mm + "-" + d)) {
+            status = "ineligible"
+
+        } else {
+            status = "";
+        }
+        let lol;
+        if (props.checked) {
+            lol =
+                <>
+                    <p className="userVacation text-left mr-2">
+                        <span className="userPendingVacation px-1 mr-1">1</span>
+                        <em>pending</em>
+                    </p>
+                    <p className="userVacation text-left mr-2">
+                        <span className="userApprovedVacation px-1 mr-1">2</span>
+                        <em>approved</em>
+                    </p>
+                    <p className="userVacation text-left mr-2">
+                        <span className="circle userDeniedVacation px-1 mr-1">3</span>
+                        <em>denied</em>
+                    </p>
+                </>
+
+        } else {
+            lol = ""
+        }
+
+
+
+
+
 
         // eslint-disable-next-line 
         //let currentDay;
         //currentDay = d == currentDay() ? "today" : "";
-        let mm = moment().month(month()).format("M");
+
 
         //console.log(mm, moment().month())
 
+
         daysInMonthArray.push(
-            <td id={`day${d}${mm}${year()}`} key={d} className="calendar-day">
+
+            <td id={`${year()}-${mm}-${d}`} key={d} className={`calendar-day ${status}`}>
+                {/*`day${d}-${mm}-${year()}` === */}
                 <span className="calendar-number float-left pl-2"
                     onClick={e => {
                         onDayClick(e, d);
@@ -441,14 +371,7 @@ function Calendar(props) {
                     {d}
 
                 </span>
-                <p className="userVacation text-left mr-2"><span className="userPendingVacation px-1 mr-1">1 </span><em>pending</em></p>
-                <p className="userVacation text-left mr-2"><span className="userApprovedVacation px-1 mr-1">2 </span><em>approved</em></p>
-                <p className="userVacation text-left mr-2"><span className="circle userDeniedVacation px-1 mr-1">3 </span><em>denied</em></p>
-                {/*<span className="float-right pr-3">
-                     <Badge color="secondary" overlap="circle" badgeContent="2">
-                        <People />
-                </Badge>
-                </span>*/}
+                {lol}
 
             </td >
         );

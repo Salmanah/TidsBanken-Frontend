@@ -17,7 +17,6 @@
     padding: 0;
     display: block;
     overflow: hidden;
-    position: absolute;
     border-collapse: separate;
     font-family: "Open Sans", Calibri, Arial, sans-serif;
     background-color: #ffffff;
@@ -116,7 +115,7 @@
     background-color: #223344cf;
   }
   .tail-datetime-calendar .calendar-date table tbody tr > * {
-    border: 2.5px solid #030f1bfc;
+    border: 0.1px solid #8080804d;
     color: #334455;
     cursor: pointer;
     position: relative;
@@ -128,8 +127,7 @@
   .tail-datetime-calendar .calendar-date table tbody tr > * > span {
     z-index: 10;
     position: relative;
-    font-size: 24px;
-    color:#80808094;
+    line-height: 2px;
   }
   /* Select a Day */
 
