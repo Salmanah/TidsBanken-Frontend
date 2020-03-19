@@ -9,7 +9,7 @@ import './calendar-view.css';
 import { MDBBtn } from "mdbreact";
 import { Link } from 'react-router-dom';
 import CreateIneligiblePeriod from '../../views/create-ineligible-period/index';
-import { getUserRequestAndApproved, getAllVacationRequestsAsAdmin, getVacationRequestByID } from '../../utils/APIUtils';
+import { getUserRequestsById } from '../../utils/APIUtils';
 
 
 function CalendarView(props) {
@@ -20,13 +20,13 @@ function CalendarView(props) {
     const [selectedOptions, setSelectedOptions] = React.useState(selected);
 
     const [pendingDates] = React.useState([
-        { start: '2020-03-03', end: '2020-3-7' },
-        { start: '2020-05-3', end: '2020-05-7' }
+        { start: '2020-03-03', end: '2020-03-07' },
+        { start: '2020-05-03', end: '2020-05-07' }
     ]);
 
     const [ineligibleDates] = React.useState([
-        { start: '2020-04-9', end: '2020-04-11' },
-        { start: '2020-03-9', end: '2020-03-11' }
+        { start: '2020-03-09', end: '2020-03-11' },
+        { start: '2020-04-09', end: '2020-04-11' }
     ]);
 
     const [approvedDates] = React.useState([
@@ -42,7 +42,7 @@ function CalendarView(props) {
         });
         setUsers(tmpusers)
 
-        //getAllVacationRequestsAsAdmin().then(resp => { console.log(resp) });
+        getUserRequestsById(props.id).then(resp => { console.log(resp) });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -74,8 +74,8 @@ function CalendarView(props) {
     }
 
     return (
-        <div>
-            <Container className="contentContainer">
+        <>
+            <Container>
                 <Row>
                     <Col>
                         <h1>My calendar</h1>
@@ -117,16 +117,12 @@ function CalendarView(props) {
                 }
                 <Row>
                     <Col>
-                        {props.admin ? <Calendar ineligible={ineligibleDates} /> : <Calendar pending={pendingDates} approved={approvedDates} ineligible={ineligibleDates} />}
-                    </Col>
-                </Row>
-                <Row>
-                    <Col className="under-calendar mb-5">
-                        <CalendarLabel />
+                        {props.admin ? <Calendar ineligible={ineligibleDates} /> : !checked ? <Calendar checked={checked} pending={pendingDates} approved={approvedDates} ineligible={ineligibleDates} /> : <Calendar checked={checked} pending={null} approved={null} ineligible={ineligibleDates} />}
                     </Col>
                 </Row>
             </Container>
-        </div>
+            <CalendarLabel />
+        </>
     )
 }
 
