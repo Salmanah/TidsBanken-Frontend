@@ -136,3 +136,45 @@ export function getAllUsers() {
         method: 'GET'
     });
 }
+
+export function adminEditVacationRequest(id, newStatus) {
+    if (!localStorage.getItem(ACCESS_TOKEN)) {
+      return Promise.reject("No access token set.");
+    }
+    console.log(
+      "SENDING REQUEST TO BACKEND ",
+      API_BASE_URL + `/admin/request/${id}/edit`
+    );
+    console.log("SENDING STATUS " + `${newStatus}`);
+    return request({
+      url: API_BASE_URL + `/admin/request/${id}/edit`,
+      method: "PATCH",
+      body: newStatus
+    });
+  }
+
+
+export function getVacationRequestByID(id) {
+if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+}
+console.log("SENDING REQUEST TO BACKEND ", API_BASE_URL + `/request/${id}`);
+return request({
+    url: API_BASE_URL + `/request/${id}`,
+    method: "GET"
+});
+}
+
+
+export function getVacationRequestByIDasAdmin(id) {
+    if (!localStorage.getItem(ACCESS_TOKEN)) {
+      return Promise.reject("No access token set.");
+    }
+    console.log("SENDING REQUEST TO BACKEND ", API_BASE_URL + `/admin/request/${id}`);
+    return request({
+      url: API_BASE_URL + `/admin/request/${id}`,
+      method: "GET"
+    });
+  }
+
+
