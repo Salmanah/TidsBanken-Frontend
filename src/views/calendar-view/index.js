@@ -9,6 +9,7 @@ import './calendar-view.css';
 import { MDBBtn } from "mdbreact";
 import { Link } from 'react-router-dom';
 import CreateIneligiblePeriod from '../../views/create-ineligible-period/index';
+import { getUserRequestsById } from '../../utils/APIUtils';
 
 
 function CalendarView(props) {
@@ -33,7 +34,7 @@ function CalendarView(props) {
     useEffect(() => {
         let tmpusers = []
         props.allUsers.forEach(user => {
-            if (!user.admin) {
+            if (!user.admin && user.id !== props.id) {
                 tmpusers.push({ value: user.id, label: user.name })
             }
         });
@@ -55,10 +56,16 @@ function CalendarView(props) {
 
         if (!alreadySelected) {
             setSelectedOptions(selected => [...selected, selectedOption]);
+            getSelectedUserVacationRequests(selectedOption.value);
         } else {
             console.log("you have already selected this user")
         }
     };
+
+    function getSelectedUserVacationRequests(id) {
+        getUserRequestsById(id).then(resp => { console.log(resp) });
+
+    }
 
     let selectedPeopleBadges = selectedOptions.map((user) => {
         return <CalendarBadge key={user.value} name={user.label} delete={() => handleDelete(user.value)} />
