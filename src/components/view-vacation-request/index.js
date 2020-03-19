@@ -10,14 +10,11 @@ import {getVacationRequestByID} from '../../utils/APIUtils';
 
 const ViewVacationRequest = (props) => {
 
-    console.log(props.location.state.request)
-
     const request = props.location.state.request
 
     const [commentRevealed, setCommentRevealed] = React.useState(false)
 
     function handleViewComments(event) {
-        //this.setState({ commentRevealed: !this.state.commentRevealed })
         setCommentRevealed(!commentRevealed)
     }
 
