@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import CalendarView from '../calendar-view/index';
 import './main.css';
-import { getCurrentUser, getAllUsers } from '../../utils/APIUtils';
+import { getCurrentUser, getAllUsers, getUserRequestsById } from '../../utils/APIUtils';
 
 function Main() {
 
     const [admin, setAdmin] = React.useState(null);
     const [myId, setMyId] = React.useState(null);
+    const [vacationRequests, setVacationRequests] = React.useState(null);
 
     const [allUsers, setAllUsers] = React.useState(null);
 
@@ -17,9 +18,19 @@ function Main() {
 
     }, [])
 
+    useEffect(() => {
+
+        if (myId !== null) {
+
+            getUserRequestsById(myId).then(resp => { setVacationRequests(resp) });
+
+        }
+
+    }, [myId])
+
     return (
         <>
-            {admin !== null && allUsers !== null && myId !== null ? <CalendarView allUsers={allUsers} id={myId} admin={admin} /> : null}
+            {vacationRequests !== null && admin !== null && allUsers !== null && myId !== null ? <CalendarView requests={vacationRequests} allUsers={allUsers} id={myId} admin={admin} /> : null}
         </>
     )
 }

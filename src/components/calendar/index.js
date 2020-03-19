@@ -32,7 +32,7 @@ function Calendar(props) {
             approvedVacation()
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [count, props.checked]);                // using a counter to trigger the render
+    }, [count, props.checked, props.pending]);                // using a counter to trigger the render
     // because it doesn't render on changes to the dateObject on next() and prev()
 
     function ineligibleVacation() {
@@ -50,7 +50,6 @@ function Calendar(props) {
             });
         }
         setIneligible(allInel)
-        console.log(ineligible)
 
     }
     function pendingVacation() {
