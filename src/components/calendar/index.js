@@ -433,7 +433,7 @@ function Calendar(props) {
 
         daysInMonthArray.push(
             <td id={`day${d}${mm}${year()}`} key={d} className="calendar-day">
-                <span className="float-left pl-3"
+                <span className="calendar-number float-left pl-2"
                     onClick={e => {
                         onDayClick(e, d);
                     }}
@@ -441,9 +441,9 @@ function Calendar(props) {
                     {d}
 
                 </span>
-                <span>1 pending</span><br />
-                <span>2 approved</span><br />
-                <span>3 denied</span>
+                <p className="userVacation text-left mr-2"><span className="userPendingVacation px-1 mr-1">1 </span><em>pending</em></p>
+                <p className="userVacation text-left mr-2"><span className="userApprovedVacation px-1 mr-1">2 </span><em>approved</em></p>
+                <p className="userVacation text-left mr-2"><span className="circle userDeniedVacation px-1 mr-1">3 </span><em>denied</em></p>
                 {/*<span className="float-right pr-3">
                      <Badge color="secondary" overlap="circle" badgeContent="2">
                         <People />

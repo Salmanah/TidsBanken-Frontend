@@ -9,6 +9,7 @@ import './calendar-view.css';
 import { MDBBtn } from "mdbreact";
 import { Link } from 'react-router-dom';
 import CreateIneligiblePeriod from '../../views/create-ineligible-period/index';
+import { getUserRequestAndApproved, getAllVacationRequestsAsAdmin, getVacationRequestByID } from '../../utils/APIUtils';
 
 
 function CalendarView(props) {
@@ -41,7 +42,10 @@ function CalendarView(props) {
         });
         setUsers(tmpusers)
 
+        //getAllVacationRequestsAsAdmin().then(resp => { console.log(resp) });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
 
     const handleChange = selectedOption => {
         let alreadySelected = selectedOptions.includes(selectedOption);
@@ -77,7 +81,7 @@ function CalendarView(props) {
                         <h1>My calendar</h1>
                     </Col>
                     <Col className="my-4 text-right my-auto">
-                        {props.admin ? <CreateIneligiblePeriod /> : <Link to="/CreateVacationRequest"><MDBBtn className="btn btn-elegant mr-2">Create vacation request</MDBBtn></Link>}
+                        {props.admin ? <CreateIneligiblePeriod /> : <Link to="/CreateVacationRequest"><MDBBtn className="btn btn-unique mr-2">Create vacation request</MDBBtn></Link>}
                     </Col>
                 </Row>
 
