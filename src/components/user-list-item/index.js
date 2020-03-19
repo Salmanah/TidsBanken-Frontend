@@ -21,22 +21,14 @@ class UserListItem extends Component {
 
     render() {
 
+        console.log("props i useritem:")
+        console.log(this.props.user)
+
         const listItemContent = "User 1"
 
         return (
-            <ListItem>
-                <ListItemIcon>
-                    <Checkbox
-                        value={this.state.checked}
-                        onChange={e => this.handleToggle(e)}
-                    />
-                </ListItemIcon>
-                <ListItemText>{listItemContent}</ListItemText>
-                <ListItemSecondaryAction>
-                    <IconButton value={listItemContent} onClick={e => this.handleEditClick(e)}>
-                        <EditIcon />
-                    </IconButton>
-                </ListItemSecondaryAction>
+            <ListItem key={this.props.key}>
+                <ListItemText>{this.props.user.name}</ListItemText>
             </ListItem>
         )
     }
