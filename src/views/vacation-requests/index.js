@@ -1,36 +1,22 @@
 import React, {useEffect} from "react";
 import './vacationRequests.css';
-import { List, Divider, CircularProgress } from '@material-ui/core';
+import { List, CircularProgress } from '@material-ui/core';
 import RequestListItem from '../../components/requestListItem/index';
 import {getUserRequestAndApproved} from '../../utils/APIUtils';
 import ToggleBox from '../../components/toggle-box/index';
+ 
 
 const VacationRequests = (props) => {
-
-    /*const [admin, setAdmin] = React.useState(null);
-
-    useEffect(() => {
-        getCurrentUser().then(resp => { setAdmin(resp.admin) })
-
-    }, [])*/
 
     const [loading, setLoading] = React.useState(true);
 
     const [requests, setRequests] = React.useState([]);
 
-    const [element, setElement] = React.useState(Object);
-
-    var reqs = [];
 
     useEffect(()=>{
         
-        console.log("gettin requests")
         getUserRequestAndApproved().then(resp => {
-            resp.forEach(element => {
-                reqs.push(element)
-            })
-            
-            setRequests(reqs)
+            setRequests(resp)
             setLoading(false)
         })
         

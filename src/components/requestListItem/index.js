@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Button } from 'react-bootstrap';
 import {ListItem, ListItemText, List, Collapse} from '@material-ui/core';
-import { ExpandMore, ExpandLess, withStyles } from '@material-ui/icons';
+import { ExpandMore, ExpandLess } from '@material-ui/icons';
 import './requestListItem.css';
 
 

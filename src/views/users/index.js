@@ -10,44 +10,15 @@ import UserListItem from '../../components/user-list-item/index';
 
 const Users = (props) => {
 
-    /*
-    var reqs = [];
-
-    useEffect(()=>{
-        
-
-        console.log("gettin requests")
-        getUserRequestAndApproved().then(resp => {
-            console.log(resp)
-            resp.forEach(element => {
-                console.log(element.request_id);
-                reqs.push(element)
-            })
-            setRequests(reqs)
-        })
-        
-    })
-    */
-
     const [users, setUsers] = React.useState([])
 
-    var userlist = []
-
     useEffect(()=>{
-        console.log("getting users")
         getAllUsers().then(response=>{
-            console.log(response)
-            response.forEach(user => {
-                console.log(user)
-                userlist.push(user)
-            })
-            setUsers(userlist);
+            setUsers(response);
         })
     }, [])
 
-    
 
-    console.log(props)
 
     if (props.currentUser.admin){
         return (
@@ -60,7 +31,9 @@ const Users = (props) => {
                 <ToggleBox title="all users">
                 <List>
                     {users.map((element, index) => {
-                        return <UserListItem key={index} user={element} />
+                        if (!element.admin){
+                            return <UserListItem key={index} user={element} parentProps={props} />
+                        }
                     })}
                 </List>
                 </ToggleBox>
