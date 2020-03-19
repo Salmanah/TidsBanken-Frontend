@@ -16,7 +16,7 @@ const UserListItem = (props) => {
         props.parentProps.history.push({
             pathname : "/VacationRequestHistory",
             state : {
-                userId : props.user.id
+                user : props.user
             }
         })
     }
