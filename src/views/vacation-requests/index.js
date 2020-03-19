@@ -1,8 +1,9 @@
 import React, {useEffect} from "react";
 import './vacationRequests.css';
-import { List, Divider } from '@material-ui/core';
+import { List, Divider, CircularProgress } from '@material-ui/core';
 import RequestListItem from '../../components/requestListItem/index';
 import {getUserRequestAndApproved} from '../../utils/APIUtils';
+import ToggleBox from '../../components/toggle-box/index';
 
 const VacationRequests = (props) => {
 
@@ -13,6 +14,8 @@ const VacationRequests = (props) => {
 
     }, [])*/
 
+    const [loading, setLoading] = React.useState(true);
+
     const [requests, setRequests] = React.useState([]);
 
     const [element, setElement] = React.useState(Object);
@@ -21,50 +24,63 @@ const VacationRequests = (props) => {
 
     useEffect(()=>{
         
-
         console.log("gettin requests")
         getUserRequestAndApproved().then(resp => {
-            console.log(resp)
             resp.forEach(element => {
-                console.log(element.request_id);
                 reqs.push(element)
             })
+            
             setRequests(reqs)
+            setLoading(false)
         })
         
-    })
+    },[])
+
+    const status = ["Pending", "Approved", "Denied"]
 
     return (
+
         <div>
-            <div className="vacationRequestContent">
-                <h3>This is the request list of user with id: {props.currentUser.id}</h3>
-                <h4>Name: {props.currentUser.name}</h4>
+            {status.map((st, index)=>{
+                return(<ToggleBox title={st}>
+                    { loading ? (<CircularProgress/>)
+                    : (
+                        <div>
+                            <List>
+                                {requests.map((request, index) => {
+                                    if (request.status[0].status === st) {
+                                        return (
+                                                <RequestListItem request={request} parentProps={props}/>
+                                            )
+                                        }
+                                    }
+                                )}
+                            </List>
+                        </div>
+                    )
+                    }
+                </ToggleBox>)
+            })}
+            <ToggleBox title="all">
                 <div>
-                    <List>
-                        {requests.map(
-                            (element, index) => {
-                                return (
-                                    <div>
-                                        <RequestListItem title={element.title} parentProps={props} />
-                                        <Divider/>
-                                    </div>
+                {loading ? (<CircularProgress/>)
+                :(
+                    <div>
+                        <List>
+                            {requests.map(
+                                (request, index) => {
+                                    return (
+                                        <div>
+                                            <RequestListItem request={request} parentProps={props} />
+                                        </div>
                                     )
-                            }
-                        )}
-                        {/*
-                        <RequestListItem title="Request 1" parentProps={props} />
-                        <Divider />
-                        <RequestListItem title="Request 2" parentProps={props} />
-                        <Divider />
-                        */}
-                    </List>
-                    {/*
-                    <ToggleBox title="request history">
-                        <VacationRequestHistory />
-                    </ToggleBox>
-                    */}
+                                }
+                            )}
+                        </List>
+                    </div>
+                )} 
                 </div>
-            </div>
+            </ToggleBox>
         </div>
     )
 }
