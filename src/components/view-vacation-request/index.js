@@ -1,9 +1,8 @@
-import React, { Component, useEffect } from "react";
+import React from "react";
 import './viewVacationRequest.css';
 import { List, ListItem, Divider, Collapse, ListItemText } from '@material-ui/core';
 import { ExpandLess, ExpandMore } from '@material-ui/icons';
 import EditIcon from '@material-ui/icons/Edit';
-import {getVacationRequestByID} from '../../utils/APIUtils';
 
 //Tar inn en request id og displayer korresponderende request
 

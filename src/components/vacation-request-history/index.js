@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {List, ListItemText, ListItem} from '@material-ui/core';
 import { getUserRequestsById } from "../../utils/APIUtils";
 
@@ -9,7 +9,6 @@ const VacationRequestHistory = (props) => {
     const [requests, setRequests] = React.useState([]);
 
     useEffect(()=>{
-        let reqs = []
         getUserRequestsById(userId).then(resp => {
             setRequests(resp);
         })

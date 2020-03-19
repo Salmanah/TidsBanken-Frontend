@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import './vacationRequests.css';
-import { List, Divider, CircularProgress } from '@material-ui/core';
+import { List, CircularProgress } from '@material-ui/core';
 import RequestListItem from '../../components/requestListItem/index';
 import {getUserRequestAndApproved} from '../../utils/APIUtils';
 import ToggleBox from '../../components/toggle-box/index';
@@ -8,25 +8,15 @@ import ToggleBox from '../../components/toggle-box/index';
 
 const VacationRequests = (props) => {
 
-    console.log("props i /VacationRequests");
-    console.log(props)
-
     const [loading, setLoading] = React.useState(true);
 
     const [requests, setRequests] = React.useState([]);
 
-    var reqs = [];
 
-    //user vil se alle sine requests
     useEffect(()=>{
         
-        console.log("gettin requests")
         getUserRequestAndApproved().then(resp => {
-            resp.forEach(element => {
-                reqs.push(element)
-            })
-            
-            setRequests(reqs)
+            setRequests(resp)
             setLoading(false)
         })
         
