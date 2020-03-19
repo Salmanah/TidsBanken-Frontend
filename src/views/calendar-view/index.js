@@ -120,8 +120,13 @@ function CalendarView(props) {
                         {props.admin ? <Calendar ineligible={ineligibleDates} /> : !checked ? <Calendar checked={checked} pending={pendingDates} approved={approvedDates} ineligible={ineligibleDates} /> : <Calendar checked={checked} pending={null} approved={null} ineligible={ineligibleDates} />}
                     </Col>
                 </Row>
+                <Row className="mb-5">
+                    <Col>
+                        <CalendarLabel />
+                    </Col>
+                </Row>
             </Container>
-            <CalendarLabel />
+
         </>
     )
 }
