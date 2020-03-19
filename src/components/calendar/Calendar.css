@@ -116,18 +116,20 @@
     background-color: #223344cf;
   }
   .tail-datetime-calendar .calendar-date table tbody tr > * {
-      border: 0.5px solid #33445529;
+    border: 2.5px solid #030f1bfc;
     color: #334455;
     cursor: pointer;
     position: relative;
     font-size: 14px;
     background-color: #ffffff;
     z-index: 1;
+    padding: 10px 0px;
   }
   .tail-datetime-calendar .calendar-date table tbody tr > * > span {
-    color: inherit;
     z-index: 10;
     position: relative;
+    font-size: 24px;
+    color:#80808094;
   }
   /* Select a Day */
 
@@ -301,4 +303,33 @@
     line-height: 12px;
   }
   /* @end tail.DateTime */
+
+  .userVacation{
+    height: 25px;
+    line-height: 23px;
+    margin-bottom: 0;
+    margin-left: 45px;
+  }
+  .userVacation em {
+    color: #607D8B;
+    font-size:12px;
+  }
+
+  .userDeniedVacation{
+    background-color: #c2185b;
+    border-radius: 10px;
+    color:white;
+  }
+
+ .userPendingVacation{
+    background-color: #ffee58;
+    border-radius: 10px;
+  }
+
+  .userApprovedVacation{
+    background-color: #009688;
+    border-radius: 10px;
+    color:white;
+  }
+
   

@@ -1,7 +1,10 @@
-a.delete-search {
-    color: #880e4f;
+button.delete-search {
+    border: none;
+    background-color: #ff000005;
+    color: #D84315;
+    font-weight: 800;
 }
 
-span.tags-search {
-    background-color: #cfd8dc54;
+span.tags-search.badge {
+    background-color: #cfd8dc85 !important;
 }
