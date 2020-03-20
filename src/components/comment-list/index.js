@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {List, ListItem, ListItemText} from '@material-ui/core';
 import Comment from '../../components/comment/index';
 import {Modal, Button, Form} from 'react-bootstrap';
-import { adminEditVacationRequest, createCommentForVacationRequestAsAdmin, getVacationRequestByIDasAdmin } from "../../utils/APIUtils";
+import { createCommentForVacationRequestAsAdmin, getVacationRequestByIDasAdmin } from "../../utils/APIUtils";
 
 
 const CommentList = (props) => {
