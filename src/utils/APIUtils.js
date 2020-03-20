@@ -72,28 +72,6 @@ export function createVacationRequest(requestTitle, requestPeriodStart, requestP
         period_end: "03082020",
   }),
     });
-}*/
-
-export function getUserRequestsById(id) {
-    if(!localStorage.getItem(ACCESS_TOKEN)) {
-        return Promise.reject("No access token set.");
-    }
-    console.log("SENDING REQUEST TO BACKEND ",API_BASE_URL+`/user/${id}/requests`)
-    return request({
-        url: API_BASE_URL +`/user/${id}/requests`,
-        method: 'GET'
-    });
-}
-
-export function getUserRequestAndApproved() {
-    if(!localStorage.getItem(ACCESS_TOKEN)) {
-        return Promise.reject("No access token set.");
-    }
-    console.log("SENDING REQUEST TO BACKEND ",API_BASE_URL+`/request`)
-    return request({
-        url: API_BASE_URL +`/request`,
-        method: 'GET'
-    });
 }
 
 export function getAllUsers() {
@@ -153,5 +131,16 @@ export function getAllVacationRequestsAsAdmin() {
     return request({
         url: API_BASE_URL + `/admin/request`,
         method: 'GET'
+    });
+}
+
+export function deleteCommentById(r_id, c_id) {
+    if (!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+    console.log("SENDING REQUEST TO BACKEND ", API_BASE_URL + `/admin/request/{r_id}/comment/{c_id`)
+    return request({
+        url: API_BASE_URL + `/admin/request/${r_id}/comment/${c_id}`,
+        method: 'PATCH'
     });
 }

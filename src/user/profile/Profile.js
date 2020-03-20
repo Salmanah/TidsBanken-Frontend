@@ -1,13 +1,11 @@
 import React, { useEffect } from 'react';
 import './Profile.css';
-import { getOtherUser, getOtherUserAsAdmin, createVacationRequest, getUserRequestsById,getUserRequestAndApproved,getAllUsers} from '../../utils/APIUtils';
+import {adminEditVacationRequest,deleteVacationRequest,createVacationRequest, createCommentForVacationRequest,deleteCommentById} from '../../utils/APIUtils';
 
 function Profile(props) {
 
-    
-    useEffect(() =>{
-        if(count < 3){
-            getAllUsers()
+    useEffect(() => {
+        deleteCommentById(4,34)
             .then(response => {
                 console.log("response: ", response);
             }).catch(error => {
