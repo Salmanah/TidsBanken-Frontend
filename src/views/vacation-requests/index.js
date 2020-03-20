@@ -1,29 +1,72 @@
-import React from "react";
+import React, {useEffect} from "react";
 import './vacationRequests.css';
-import { List, Divider } from '@material-ui/core';
+import { List, CircularProgress } from '@material-ui/core';
 import RequestListItem from '../../components/requestListItem/index';
+import {getUserRequestAndApproved} from '../../utils/APIUtils';
+import ToggleBox from '../../components/toggle-box/index';
+ 
 
-const VacationRequests = () => {
+const VacationRequests = (props) => {
+
+    const [loading, setLoading] = React.useState(true);
+
+    const [requests, setRequests] = React.useState([]);
+
+
+    useEffect(()=>{
+        
+        getUserRequestAndApproved().then(resp => {
+            setRequests(resp)
+            setLoading(false)
+        })
+        
+    },[])
+
+    const status = ["Pending", "Approved", "Denied"]
 
     return (
+
         <div>
-            <div className="vacationRequestContent">
-                <h3>This is the request list of user with id: {this.props.currentUser.id}</h3>
-                <h4>Name: {this.props.currentUser.name}</h4>
+            {status.map((st, index)=>{
+                return(<ToggleBox title={st}>
+                    { loading ? (<CircularProgress/>)
+                    : (
+                        <div>
+                            <List>
+                                {requests.map((request, index) => {
+                                    if (request.status[0].status === st) {
+                                        return (
+                                                <RequestListItem request={request} parentProps={props}/>
+                                            )
+                                        }
+                                    }
+                                )}
+                            </List>
+                        </div>
+                    )
+                    }
+                </ToggleBox>)
+            })}
+            <ToggleBox title="all">
                 <div>
-                    <List>
-                        <RequestListItem title="Request 1" parentProps={this.props} />
-                        <Divider />
-                        <RequestListItem title="Request 2" parentProps={this.props} />
-                        <Divider />
-                    </List>
-                    {/*
-                    <ToggleBox title="request history">
-                        <VacationRequestHistory />
-                    </ToggleBox>
-                    */}
+                {loading ? (<CircularProgress/>)
+                :(
+                    <div>
+                        <List>
+                            {requests.map(
+                                (request, index) => {
+                                    return (
+                                        <div>
+                                            <RequestListItem request={request} parentProps={props} />
+                                        </div>
+                                    )
+                                }
+                            )}
+                        </List>
+                    </div>
+                )} 
                 </div>
-            </div>
+            </ToggleBox>
         </div>
     )
 }

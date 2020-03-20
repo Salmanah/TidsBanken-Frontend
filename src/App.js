@@ -29,6 +29,8 @@ import UserProfile from './views/user-profile/index';
 import Users from './views/users/index';
 import VacationSettings from './views/vacation-settings/index';
 
+import VacationRequestHistory from './components/vacation-request-history/index';
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -103,9 +105,11 @@ class App extends Component {
               <PrivateRoute path="/CreateIneligiblePeriod" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={CreateIneligiblePeriod} />
               <PrivateRoute path="/ApplicationSettings" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ApplicationSettings} />
               <PrivateRoute path="/VacationRequests" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationRequests} />
+              {/** <PrivateRoute path="/UserProfile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={UserProfile} /> ->*/} 
               <PrivateRoute path="/UserProfile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={Profile} />
               <PrivateRoute path="/Users" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={Users} />
               <PrivateRoute path="/VacationSettings" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationSettings} />
+              <PrivateRoute path="/VacationRequestHistory"  authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationRequestHistory} />
               <Route component={NotFound}></Route>
             </Switch>
           </div>
@@ -116,3 +120,4 @@ class App extends Component {
 }
 
 export default App; 
+
