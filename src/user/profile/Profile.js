@@ -5,7 +5,7 @@ import {adminEditVacationRequest,deleteVacationRequest,createVacationRequest, cr
 function Profile(props) {
 
     useEffect(() => {
-        deleteVacationRequest(54)
+        createCommentForVacationRequest(54)
             .then(response => {
                 console.log("response: ", response);
             }).catch(error => {
