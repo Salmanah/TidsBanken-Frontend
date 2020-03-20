@@ -30,12 +30,13 @@ function Calendar(props) {
     useEffect(() => {
 
         ineligibleVacation();
+        userVacations();
         if (!props.checked) {
             pendingVacation();
             approvedVacation()
-        } else {
-            userVacations();
         }
+
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.checked, props.pending, props.allApproved]);                // using a counter to trigger the render
     // because it doesn't render on changes to the dateObject on next() and prev()
@@ -334,17 +335,18 @@ function Calendar(props) {
         }
         let mm = moment().month(month()).format("MM");
 
-        let w = "";
+        let userDetails = [];
 
         allSelectedUserVacations.forEach(vac => {
-            if (vac.dates.includes(year() + "-" + mm + "-" + d))
-                w = vac.name;
-        })
-
-
-
-
-
+            if (props.checked || props.admin) {
+                if (vac.dates.includes(year() + "-" + mm + "-" + d)) {
+                    userDetails.push(
+                        <span key={vac.id}>
+                            <em>{vac.name}</em>
+                            <br /> </span>);
+                }
+            }
+        });
 
         /*if (allSelectedUserVacations.includes(year() + "-" + mm + "-" + d)) {
             console.log(allSelectedUserVacations)
@@ -361,30 +363,8 @@ function Calendar(props) {
         else if (ineligible.includes(year() + "-" + mm + "-" + d)) {
             status = "ineligible"
 
-        } else {
-            status = "";
         }
-        let userVacations;
-        if (props.checked) {
-            userVacations =
-                <>
-                    <p className="userVacation text-left mr-2">
-                        <span className="userPendingVacation px-1 mr-1">1</span>
-                        <em>pending</em>
-                    </p>
-                    <p className="userVacation text-left mr-2">
-                        <span className="userApprovedVacation px-1 mr-1">2</span>
-                        <em>approved</em>
-                    </p>
-                    <p className="userVacation text-left mr-2">
-                        <span className="circle userDeniedVacation px-1 mr-1">3</span>
-                        <em>denied</em>
-                    </p>
-                </>
 
-        } else {
-            userVacations = ""
-        }
 
         // eslint-disable-next-line 
         //let currentDay;
@@ -405,9 +385,9 @@ function Calendar(props) {
                     {d}
 
                 </span>
-                {w}
-                {userVacations}
-
+                <p className="userVacation text-left mr-2">
+                    {userDetails}
+                </p>
             </td >
         );
     }

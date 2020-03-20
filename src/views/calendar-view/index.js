@@ -119,10 +119,10 @@ function CalendarView(props) {
 
         let newAllVacations = allVacations.filter(user => {
 
-            user.forEach(vac => {
+            let remove = user.forEach(vac => {
                 return vac.owner[0].id !== id
-
             });
+            return remove
         })
         setAllVacations(newAllVacations)
 
@@ -171,7 +171,7 @@ function CalendarView(props) {
             }
             <Row>
                 <Col>
-                    {props.admin ? <Calendar ineligible={ineligibleDates} /> : !checked ? <Calendar checked={checked} pending={pendingDates} approved={approvedDates} ineligible={ineligibleDates} /> : <Calendar checked={checked} pending={null} approved={null} allApproved={allApprovedVacations} ineligible={ineligibleDates} />}
+                    {props.admin ? <Calendar admin='true' ineligible={ineligibleDates} allApproved={allApprovedVacations} /> : !checked ? <Calendar checked={checked} pending={pendingDates} approved={approvedDates} ineligible={ineligibleDates} /> : <Calendar checked={checked} pending={null} approved={null} allApproved={allApprovedVacations} ineligible={ineligibleDates} />}
                 </Col>
             </Row>
             <Row className="mb-5">
