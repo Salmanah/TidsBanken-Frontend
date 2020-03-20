@@ -172,7 +172,7 @@ export function adminEditVacationRequest(id, newStatus) {
   });
 }
 
-/*
+
 export function getVacationRequestByID(id) {
   if (!localStorage.getItem(ACCESS_TOKEN)) {
     return Promise.reject("No access token set.");
@@ -183,7 +183,7 @@ export function getVacationRequestByID(id) {
     method: "GET"
   });
 }
-*/
+
 
 export function getVacationRequestByIDasAdmin(id) {
   if (!localStorage.getItem(ACCESS_TOKEN)) {
@@ -237,7 +237,7 @@ export function createCommentForVacationRequestAsAdmin(id, message) {
   });
 }
 
-  /*
+
 export function createCommentForVacationRequest(id, message) {
   if (!localStorage.getItem(ACCESS_TOKEN)) {
     return Promise.reject("No access token set.");
@@ -253,4 +253,31 @@ export function createCommentForVacationRequest(id, message) {
   });
 }
 
-*/
+export function getAllCommentsByVacationRequestID(r_id) {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+  }
+  console.log(
+    "SENDING REQUEST TO BACKEND ",
+    API_BASE_URL + `/request/${r_id}/comment`
+  );
+  return request({
+    url: API_BASE_URL + `/request/${r_id}/comment`,
+    method: "GET"
+  });
+}
+
+
+export function getAllCommentsByVacationRequestIDAsAdmin(r_id) {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+  }
+  console.log(
+    "SENDING REQUEST TO BACKEND ",
+    API_BASE_URL + `/admin/request/${r_id}/comment`
+  );
+  return request({
+    url: API_BASE_URL + `/admin/request/${r_id}/comment`,
+    method: "GET"
+  });
+}
