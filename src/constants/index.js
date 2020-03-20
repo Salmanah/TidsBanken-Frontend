@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'https://infinite-tundra-25891.herokuapp.com';
+export const API_BASE_URL = 'https://case-db-production.herokuapp.com/';
 export const ACCESS_TOKEN = 'accessToken';
 
 export const OAUTH2_REDIRECT_URI = 'https://shrouded-crag-75617.herokuapp.com/oauth2/redirect';
