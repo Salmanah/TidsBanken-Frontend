@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Calendar from "../../components/calendar";
 import CalendarBadge from "../../components/calendar-badge/";
 import CalendarSearchSelect from "../../components/calendar-search-select/";
@@ -14,21 +14,21 @@ import { getUserRequestsById } from '../../utils/APIUtils';
 
 function CalendarView(props) {
 
-    const [checked, setChecked] = useState(false);
-    const [users, setUsers] = useState([]);
-    const [selected] = useState([]);
-    const [allVacations, setAllVacations] = useState([]);
-    const [selectedOptions, setSelectedOptions] = useState(selected);
-    const [allApprovedVacations, setAllApprovedVacations] = useState([]);
+    const [checked, setChecked] = React.useState(false);
+    const [users, setUsers] = React.useState([]);
+    const [selected] = React.useState([]);
+    const [allVacations, setAllVacations] = React.useState([]);
+    const [selectedOptions, setSelectedOptions] = React.useState(selected);
+    const [allApprovedVacations, setAllApprovedVacations] = React.useState([]);
 
-    const [pendingDates, setPendingDates] = useState([]);
+    const [pendingDates, setPendingDates] = React.useState([]);
 
-    const [ineligibleDates] = useState([
+    const [ineligibleDates] = React.useState([
         { start: '2020-03-09', end: '2020-03-11' },
         { start: '2020-04-09', end: '2020-04-11' }
     ]);
 
-    const [approvedDates] = useState([
+    const [approvedDates] = React.useState([
         { start: '2020-03-12', end: '2020-03-15' },
         { start: '2020-04-12', end: '2020-04-14' }
     ]);
@@ -72,6 +72,12 @@ function CalendarView(props) {
         }
     }, [allVacations])
 
+    useEffect(() => {
+        console.log("from useeffect", allApprovedVacations)
+
+    }, [allApprovedVacations])
+
+
     const handleChange = selectedOption => {
         let alreadySelected = selectedOptions.includes(selectedOption);
 
@@ -106,17 +112,22 @@ function CalendarView(props) {
         );
         setSelectedOptions(newSelectedOptions);
 
-        let newAllApprovedVacations = allApprovedVacations.filter(e =>
-            e.owner[0].id !== id
-        );
+        let newAllApprovedVacations = allApprovedVacations.filter(e => {
+
+            console.log("owner " + e.owner[0].id + ", req " + id, e.owner[0].id !== id)
+            return e.owner[0].id !== id;
+        })
         setAllApprovedVacations(newAllApprovedVacations)
 
         let newAllVacations = allVacations.filter(user => {
+
             user.forEach(vac => {
                 return vac.owner[0].id !== id
+
             });
         })
         setAllVacations(newAllVacations)
+
     }
 
     return (

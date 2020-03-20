@@ -19,11 +19,13 @@ function Calendar(props) {
     const [selectedDay, setSelectedDay] = React.useState(null);
     const [weekdayshort] = React.useState(moment.weekdaysShort());
 
-    const [count, setCount] = React.useState(0);
+    const [count, setCount] = React.useState(0); //fix --> do i need this anymore?
 
     const [pending, setPending] = React.useState([]);
     const [approved, setApproved] = React.useState([]);
     const [ineligible, setIneligible] = React.useState([]);
+
+    const [allSelectedUserVacations, setAllSelectedUserVacations] = React.useState([]);
 
     useEffect(() => {
 
@@ -33,45 +35,50 @@ function Calendar(props) {
             pendingVacation();
             approvedVacation()
         } else {
+            console.log(props)
             if (props.allApproved) {
-                console.log("props ", props.allApproved)
+                console.log(props.allApproved)
             }
-
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [count, props.checked, props.pending, props.allApproved]);                // using a counter to trigger the render
     // because it doesn't render on changes to the dateObject on next() and prev()
 
+
+
+
+
     function ineligibleVacation() {
         let allInel = [];
         let inel = [];
         if (props.ineligible) {
-            props.ineligible.forEach(date => {
-                inel.push(getDates(date.start, date.end));
-            });
+            props.ineligible.forEach(date =>
+                inel.push(getDates(date.start, date.end))
+            );
         }
 
         for (let i = 0; i < inel.length; i++) {
-            inel[i].forEach(element => {
+            inel[i].forEach(element =>
                 allInel.push(element)
-            });
+            );
         }
         setIneligible(allInel)
 
     }
     function pendingVacation() {
+
         let allPend = [];
         let pend = [];
         if (props.pending) {
-            props.pending.forEach(date => {
-                pend.push(getDates(date.start, date.end));
-            });
+            props.pending.forEach(date =>
+                pend.push(getDates(date.start, date.end))
+            );
         }
 
         for (let i = 0; i < pend.length; i++) {
-            pend[i].forEach(element => {
+            pend[i].forEach(element =>
                 allPend.push(element)
-            });
+            );
         }
         setPending(allPend)
     }
@@ -80,15 +87,15 @@ function Calendar(props) {
         let allAppr = [];
         let appr = [];
         if (props.approved) {
-            props.approved.forEach(date => {
-                appr.push(getDates(date.start, date.end));
-            });
+            props.approved.forEach(date =>
+                appr.push(getDates(date.start, date.end))
+            );
         }
 
         for (let i = 0; i < appr.length; i++) {
-            appr[i].forEach(element => {
+            appr[i].forEach(element =>
                 allAppr.push(element)
-            });
+            );
         }
         setApproved(allAppr)
 
@@ -316,8 +323,15 @@ function Calendar(props) {
         if (d < 10) {
             d = '0' + d;
         }
-        let status = "";
         let mm = moment().month(month()).format("MM");
+
+
+
+        /*if (allSelectedUserVacations.includes(year() + "-" + mm + "-" + d)) {
+            console.log(allSelectedUserVacations)
+        }*/
+        let status = "";
+
         if (!props.checked && pending.includes(year() + "-" + mm + "-" + d)) {
             status = "pending";
         }
