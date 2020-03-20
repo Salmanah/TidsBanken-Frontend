@@ -197,18 +197,6 @@ export function getAllVacationRequestsAsAdmin() {
     });
 }
 
-export function getAllUsers() {
-    if(!localStorage.getItem(ACCESS_TOKEN)) {
-        return Promise.reject("No access token set.");
-    }
-    console.log("SENDING REQUEST TO BACKEND ",API_BASE_URL+`/users`);
-    return request({
-        url: API_BASE_URL +`/users`,
-        method: 'GET'
-    });
-}
-
-
 export function getVacationRequestByID(id) {
 if (!localStorage.getItem(ACCESS_TOKEN)) {
     return Promise.reject("No access token set.");
