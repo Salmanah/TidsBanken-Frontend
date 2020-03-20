@@ -1,25 +1,57 @@
-import React from "react";
+import React, {useEffect} from "react";
 import './viewVacationRequest.css';
 import { List, ListItem, Divider, Collapse, ListItemText } from '@material-ui/core';
 import { ExpandLess, ExpandMore } from '@material-ui/icons';
 import EditIcon from '@material-ui/icons/Edit';
+import {Container, Col, Row, Button} from 'react-bootstrap';
+import { adminEditVacationRequest } from "../../utils/APIUtils";
 
 //Tar inn en request id og displayer korresponderende request
 
 
 const ViewVacationRequest = (props) => {
 
-    const request = props.location.state.request
+    const request = props.location.state.request;
 
-    const [commentRevealed, setCommentRevealed] = React.useState(false)
+    const [commentRevealed, setCommentRevealed] = React.useState(false);
+    const [status, setStatus] = React.useState(request.status[0].status);
 
     function handleViewComments(event) {
         setCommentRevealed(!commentRevealed)
     }
 
+
+    function handleChangeStatus(e, status){
+        adminEditVacationRequest(request.request_id, status).then(resp => {
+            console.log(resp)
+        }).catch(err => {console.log(err)})
+        setStatus(status)
+    }
+
+
+
     return(
         <div>
             <h1>Vacation request</h1>
+            {props.currentUser.admin && status === "Pending" ? (
+                <Container>
+                    <Row>
+                        <Col>
+                            <Button variant="success" onClick={e => handleChangeStatus(e, "Approved")}>Approve</Button>
+                        </Col>
+                        <Col>
+                            <Button variant="danger" onClick={e => handleChangeStatus(e, "Denied")}>Deny</Button>
+                        </Col>
+                        <Col>
+                            <Button variant="outline-danger">Delete</Button>
+                        </Col>
+                    </Row>
+                </Container>
+            ) 
+            : (
+                <div>(ikke admin eller status != pending) knapper her?</div>
+            )}
+
             <List>
                 <ListItem>
                     <ListItemText>Title: {request.title}</ListItemText> <EditIcon />
@@ -34,7 +66,7 @@ const ViewVacationRequest = (props) => {
                 </ListItem>
                 <Divider />
                 <ListItem>
-                    <ListItemText> Status: {request.status[0].status}</ListItemText>
+                    <ListItemText> Status: {status}</ListItemText>
                 </ListItem>
                 <Divider />
                 <ListItem button onClick={e => handleViewComments(e)} >
