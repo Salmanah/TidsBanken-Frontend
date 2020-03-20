@@ -4,6 +4,7 @@ import { List, CircularProgress } from '@material-ui/core';
 import RequestListItem from '../../components/requestListItem/index';
 import {getUserRequestAndApproved} from '../../utils/APIUtils';
 import ToggleBox from '../../components/toggle-box/index';
+import {Container, Col, Row} from 'react-bootstrap';
  
 
 const VacationRequests = (props) => {
@@ -19,7 +20,6 @@ const VacationRequests = (props) => {
             setRequests(resp)
             setLoading(false)
         })
-        
     },[])
 
     const status = ["Pending", "Approved", "Denied"]
@@ -27,46 +27,55 @@ const VacationRequests = (props) => {
     return (
 
         <div>
-            {status.map((st, index)=>{
-                return(<ToggleBox title={st}>
-                    { loading ? (<CircularProgress/>)
-                    : (
+            <Container>
+            <Row>
+                {status.map((st, index)=>{
+                    return(
+                    
+                        <Col><ToggleBox title={st}>
+                        { loading ? (<CircularProgress/>)
+                        : (
+                            <div>
+                                <List>
+                                    {requests.map((request, index) => {
+                                        if (request.status[0].status === st) {
+                                            return (
+                                                    <RequestListItem request={request} parentProps={props}/>
+                                                )
+                                            }
+                                        }
+                                    )}
+                                </List>
+                            </div>
+                        )
+                        }
+                    </ToggleBox>
+                    </Col>)
+                })}
+                <Col>
+                <ToggleBox title="all">
+                    <div>
+                    {loading ? (<CircularProgress/>)
+                    :(
                         <div>
                             <List>
-                                {requests.map((request, index) => {
-                                    if (request.status[0].status === st) {
+                                {requests.map(
+                                    (request, index) => {
                                         return (
-                                                <RequestListItem request={request} parentProps={props}/>
-                                            )
-                                        }
+                                            <div>
+                                                <RequestListItem request={request} parentProps={props} />
+                                            </div>
+                                        )
                                     }
                                 )}
                             </List>
                         </div>
-                    )
-                    }
-                </ToggleBox>)
-            })}
-            <ToggleBox title="all">
-                <div>
-                {loading ? (<CircularProgress/>)
-                :(
-                    <div>
-                        <List>
-                            {requests.map(
-                                (request, index) => {
-                                    return (
-                                        <div>
-                                            <RequestListItem request={request} parentProps={props} />
-                                        </div>
-                                    )
-                                }
-                            )}
-                        </List>
+                    )} 
                     </div>
-                )} 
-                </div>
-            </ToggleBox>
+                </ToggleBox>
+                </Col>
+            </Row>
+            </Container>
         </div>
     )
 }

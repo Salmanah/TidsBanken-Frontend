@@ -1,40 +1,71 @@
-import React from "react";
+import React, {useState } from "react";
 import './viewVacationRequest.css';
 import { List, ListItem, Divider, Collapse, ListItemText } from '@material-ui/core';
 import { ExpandLess, ExpandMore } from '@material-ui/icons';
 import EditIcon from '@material-ui/icons/Edit';
+import {Container, Col, Row, Button } from 'react-bootstrap';
+import { adminEditVacationRequest } from "../../utils/APIUtils";
+import CommentList from '../../components/comment-list/index';
 
 //Tar inn en request id og displayer korresponderende request
 
 
 const ViewVacationRequest = (props) => {
 
-    const request = props.location.state.request
 
-    const [commentRevealed, setCommentRevealed] = React.useState(false)
+    const [vacationRequest, setVacationRequest] = useState(props.location.state.request);
+    const [status, setStatus] = useState(vacationRequest.status[0].status);
+    const [commentRevealed, setCommentRevealed] = useState(false);
+
 
     function handleViewComments(event) {
         setCommentRevealed(!commentRevealed)
     }
 
+    function handleChangeStatus(e, status){
+        adminEditVacationRequest(vacationRequest.request_id, status).then(resp => {
+            console.log(resp)
+        }).catch(err => {console.log(err)})
+        setStatus(status)
+    }
+
     return(
         <div>
             <h1>Vacation request</h1>
+            {props.currentUser.admin && status === "Pending" ? (
+                <Container>
+                    <Row>
+                        <Col>
+                            <Button variant="success" onClick={e => handleChangeStatus(e, "Approved")}>Approve</Button>
+                        </Col>
+                        <Col>
+                            <Button variant="danger" onClick={e => handleChangeStatus(e, "Denied")}>Deny</Button>
+                        </Col>c
+                        <Col>
+                            <Button variant="outline-danger">Delete</Button>
+                        </Col>
+                    </Row>
+                </Container>
+            ) 
+            : (
+                <div>(ikke admin eller status != pending) knapper her?</div>
+            )}
+
             <List>
                 <ListItem>
-                    <ListItemText>Title: {request.title}</ListItemText> <EditIcon />
+                    <ListItemText>Title: {vacationRequest.title}</ListItemText> <EditIcon />
                 </ListItem>
                 <Divider />
                 <ListItem button>
-                    <ListItemText>Owner: {request.owner[0].name}</ListItemText>
+                    <ListItemText>Owner: {vacationRequest.owner[0].name}</ListItemText>
                 </ListItem>
                 <Divider />
                 <ListItem>
-                    <ListItemText>Period: {request.period_start} to {request.period_end}</ListItemText> <EditIcon />
+                    <ListItemText>Period: {vacationRequest.period_start} to {vacationRequest.period_end}</ListItemText> <EditIcon />
                 </ListItem>
                 <Divider />
                 <ListItem>
-                    <ListItemText> Status: {request.status[0].status}</ListItemText>
+                    <ListItemText> Status: {status}</ListItemText>
                 </ListItem>
                 <Divider />
                 <ListItem button onClick={e => handleViewComments(e)} >
@@ -42,13 +73,10 @@ const ViewVacationRequest = (props) => {
                     {commentRevealed ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
                 <Collapse in={commentRevealed} timeout="auto" unmountOnExit>
-                    <List>
-                        <ListItem>
-                            "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
-                    </ListItem>
-                    </List>
+                <CommentList parentProps={props}/>
                 </Collapse>
             </List>
+                    
         </div>
     )
 }

@@ -1,33 +1,57 @@
 import React, {useEffect} from "react";
-import {List, ListItemText, ListItem} from '@material-ui/core';
+import {List, ListItemText, ListItem, Divider} from '@material-ui/core';
 import { getUserRequestsById } from "../../utils/APIUtils";
+import {Spinner} from 'react-bootstrap';
+import HistoryListItem from '../../components/history-list-item/index';
+import './vacationRequestHistory.css';
 
 //for admin
 const VacationRequestHistory = (props) => {
 
-    const userId = props.location.state.userId;
+    const userId = props.location.state.user.id;
     const [requests, setRequests] = React.useState([]);
+    const [loading, setLoading] = React.useState(true);
 
     useEffect(()=>{
-        getUserRequestsById(userId).then(resp => {
+        getUserRequestsById(userId)
+        .then(resp => {
             setRequests(resp);
+            setLoading(false);
         })
+        .catch(error => {console.error('Error:', error)})
     }, [])
+
+    
 
     if (props.currentUser.admin){
         return (
             <div>
-                <p>Showing vacation requests of user with id: {userId}</p>
-                <div>
+                <List>
+                    <Divider/>
+                    <ListItem>
+                        <ListItemText>{props.location.state.user.name}</ListItemText>
+                    </ListItem>
+                    <ListItem>
+                        <ListItemText>ID : {props.location.state.user.id}</ListItemText>
+                    </ListItem>
+                    <ListItem>
+                        <ListItemText>E-mail: {props.location.state.user.email}</ListItemText>
+                    </ListItem>
+                    <Divider/>
+                    <ListItem className="historyInfo"> 
+                        <ListItemText>Her skal number of available and remaining vacation days</ListItemText>
+                    </ListItem>
+                    <Divider/>
+                </List>
+                {loading ? (<Spinner animation="border"/>):(
                     <List>
                         {requests.map((element, index) => {
-                            return (<ListItem>
-                                <ListItemText>{element.title}</ListItemText>
-                            </ListItem>)
+                            return (
+                                <HistoryListItem element={element} parentProps={props}/>
+                            )
                         })}
                     </List>
-
-                </div>
+                )}
             </div>
         )
     } else {
