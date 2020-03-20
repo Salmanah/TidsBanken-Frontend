@@ -200,6 +200,7 @@ export function getAllUsers() {
     });
 }
 
+/*
 export function adminEditVacationRequest(id, newStatus) {
     if (!localStorage.getItem(ACCESS_TOKEN)) {
       return Promise.reject("No access token set.");
@@ -215,6 +216,7 @@ export function adminEditVacationRequest(id, newStatus) {
       body: newStatus
     });
   }
+*/
 
 
 export function getVacationRequestByID(id) {
@@ -265,7 +267,7 @@ export function getVacationRequestCommentByID(r_id, c_id) {
     });
   }
 
-
+/*
   export function createCommentForVacationRequestAsAdmin(id, message) {
     if (!localStorage.getItem(ACCESS_TOKEN)) {
       return Promise.reject("No access token set.");
@@ -279,8 +281,9 @@ export function getVacationRequestCommentByID(r_id, c_id) {
         message: message
       })
     });
-  }
+  }*/
 
+  /*
 export function createCommentForVacationRequest(id, message) {
 if (!localStorage.getItem(ACCESS_TOKEN)) {
 return Promise.reject("No access token set.");
@@ -294,4 +297,4 @@ body: JSON.stringify({
     message: message
 })
 });
-}
+}*/

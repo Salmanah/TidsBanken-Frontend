@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import './Profile.css';
-import {adminEditVacationRequest,deleteVacationRequest,createVacationRequest, createCommentForVacationRequest} from '../../utils/APIUtils';
+//import {adminEditVacationRequest,deleteVacationRequest,createVacationRequest, createCommentForVacationRequest} from '../../utils/APIUtils';
 
 function Profile(props) {
-
+/*
     useEffect(() => {
         deleteVacationRequest(54)
             .then(response => {
@@ -12,7 +12,7 @@ function Profile(props) {
                 console.log("ERROR: ", error)
             });
 
-    }, [])
+    }, [])*/
 
 
     return (
