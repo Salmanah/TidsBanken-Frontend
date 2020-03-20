@@ -73,7 +73,6 @@ function CalendarView(props) {
     }, [allVacations])
 
     useEffect(() => {
-        console.log("from useeffect", allApprovedVacations)
 
     }, [allApprovedVacations])
 
@@ -114,7 +113,6 @@ function CalendarView(props) {
 
         let newAllApprovedVacations = allApprovedVacations.filter(e => {
 
-            console.log("owner " + e.owner[0].id + ", req " + id, e.owner[0].id !== id)
             return e.owner[0].id !== id;
         })
         setAllApprovedVacations(newAllApprovedVacations)

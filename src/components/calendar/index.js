@@ -29,24 +29,34 @@ function Calendar(props) {
 
     useEffect(() => {
 
-
         ineligibleVacation();
         if (!props.checked) {
             pendingVacation();
             approvedVacation()
         } else {
             console.log(props)
-            if (props.allApproved) {
-                console.log(props.allApproved)
-            }
+            userVacations();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [count, props.checked, props.pending, props.allApproved]);                // using a counter to trigger the render
     // because it doesn't render on changes to the dateObject on next() and prev()
 
+    useEffect(() => {
+        console.log(allSelectedUserVacations)
 
+    }, [allSelectedUserVacations])
 
-
+    function userVacations() {
+        let alltmp = [];
+        let tmp = [];
+        if (props.allApproved) {
+            props.allApproved.forEach(vac => {
+                let vacation = { dates: getDates(vac.period_start, vac.period_end), id: vac.owner[0].id, name: vac.owner[0].name }
+                tmp.push(vacation)
+            });
+            setAllSelectedUserVacations(tmp)
+        }
+    }
 
     function ineligibleVacation() {
         let allInel = [];
