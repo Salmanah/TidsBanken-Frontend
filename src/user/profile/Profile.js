@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import './Profile.css';
-import {adminEditVacationRequest,deleteVacationRequest,createVacationRequest, createCommentForVacationRequest} from '../../utils/APIUtils';
+import { adminEditVacationRequest, deleteVacationRequest, createVacationRequest, createCommentForVacationRequest } from '../../utils/APIUtils';
 
 function Profile(props) {
 
