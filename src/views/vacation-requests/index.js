@@ -19,7 +19,6 @@ const VacationRequests = (props) => {
             setRequests(resp)
             setLoading(false)
         })
-        
     },[])
 
     const status = ["Pending", "Approved", "Denied"]

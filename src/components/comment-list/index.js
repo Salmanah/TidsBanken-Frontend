@@ -2,10 +2,11 @@ import React, {useState, useEffect} from 'react';
 import {List, ListItem, ListItemText} from '@material-ui/core';
 import Comment from '../../components/comment/index';
 import {Modal, Button, Form} from 'react-bootstrap';
-import { createCommentForVacationRequestAsAdmin, getVacationRequestByIDasAdmin } from "../../utils/APIUtils";
+import { getAllCommentsByVacationRequestIDAsAdmin, getAllCommentsByVacationRequestID, createCommentForVacationRequest, getVacationRequestByID, createCommentForVacationRequestAsAdmin, getVacationRequestByIDasAdmin } from "../../utils/APIUtils";
 
 
 const CommentList = (props) => {
+
 
     const [vacationRequest, setVacationRequest] = useState(props.parentProps.location.state.request);
     const [writeComment, setWriteComment] = useState(false);
@@ -23,24 +24,43 @@ const CommentList = (props) => {
 
     const [response, setResponse] = useState(null);
 
-    function handleAddCommentAsAdmin(){
-        createCommentForVacationRequestAsAdmin(vacationRequest.request_id, comment)
-        .then(resp => {
-            setResponse(resp);
-        }).catch(err => {console.error(err)})
-        setWriteComment(false);
+    function handleAddComment(){
+
+        if (props.parentProps.currentUser.admin) {
+            createCommentForVacationRequestAsAdmin(vacationRequest.request_id, comment)
+            .then(resp => {
+                setResponse(resp);
+            }).catch(err => {console.error(err)})
+        } else {
+            createCommentForVacationRequest(vacationRequest.request_id, comment)
+            .then(resp => {
+                setResponse(resp);
+            }).catch(err => {console.error(err)})
+        }
+        setWriteComment(false);        
     }
 
     useEffect(()=>{
-        getVacationRequestByIDasAdmin(vacationRequest.request_id)
-        .then(resp=>{
-            setVacationRequest(resp)
-        }).catch(err => {console.error(err)})
+        if (props.parentProps.currentUser.admin) {
+            getAllCommentsByVacationRequestIDAsAdmin
+            .then( resp => {
+                setCommentList(resp)
+            }).catch(err => {console.error(err)})
+            //getVacationRequestByIDasAdmin(vacationRequest.request_id)
+            //.then(resp=>{
+            //setVacationRequest(resp)
+            //}).catch(err => {console.error(err)})
+        } else {
+            getAllCommentsByVacationRequestID(vacationRequest.request_id)
+            .then(resp => {
+                setCommentList(resp)
+            }).catch(err => {console.error(err)})
+        }
     },[response])
 
-    useEffect(()=>{
-        setCommentList(vacationRequest.comment)
-    },[vacationRequest])
+    //useEffect(()=>{
+      //  setCommentList(vacationRequest.comment)
+    //},[vacationRequest])
 
 
 
@@ -62,7 +82,7 @@ const CommentList = (props) => {
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={handleAddCommentAsAdmin}>Add</Button>
+                        <Button onClick={handleAddComment}>Add</Button>
                     </Modal.Footer>
                 </Modal>
             </ListItem>
