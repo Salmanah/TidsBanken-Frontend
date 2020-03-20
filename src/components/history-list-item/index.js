@@ -5,22 +5,24 @@ import WifiIcon from '@material-ui/icons/Wifi';
 
 const HistoryListItem = (props) => {
 
-    console.log(props)
-
-    const [open, setOpen] = React.useState(false);
-
-
-    function handleMoreInfoClick(){
-        setOpen(!open);
+    function handleMoreInfoClick(event, currentRequest){
+        props.parentProps.history.push({
+            pathname : "/ViewVacationRequest",
+            state : {
+                request : currentRequest
+            }
+        })
     }
+
+
 
     return(
         <div>
-            <ListItem button onClick={handleMoreInfoClick}>
+            <ListItem>
                 <ListItemText>{props.element.title}</ListItemText>
-                <Button edge="end">More info</Button>
-                    <Button edge="end" onClick={console.log("onclick checkout button")}>Approve/deny</Button>
-                    <Button edge="end">Add comment</Button>
+                <Button edge="end" onClick={e => handleMoreInfoClick(e, props.element)}>More info</Button>
+                <Button edge="end" >Approve/deny</Button>
+                <Button edge="end" >Add comment</Button>
             </ListItem>
             <Divider/>
         </div>

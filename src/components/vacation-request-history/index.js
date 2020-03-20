@@ -3,6 +3,7 @@ import {List, ListItemText, ListItem, Divider} from '@material-ui/core';
 import { getUserRequestsById } from "../../utils/APIUtils";
 import {Spinner} from 'react-bootstrap';
 import HistoryListItem from '../../components/history-list-item/index';
+import './vacationRequestHistory.css';
 
 //for admin
 const VacationRequestHistory = (props) => {
@@ -37,12 +38,16 @@ const VacationRequestHistory = (props) => {
                         <ListItemText>E-mail: {props.location.state.user.email}</ListItemText>
                     </ListItem>
                     <Divider/>
+                    <ListItem className="historyInfo"> 
+                        <ListItemText>Her skal number of available and remaining vacation days</ListItemText>
+                    </ListItem>
+                    <Divider/>
                 </List>
                 {loading ? (<Spinner animation="border"/>):(
                     <List>
                         {requests.map((element, index) => {
                             return (
-                                <HistoryListItem element={element}/>
+                                <HistoryListItem element={element} parentProps={props}/>
                             )
                         })}
                     </List>
