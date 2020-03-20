@@ -45,6 +45,7 @@ export function getOtherUser(id) {
         method: 'GET'
     });
 }
+
 export function getOtherUserAsAdmin(id) {
     if (!localStorage.getItem(ACCESS_TOKEN)) {
         return Promise.reject("No access token set.");
@@ -53,6 +54,21 @@ export function getOtherUserAsAdmin(id) {
     return request({
         url: API_BASE_URL + `/admin/user/${id}`,
         method: 'GET'
+    });
+}
+
+export function adminEditVacationRequest(id,newStatus) {
+    if (!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+    console.log("SENDING REQUEST TO BACKEND ", API_BASE_URL + `/admin/request/${id}/edit`)
+    console.log("SENDING STATUS ",`${newStatus}`)
+    return request({
+        url: API_BASE_URL + `/admin/request/${id}/edit`,
+        method: 'PATCH',
+        body:JSON.stringify({
+           status: newStatus
+        })
     });
 }
 
@@ -76,6 +92,53 @@ export function createVacationRequest(requestTitle, requestPeriodStart, requestP
         }),
     });
 }
+
+export function deleteVacationRequest(id) {
+    if (!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+    console.log("SENDING POST REQUEST TO BACKEND ", API_BASE_URL + `/admin/request/{id}`)
+    return request({
+        url: API_BASE_URL + `/admin/request/${id}`,
+        method: 'PATCH'
+    });
+}
+
+export function createCommentForVacationRequest(id, message) {
+    if (!localStorage.getItem(ACCESS_TOKEN)) {
+      return Promise.reject("No access token set.");
+    }
+    console.log(
+      "SENDING POST REQUEST TO BACKEND ",
+      API_BASE_URL + `/request/${id}/comment`
+    );
+    return request({
+      url: API_BASE_URL + `/request/${id}/comment`,
+      method: "POST",
+      body: JSON.stringify({
+        comment_id: -1,
+        message: message
+      })
+    });
+  }
+  
+  export function createCommentForVacationRequestAsAdmin(id, message) {
+    if (!localStorage.getItem(ACCESS_TOKEN)) {
+      return Promise.reject("No access token set.");
+    }
+    console.log(
+      "SENDING POST REQUEST TO BACKEND ",
+      API_BASE_URL + `/admin/request/${id}/comment`
+    );
+    return request({
+      url: API_BASE_URL + `/admin/request/${id}/comment`,
+      method: "POST",
+      body: JSON.stringify({
+        comment_id: -1,
+        message: message
+      })
+    });
+  }
 
 export function login(loginRequest) {
     return request({
