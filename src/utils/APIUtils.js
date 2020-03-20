@@ -155,6 +155,7 @@ export function getAllUsers() {
   });
 }
 
+/*
 export function adminEditVacationRequest(id, newStatus) {
   if (!localStorage.getItem(ACCESS_TOKEN)) {
     return Promise.reject("No access token set.");
@@ -236,6 +237,7 @@ export function createCommentForVacationRequestAsAdmin(id, message) {
   });
 }
 
+  /*
 export function createCommentForVacationRequest(id, message) {
   if (!localStorage.getItem(ACCESS_TOKEN)) {
     return Promise.reject("No access token set.");
