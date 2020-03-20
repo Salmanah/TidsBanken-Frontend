@@ -19,52 +19,74 @@ function Calendar(props) {
     const [selectedDay, setSelectedDay] = React.useState(null);
     const [weekdayshort] = React.useState(moment.weekdaysShort());
 
-    const [count, setCount] = React.useState(0);
+    const [count, setCount] = React.useState(0); //fix --> do i need this anymore?
 
     const [pending, setPending] = React.useState([]);
     const [approved, setApproved] = React.useState([]);
     const [ineligible, setIneligible] = React.useState([]);
 
+    const [allSelectedUserVacations, setAllSelectedUserVacations] = React.useState([]);
+
     useEffect(() => {
+
         ineligibleVacation();
+        userVacations();
         if (!props.checked) {
             pendingVacation();
             approvedVacation()
         }
+
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [count, props.checked, props.pending]);                // using a counter to trigger the render
+    }, [props.checked, props.pending, props.allApproved]);                // using a counter to trigger the render
     // because it doesn't render on changes to the dateObject on next() and prev()
+
+    useEffect(() => {
+
+    }, [allSelectedUserVacations])
+
+    function userVacations() {
+        let tmp = [];
+        if (props.allApproved) {
+            props.allApproved.forEach(vac => {
+                let vacation = { dates: getDates(vac.period_start, vac.period_end), id: vac.owner[0].id, name: vac.owner[0].name, title: vac.title }
+                tmp.push(vacation)
+            });
+            setAllSelectedUserVacations(tmp)
+        }
+    }
 
     function ineligibleVacation() {
         let allInel = [];
         let inel = [];
         if (props.ineligible) {
-            props.ineligible.forEach(date => {
-                inel.push(getDates(date.start, date.end));
-            });
+            props.ineligible.forEach(date =>
+                inel.push(getDates(date.start, date.end))
+            );
         }
 
         for (let i = 0; i < inel.length; i++) {
-            inel[i].forEach(element => {
+            inel[i].forEach(element =>
                 allInel.push(element)
-            });
+            );
         }
         setIneligible(allInel)
 
     }
     function pendingVacation() {
+
         let allPend = [];
         let pend = [];
         if (props.pending) {
-            props.pending.forEach(date => {
-                pend.push(getDates(date.start, date.end));
-            });
+            props.pending.forEach(date =>
+                pend.push(getDates(date.start, date.end))
+            );
         }
 
         for (let i = 0; i < pend.length; i++) {
-            pend[i].forEach(element => {
+            pend[i].forEach(element =>
                 allPend.push(element)
-            });
+            );
         }
         setPending(allPend)
     }
@@ -73,15 +95,15 @@ function Calendar(props) {
         let allAppr = [];
         let appr = [];
         if (props.approved) {
-            props.approved.forEach(date => {
-                appr.push(getDates(date.start, date.end));
-            });
+            props.approved.forEach(date =>
+                appr.push(getDates(date.start, date.end))
+            );
         }
 
         for (let i = 0; i < appr.length; i++) {
-            appr[i].forEach(element => {
+            appr[i].forEach(element =>
                 allAppr.push(element)
-            });
+            );
         }
         setApproved(allAppr)
 
@@ -304,13 +326,33 @@ function Calendar(props) {
     }
     let daysInMonthArray = [];
 
+
+
     for (let d = 1; d <= daysInMonth(); d++) {
 
         if (d < 10) {
             d = '0' + d;
         }
-        let status = "";
         let mm = moment().month(month()).format("MM");
+
+        let userDetails = [];
+
+        allSelectedUserVacations.forEach(vac => {
+            if (props.checked || props.admin) {
+                if (vac.dates.includes(year() + "-" + mm + "-" + d)) {
+                    userDetails.push(
+                        <span key={vac.id}>
+                            <em>{vac.name}</em>
+                            <br /> </span>);
+                }
+            }
+        });
+
+        /*if (allSelectedUserVacations.includes(year() + "-" + mm + "-" + d)) {
+            console.log(allSelectedUserVacations)
+        }*/
+        let status = "";
+
         if (!props.checked && pending.includes(year() + "-" + mm + "-" + d)) {
             status = "pending";
         }
@@ -321,34 +363,7 @@ function Calendar(props) {
         else if (ineligible.includes(year() + "-" + mm + "-" + d)) {
             status = "ineligible"
 
-        } else {
-            status = "";
         }
-        let lol;
-        if (props.checked) {
-            lol =
-                <>
-                    <p className="userVacation text-left mr-2">
-                        <span className="userPendingVacation px-1 mr-1">1</span>
-                        <em>pending</em>
-                    </p>
-                    <p className="userVacation text-left mr-2">
-                        <span className="userApprovedVacation px-1 mr-1">2</span>
-                        <em>approved</em>
-                    </p>
-                    <p className="userVacation text-left mr-2">
-                        <span className="circle userDeniedVacation px-1 mr-1">3</span>
-                        <em>denied</em>
-                    </p>
-                </>
-
-        } else {
-            lol = ""
-        }
-
-
-
-
 
 
         // eslint-disable-next-line 
@@ -357,7 +372,6 @@ function Calendar(props) {
 
 
         //console.log(mm, moment().month())
-
 
         daysInMonthArray.push(
 
@@ -371,8 +385,9 @@ function Calendar(props) {
                     {d}
 
                 </span>
-                {lol}
-
+                <p className="userVacation text-left mr-2">
+                    {userDetails}
+                </p>
             </td >
         );
     }

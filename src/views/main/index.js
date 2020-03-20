@@ -3,6 +3,7 @@ import CalendarView from '../calendar-view/index';
 import './main.css';
 import { getCurrentUser, getAllUsers, getUserRequestsById } from '../../utils/APIUtils';
 
+
 function Main() {
 
     const [admin, setAdmin] = React.useState(null);
@@ -15,6 +16,7 @@ function Main() {
         getCurrentUser().then(resp => { setAdmin(resp.admin); setMyId(resp.id) })
 
         getAllUsers().then(resp => { setAllUsers(resp) });
+
 
     }, [])
 

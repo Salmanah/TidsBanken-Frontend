@@ -9,6 +9,7 @@ import './calendar-view.css';
 import { MDBBtn } from "mdbreact";
 import { Link } from 'react-router-dom';
 import CreateIneligiblePeriod from '../../views/create-ineligible-period/index';
+import { getUserRequestsById } from '../../utils/APIUtils';
 
 
 function CalendarView(props) {
@@ -16,7 +17,9 @@ function CalendarView(props) {
     const [checked, setChecked] = React.useState(false);
     const [users, setUsers] = React.useState([]);
     const [selected] = React.useState([]);
+    const [allVacations, setAllVacations] = React.useState([]);
     const [selectedOptions, setSelectedOptions] = React.useState(selected);
+    const [allApprovedVacations, setAllApprovedVacations] = React.useState([]);
 
     const [pendingDates, setPendingDates] = React.useState([]);
 
@@ -31,9 +34,10 @@ function CalendarView(props) {
     ]);
 
     useEffect(() => {
+
         let tmpusers = []
         props.allUsers.forEach(user => {
-            if (!user.admin) {
+            if (!user.admin && user.id !== props.id) {
                 tmpusers.push({ value: user.id, label: user.name })
             }
         });
@@ -48,17 +52,49 @@ function CalendarView(props) {
             }
         });
         setPendingDates(tmppending)
+
     }, [props.requests])
+
+
+    useEffect(() => {
+
+        if (allVacations.length > 0) {
+            let tmp = [];
+            allVacations.forEach(element => {
+                element.forEach(el => {
+                    // fix --> status === 'Approved'
+                    if (el.status[0].status === 'Pending') {
+                        tmp.push(el);
+                    }
+                })
+            });
+            setAllApprovedVacations(tmp)
+        }
+    }, [allVacations])
+
+    useEffect(() => {
+
+    }, [allApprovedVacations])
+
 
     const handleChange = selectedOption => {
         let alreadySelected = selectedOptions.includes(selectedOption);
 
         if (!alreadySelected) {
             setSelectedOptions(selected => [...selected, selectedOption]);
+            getSelectedUserVacationRequests(selectedOption.value);
         } else {
             console.log("you have already selected this user")
         }
     };
+
+    function getSelectedUserVacationRequests(id) {
+
+        getUserRequestsById(id).then(resp => {
+            setAllVacations([...allVacations, resp]);
+
+        })
+    }
 
     let selectedPeopleBadges = selectedOptions.map((user) => {
         return <CalendarBadge key={user.value} name={user.label} delete={() => handleDelete(user.value)} />
@@ -70,10 +106,26 @@ function CalendarView(props) {
 
     const handleDelete = id => {
 
-        let newArray = selectedOptions.filter(e =>
+        let newSelectedOptions = selectedOptions.filter(e =>
             e.value !== id
         );
-        setSelectedOptions(newArray);
+        setSelectedOptions(newSelectedOptions);
+
+        let newAllApprovedVacations = allApprovedVacations.filter(e => {
+
+            return e.owner[0].id !== id;
+        })
+        setAllApprovedVacations(newAllApprovedVacations)
+
+        let newAllVacations = allVacations.filter(user => {
+
+            let remove = user.forEach(vac => {
+                return vac.owner[0].id !== id
+            });
+            return remove
+        })
+        setAllVacations(newAllVacations)
+
     }
 
     return (
@@ -119,7 +171,7 @@ function CalendarView(props) {
             }
             <Row>
                 <Col>
-                    {props.admin ? <Calendar ineligible={ineligibleDates} /> : !checked ? <Calendar checked={checked} pending={pendingDates} approved={approvedDates} ineligible={ineligibleDates} /> : <Calendar checked={checked} pending={null} approved={null} ineligible={ineligibleDates} />}
+                    {props.admin ? <Calendar admin='true' ineligible={ineligibleDates} allApproved={allApprovedVacations} /> : !checked ? <Calendar checked={checked} pending={pendingDates} approved={approvedDates} ineligible={ineligibleDates} /> : <Calendar checked={checked} pending={null} approved={null} allApproved={allApprovedVacations} ineligible={ineligibleDates} />}
                 </Col>
             </Row>
             <Row className="mb-5">
