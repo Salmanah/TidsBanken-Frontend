@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import { Button } from 'react-bootstrap';
 import {ListItem, ListItemText, List, Collapse} from '@material-ui/core';
 import { ExpandMore, ExpandLess } from '@material-ui/icons';
+import './requestListItem.css';
+
+
 
 
 class RequestListItem extends Component{
@@ -17,11 +20,11 @@ class RequestListItem extends Component{
         this.setState({open : !this.state.open})
     }
 
-    itemClicked(event){
+    itemClicked(event, currentRequest){
         this.props.parentProps.history.push({ 
             pathname: "/ViewVacationRequest",
             state: {
-                id:1
+                request: currentRequest
             }
         });
     }
@@ -31,19 +34,19 @@ class RequestListItem extends Component{
         return(
             <div>
                 <ListItem button onClick={e => this.handleMoreInfoClick(e)}>
-                    <ListItemText>{this.props.title}</ListItemText>
+                    <ListItemText>{this.props.request.title}</ListItemText>
                     {this.state.open? <ExpandLess/> : <ExpandMore/>}
                 </ListItem>
                 <Collapse in={this.state.open} timeout="auto" unmountOnExit>
                     <List>
-                        <ListItem>
-                            <ListItemText>Period:</ListItemText>
+                        <ListItem className="itemContent">
+                            <ListItemText>Period: {this.props.request.period_start} to {this.props.request.period_end}</ListItemText>
                         </ListItem>
-                        <ListItem>
-                            <ListItemText>Status:</ListItemText>
+                        <ListItem className="itemContent">
+                            <ListItemText>Status: {this.props.request.status[0].status}</ListItemText>
                         </ListItem>
-                        <ListItem>
-                            <Button size="sm" onClick={e=>this.itemClicked(e)}>Read more</Button>
+                        <ListItem className="itemContent">
+                            <Button size="sm" onClick={e=>this.itemClicked(e, this.props.request)}>Read more</Button>
                         </ListItem>
                     </List>
                 </Collapse>

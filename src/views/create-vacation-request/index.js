@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { MDBInput, MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody } from 'mdbreact';
+import { MDBInput, MDBContainer, MDBRow, MDBCard, MDBCardBody } from 'mdbreact';
 import './createVacationForm.css';
-//import { createVacationRequest } from "../../utils/APIUtils";
-//import { AddAlertTwoTone } from "@material-ui/icons";
+import { createVacationRequest } from "../../utils/APIUtils";
+import {Col} from 'react-bootstrap';
 
 
 class CreateVacationRequest extends Component {
@@ -38,19 +38,10 @@ class CreateVacationRequest extends Component {
 
     handleSubmitClick(event) {
 
-        this.validateVacationPeriod(this.state.startDate, this.state.endingDate) ? (
-            console.log("period ok")
-        ) : (
-                console.log("period not ok")
-            );
-
-
-        /*
         createVacationRequest(this.state.title, this.state.startDate, this.state.endingDate).then(response => {
-            console.log("POST REQUEST RESPONSE: Request_id " + response)
             alert("Request successfully submitted")
             this.props.history.push("/")
-        })*/
+        })
     }
 
 
@@ -85,7 +76,7 @@ class CreateVacationRequest extends Component {
             <div>
                 <MDBContainer>
                     <MDBRow>
-                        <MDBCol md="10">
+                        <Col md={{ span: 10, offset: 1 }}>
                             <MDBCard>
                                 <MDBCardBody>
                                     <form>
@@ -142,7 +133,7 @@ class CreateVacationRequest extends Component {
                                     </form>
                                 </MDBCardBody>
                             </MDBCard>
-                        </MDBCol>
+                        </Col>
                     </MDBRow>
                 </MDBContainer>
             </div>
