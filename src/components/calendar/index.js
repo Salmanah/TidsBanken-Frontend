@@ -26,13 +26,20 @@ function Calendar(props) {
     const [ineligible, setIneligible] = React.useState([]);
 
     useEffect(() => {
+
+
         ineligibleVacation();
         if (!props.checked) {
             pendingVacation();
             approvedVacation()
+        } else {
+            if (props.allApproved) {
+                console.log("props ", props.allApproved)
+            }
+
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [count, props.checked, props.pending]);                // using a counter to trigger the render
+    }, [count, props.checked, props.pending, props.allApproved]);                // using a counter to trigger the render
     // because it doesn't render on changes to the dateObject on next() and prev()
 
     function ineligibleVacation() {
@@ -324,9 +331,9 @@ function Calendar(props) {
         } else {
             status = "";
         }
-        let lol;
+        let userVacations;
         if (props.checked) {
-            lol =
+            userVacations =
                 <>
                     <p className="userVacation text-left mr-2">
                         <span className="userPendingVacation px-1 mr-1">1</span>
@@ -343,13 +350,8 @@ function Calendar(props) {
                 </>
 
         } else {
-            lol = ""
+            userVacations = ""
         }
-
-
-
-
-
 
         // eslint-disable-next-line 
         //let currentDay;
@@ -357,7 +359,6 @@ function Calendar(props) {
 
 
         //console.log(mm, moment().month())
-
 
         daysInMonthArray.push(
 
@@ -371,7 +372,7 @@ function Calendar(props) {
                     {d}
 
                 </span>
-                {lol}
+                {userVacations}
 
             </td >
         );
