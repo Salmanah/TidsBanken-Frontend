@@ -34,24 +34,21 @@ function Calendar(props) {
             pendingVacation();
             approvedVacation()
         } else {
-            console.log(props)
             userVacations();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [count, props.checked, props.pending, props.allApproved]);                // using a counter to trigger the render
+    }, [props.checked, props.pending, props.allApproved]);                // using a counter to trigger the render
     // because it doesn't render on changes to the dateObject on next() and prev()
 
     useEffect(() => {
-        console.log(allSelectedUserVacations)
 
     }, [allSelectedUserVacations])
 
     function userVacations() {
-        let alltmp = [];
         let tmp = [];
         if (props.allApproved) {
             props.allApproved.forEach(vac => {
-                let vacation = { dates: getDates(vac.period_start, vac.period_end), id: vac.owner[0].id, name: vac.owner[0].name }
+                let vacation = { dates: getDates(vac.period_start, vac.period_end), id: vac.owner[0].id, name: vac.owner[0].name, title: vac.title }
                 tmp.push(vacation)
             });
             setAllSelectedUserVacations(tmp)
@@ -328,12 +325,24 @@ function Calendar(props) {
     }
     let daysInMonthArray = [];
 
+
+
     for (let d = 1; d <= daysInMonth(); d++) {
 
         if (d < 10) {
             d = '0' + d;
         }
         let mm = moment().month(month()).format("MM");
+
+        let w = "";
+
+        allSelectedUserVacations.forEach(vac => {
+            if (vac.dates.includes(year() + "-" + mm + "-" + d))
+                w = vac.name;
+        })
+
+
+
 
 
 
@@ -396,6 +405,7 @@ function Calendar(props) {
                     {d}
 
                 </span>
+                {w}
                 {userVacations}
 
             </td >
