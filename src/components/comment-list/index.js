@@ -2,49 +2,47 @@ import React, {useState, useEffect} from 'react';
 import {List, ListItem, ListItemText} from '@material-ui/core';
 import Comment from '../../components/comment/index';
 import {Modal, Button, Form} from 'react-bootstrap';
-import {createCommentForVacationRequestAsAdmin} from "../../utils/APIUtils";
+import { adminEditVacationRequest, createCommentForVacationRequestAsAdmin, getVacationRequestByIDasAdmin } from "../../utils/APIUtils";
 
 
 const CommentList = (props) => {
 
-    const request = props.parentProps.location.state.request;
-
-    console.log("request i commentlist:")
-    console.log(request)
-
+    const [vacationRequest, setVacationRequest] = useState(props.parentProps.location.state.request);
     const [writeComment, setWriteComment] = useState(false);
+    const [comment, addComment] = useState(null)
+
     const handleShowWriteComment = () => setWriteComment(true);
     const handleCloseWriteComment = () => setWriteComment(false);
+    const [commentList, setCommentList] = useState([]);
 
     function handleInputChange(event){
         addComment(event.target.value);
     }
 
-    const [comment, addComment] = useState(null)
-    const [newComment, setNewComment] = useState(null)
 
+
+    const [response, setResponse] = useState(null);
 
     function handleAddCommentAsAdmin(){
-        console.log("addcommentpushed")
-        console.log(comment)
-        //sende comment til database
-        createCommentForVacationRequestAsAdmin(request.request_id, comment)
+        createCommentForVacationRequestAsAdmin(vacationRequest.request_id, comment)
         .then(resp => {
-            console.log("response:")
-            console.log(resp);
-            setNewComment(resp);
+            setResponse(resp);
         }).catch(err => {console.error(err)})
         setWriteComment(false);
     }
 
-
-    const [commentList, setCommentList] = useState([]);
+    useEffect(()=>{
+        getVacationRequestByIDasAdmin(vacationRequest.request_id)
+        .then(resp=>{
+            setVacationRequest(resp)
+        }).catch(err => {console.error(err)})
+    },[response])
 
     useEffect(()=>{
-        console.log("useffect som skal rendre hver gang noe blir lag til i commentList");
-        console.log(request.comment)
-        setCommentList(request.comment)
-    },[newComment])
+        setCommentList(vacationRequest.comment)
+    },[vacationRequest])
+
+
 
 
     return(
@@ -68,13 +66,14 @@ const CommentList = (props) => {
                     </Modal.Footer>
                 </Modal>
             </ListItem>
-            {commentList.map((c, index) => {
+            {commentList.map((c,index)=>{
                 return(
-                    <Comment comment={c}/>
+                    <ListItem>
+                    {c.message}
+                </ListItem>
                 )
                 
             })}
-            
         </List>
     )
 }

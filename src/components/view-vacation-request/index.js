@@ -5,6 +5,7 @@ import { ExpandLess, ExpandMore } from '@material-ui/icons';
 import EditIcon from '@material-ui/icons/Edit';
 import {Container, Col, Row, Button, Modal, Form} from 'react-bootstrap';
 import { adminEditVacationRequest, createCommentForVacationRequestAsAdmin, getVacationRequestByIDasAdmin } from "../../utils/APIUtils";
+import CommentList from '../../components/comment-list/index';
 
 //Tar inn en request id og displayer korresponderende request
 
@@ -14,9 +15,10 @@ const ViewVacationRequest = (props) => {
 
     const [vacationRequest, setVacationRequest] = useState(props.location.state.request);
     const [status, setStatus] = useState(vacationRequest.status[0].status);
-    const [writeComment, setWriteComment] = useState(false);
+    //const [writeComment, setWriteComment] = useState(false);
     const [commentRevealed, setCommentRevealed] = useState(false);
-    const [comment, addComment] = useState(null)
+    //const [comment, addComment] = useState(null)
+
 
     function handleViewComments(event) {
         setCommentRevealed(!commentRevealed)
@@ -29,6 +31,8 @@ const ViewVacationRequest = (props) => {
         setStatus(status)
     }
 
+
+/*
     const handleShowWriteComment = () => setWriteComment(true);
     const handleCloseWriteComment = () => setWriteComment(false);
     const [commentList, setCommentList] = useState([]);
@@ -37,6 +41,7 @@ const ViewVacationRequest = (props) => {
         addComment(event.target.value);
     }
 
+    
     const [response, setResponse] = useState(null);
 
     function handleAddCommentAsAdmin(){
@@ -57,6 +62,7 @@ const ViewVacationRequest = (props) => {
     useEffect(()=>{
         setCommentList(vacationRequest.comment)
     },[vacationRequest])
+    */
 
     return(
         <div>
@@ -102,7 +108,8 @@ const ViewVacationRequest = (props) => {
                     {commentRevealed ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
                 <Collapse in={commentRevealed} timeout="auto" unmountOnExit>
-                    <List>
+                <CommentList parentProps={props}/>
+                    {/*<List>
                         <ListItem>
                             <ListItemText><Button onClick={handleShowWriteComment}>Add comment</Button>
                             </ListItemText>
@@ -131,8 +138,10 @@ const ViewVacationRequest = (props) => {
                             
                         })}
                     </List>
+                    */}
                 </Collapse>
             </List>
+                    
         </div>
     )
 }
