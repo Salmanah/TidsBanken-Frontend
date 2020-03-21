@@ -281,3 +281,17 @@ export function getAllCommentsByVacationRequestIDAsAdmin(r_id) {
     method: "GET"
   });
 }
+
+export function getAllIneligiblePeriods() {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+  }
+  console.log(
+    "SENDING REQUEST TO BACKEND ",
+    API_BASE_URL + `/admin/ineligible`
+  );
+  return request({
+    url: API_BASE_URL + `/admin/ineligible`,
+    method: "GET"
+  });
+}
