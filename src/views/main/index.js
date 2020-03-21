@@ -18,7 +18,7 @@ function Main() {
 
         getAllUsers().then(resp => { setAllUsers(resp) });
 
-        getAllIneligiblePeriods().then(resp => { setIneligiblePeriods(resp) });
+        //getAllIneligiblePeriods().then(resp => { setIneligiblePeriods(resp) });
 
 
     }, [])
