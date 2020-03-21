@@ -281,3 +281,52 @@ export function getAllCommentsByVacationRequestIDAsAdmin(r_id) {
     method: "GET"
   });
 }
+
+export function getAllIneligiblePeriods() {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+  }
+  console.log(
+    "SENDING REQUEST TO BACKEND ",
+    API_BASE_URL + `/admin/ineligible`
+  );
+  return request({
+    url: API_BASE_URL + `/admin/ineligible`,
+    method: "GET"
+  });
+}
+
+export function createIneligiblePeriod(
+  requestPeriodStart,
+  requestPeriodEnd
+) {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+  }
+  console.log("SENDING POST REQUEST TO BACKEND ", API_BASE_URL + `/admin/ineligible`);
+  return request({
+    url: API_BASE_URL + `/admin/ineligible`,
+    method: "POST",
+    body: JSON.stringify({
+      request_id: -1,
+      period_start: requestPeriodStart,
+      period_end: requestPeriodEnd
+    })
+  });
+
+}
+
+export function getIneligiblePeriodById(ip_id) {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+  }
+  console.log(
+    "SENDING REQUEST TO BACKEND ",
+    API_BASE_URL + `/admin/ineligible/${ip_id}`
+  );
+  return request({
+    url: API_BASE_URL + `/admin/ineligible/${ip_id}`,
+    method: "GET"
+  });
+}
+
