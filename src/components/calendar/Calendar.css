@@ -319,9 +319,23 @@
   .userVacation em {
     color: black;
     font-size:12px;
-    background-color: #c5eac5e6;
     padding: 0.5px 4px;
     border-radius: 5px;
+  }
+
+  .userVacation em.approved{
+    background-color: #60c260a3;
+    background: linear-gradient(0deg, rgba(63, 165, 68, 0.39) 0%, #60c2604f, #caecca 100%);
+}
+
+  .userVacation em.denied{
+    background-color: #e57373d6;
+    background: linear-gradient(0deg, #d2585882 0%, #e5737391, #ef9a9a82 100%);
+  }
+
+  .userVacation em.pending{
+    background-color: #fdfd078c;
+    background: linear-gradient(0deg, rgba(218, 218, 34, 0.59) 0%, #fdfd078c, #ffff7a26 100%);
   }
 
   .userDeniedVacation{
