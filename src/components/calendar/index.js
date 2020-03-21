@@ -37,17 +37,23 @@ function Calendar(props) {
             approvedVacation()
             deniedVacation()
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props.checked, props.pending, props.allSelectedUserVacations, props.approved, props.denied]);
 
-    useEffect(() => {
+    },
+        /*
+            React Hook useEffect has missing dependencies: 
+            'approvedVacation', 
+            'deniedVacation', 
+            'ineligibleVacation', 
+            'pendingVacation', 
+            and 'userVacations'
+        */
 
-    }, [allSelectedUserVacations])
+        // eslint-disable-next-line react-hooks/exhaustive-deps  
+        [props]);
 
     function userVacations() {
         let tmp = [];
         if (props.allSelectedUserVacations) {
-            console.log(props.allSelectedUserVacations)
             props.allSelectedUserVacations.forEach(vac => {
                 let vacation =
                 {

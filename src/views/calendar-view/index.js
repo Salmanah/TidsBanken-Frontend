@@ -40,7 +40,7 @@ function CalendarView(props) {
             }
         });
         setUsers(tmpusers)
-    }, [props.allUsers])
+    }, [props.allUsers, props.id])
 
     useEffect(() => {
         let tmppending = [];
@@ -96,7 +96,7 @@ function CalendarView(props) {
             setAllSelectedVacations(all);
 
         }
-    }, [allVacations])
+    }, [allVacations, props.admin])
 
     useEffect(() => {
 
@@ -118,7 +118,7 @@ function CalendarView(props) {
 
         getUserRequestsById(id).then(resp => {
             setAllVacations([...allVacations, resp]);
-        })
+        }).catch(err => { console.error(err) })
     }
 
     let selectedPeopleBadges = selectedOptions.map((user) => {

@@ -14,9 +14,9 @@ function Main() {
     const [allUsers, setAllUsers] = React.useState(null);
 
     useEffect(() => {
-        getCurrentUser().then(resp => { setAdmin(resp.admin); setMyId(resp.id) })
+        getCurrentUser().then(resp => { setAdmin(resp.admin); setMyId(resp.id) }).catch(err => { console.error(err) })
 
-        getAllUsers().then(resp => { setAllUsers(resp) });
+        getAllUsers().then(resp => { setAllUsers(resp) }).catch(err => { console.error(err) })
 
         //getAllIneligiblePeriods().then(resp => { setIneligiblePeriods(resp) });
 
@@ -27,7 +27,7 @@ function Main() {
 
         if (myId !== null) {
 
-            getUserRequestsById(myId).then(resp => { setVacationRequests(resp) });
+            getUserRequestsById(myId).then(resp => { setVacationRequests(resp) }).catch(err => { console.error(err) })
         }
 
     }, [myId])
