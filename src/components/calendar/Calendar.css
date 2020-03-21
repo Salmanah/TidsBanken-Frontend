@@ -170,7 +170,8 @@
 }
 
 .tail-datetime-calendar .calendar-date table tbody tr > *.denied {
-  background-color: red;
+  background-color: #e57373;
+  background: linear-gradient(0deg, #E57373 0%, #E57373, #EF9A9A 100%);
 }
 
   .tail-datetime-calendar .calendar-date table tbody tr > *.ordinary {

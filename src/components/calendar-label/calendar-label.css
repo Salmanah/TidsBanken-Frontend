@@ -4,16 +4,24 @@ span.calendar-label {
 }
 
 span.ineligible-label {
+    background-color: #80808082;
     background: linear-gradient(0deg, rgba(90, 90, 90, 0.65) 0%, #80808082, #9696969e 100%);
 }
 
 span.approved-label {
+    background-color: #60c260a3;
     background: linear-gradient(0deg, rgba(63, 165, 68, 0.49) 0%, #60c260a3, #caecca 100%);
   
 }
 
 span.pending-label {
+    background-color: #fdfd078c;
     background: linear-gradient(0deg, rgba(218, 218, 34, 0.59) 0%, #fdfd078c, #ffff7a26 100%);
+}
+
+span.denied-label {
+    background-color: #e57373;
+    background: linear-gradient(0deg, #d25858de 0%, #e57373d6, #ef9a9ab8 100%);
 }
 
 span.badge-default {

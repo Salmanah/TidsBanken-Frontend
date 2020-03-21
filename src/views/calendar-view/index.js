@@ -6,7 +6,7 @@ import CalendarSwitch from "../../components/calendar-switch/";
 import { Row, Col, Container } from "react-bootstrap";
 import CalendarLabel from '../../components/calendar-label/';
 import './calendar-view.css';
-import { MDBBtn } from "mdbreact";
+import { MDBBtn, MDBContainer } from "mdbreact";
 import { Link } from 'react-router-dom';
 import CreateIneligiblePeriod from '../../views/create-ineligible-period/index';
 import { getUserRequestsById } from '../../utils/APIUtils';
@@ -62,9 +62,9 @@ function CalendarView(props) {
     }, [props.requests])
 
     useEffect(() => {
-        let tmpineligible = [];
+        //let tmpineligible = [];
 
-        console.log(tmpineligible)
+        //console.log(tmpineligible)
         // props.requests.forEach(req => {
         //tmpineligible.push({ start: req.period_start, end: req.period_end })
 
@@ -200,7 +200,9 @@ function CalendarView(props) {
             </Row>
             <Row className="mb-5">
                 <Col>
-                    <CalendarLabel />
+                    <MDBContainer>
+                        {props.admin || !checked ? <CalendarLabel labels={["Ineligible", "Approved", "Denied", "Pending"]} /> : <CalendarLabel labels={["Ineligible", "Approved"]} />}
+                    </MDBContainer>
                 </Col>
             </Row>
         </Container>
