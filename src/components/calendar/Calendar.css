@@ -169,6 +169,11 @@
     background: linear-gradient(0deg, rgba(254, 254, 127, 0.84) 0%, #fafa788c, #fefec3 100%);
 }
 
+.tail-datetime-calendar .calendar-date table tbody tr > *.denied {
+  background-color: #e57373;
+  background: linear-gradient(0deg, #E57373 0%, #E57373, #EF9A9A 100%);
+}
+
   .tail-datetime-calendar .calendar-date table tbody tr > *.ordinary {
     background-color: white !important;
     color: black !important;

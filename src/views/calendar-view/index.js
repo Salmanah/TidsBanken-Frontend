@@ -6,7 +6,7 @@ import CalendarSwitch from "../../components/calendar-switch/";
 import { Row, Col, Container } from "react-bootstrap";
 import CalendarLabel from '../../components/calendar-label/';
 import './calendar-view.css';
-import { MDBBtn } from "mdbreact";
+import { MDBBtn, MDBContainer } from "mdbreact";
 import { Link } from 'react-router-dom';
 import CreateIneligiblePeriod from '../../views/create-ineligible-period/index';
 import { getUserRequestsById } from '../../utils/APIUtils';
@@ -19,10 +19,11 @@ function CalendarView(props) {
     const [selected] = React.useState([]);
     const [allVacations, setAllVacations] = React.useState([]);
     const [selectedOptions, setSelectedOptions] = React.useState(selected);
+
     const [allApprovedVacations, setAllApprovedVacations] = React.useState([]);
-
+    const [allSelectedVacations, setAllSelectedVacations] = React.useState([]);
     const [pendingDates, setPendingDates] = React.useState([]);
-
+    const [deniedDates, setDeniedDates] = React.useState([]);
     const [ineligibleDates] = React.useState([
         { start: '2020-03-09', end: '2020-03-11' },
         { start: '2020-04-09', end: '2020-04-11' }
@@ -44,6 +45,7 @@ function CalendarView(props) {
     useEffect(() => {
         let tmppending = [];
         let tmpapproved = [];
+        let tmpdenied = [];
         props.requests.forEach(req => {
             if (req.status[0].status === 'Pending') {
                 tmppending.push({ start: req.period_start, end: req.period_end })
@@ -51,18 +53,19 @@ function CalendarView(props) {
             else if (req.status[0].status === 'Approved') {
                 tmpapproved.push({ start: req.period_start, end: req.period_end })
             } else {
-                console.log("these should be denied: ", req)
+                tmpdenied.push({ start: req.period_start, end: req.period_end })
             }
         });
-        setApprovedDates(tmpapproved)
         setPendingDates(tmppending)
+        setApprovedDates(tmpapproved)
+        setDeniedDates(tmpdenied)
 
     }, [props.requests])
 
     useEffect(() => {
-        let tmpineligible = [];
+        //let tmpineligible = [];
 
-        console.log(tmpineligible)
+        //console.log(tmpineligible)
         // props.requests.forEach(req => {
         //tmpineligible.push({ start: req.period_start, end: req.period_end })
 
@@ -76,16 +79,24 @@ function CalendarView(props) {
     useEffect(() => {
 
         if (allVacations.length > 0) {
-            let tmp = [];
+            let approved = [];
+            let all = [];
+
             allVacations.forEach(element => {
                 element.forEach(el => {
-                    // fix --> status === 'Approved'
                     if (el.status[0].status === 'Approved') {
-                        tmp.push(el);
+                        approved.push(el);
+
+                    }
+
+                    else if (props.admin) {
+                        console.log("get all")
                     }
                 })
             });
-            setAllApprovedVacations(tmp)
+            setAllApprovedVacations(approved)
+            setAllSelectedVacations(all);
+
         }
     }, [allVacations])
 
@@ -187,12 +198,20 @@ function CalendarView(props) {
             }
             <Row>
                 <Col>
-                    {props.admin ? <Calendar admin='true' ineligible={ineligibleDates} allApproved={allApprovedVacations} /> : !checked ? <Calendar checked={checked} pending={pendingDates} approved={approvedDates} ineligible={ineligibleDates} /> : <Calendar checked={checked} pending={null} approved={null} allApproved={allApprovedVacations} ineligible={ineligibleDates} />}
+                    {props.admin ?
+                        <Calendar admin='true' ineligible={ineligibleDates} allSelectedUserVacations={allApprovedVacations} />
+                        :
+                        !checked ?
+                            <Calendar checked={checked} pending={pendingDates} approved={approvedDates} ineligible={ineligibleDates} denied={deniedDates} />
+                            :
+                            <Calendar checked={checked} pending={null} approved={null} allSelectedUserVacations={allApprovedVacations} ineligible={ineligibleDates} />}
                 </Col>
             </Row>
             <Row className="mb-5">
                 <Col>
-                    <CalendarLabel />
+                    <MDBContainer>
+                        {props.admin || !checked ? <CalendarLabel labels={["Ineligible", "Approved", "Denied", "Pending"]} /> : <CalendarLabel labels={["Ineligible", "Approved"]} />}
+                    </MDBContainer>
                 </Col>
             </Row>
         </Container>

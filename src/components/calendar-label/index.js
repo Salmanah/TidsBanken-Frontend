@@ -1,17 +1,24 @@
 import React from 'react';
-import { MDBBadge, MDBContainer } from "mdbreact";
+import { MDBBadge } from "mdbreact";
 import './calendar-label.css';
 
-const CalendarLabel = () => {
+const CalendarLabel = props => {
+    let labels = [];
+    props.labels.forEach(status => {
+        let statusLowerCase = status.toLowerCase();
+        labels.push(
+            <React.Fragment key={statusLowerCase}>
+                <MDBBadge className={`pr-4 mx-2 calendar-label ${statusLowerCase}-label`}>
+                    <span hidden>label</span>
+                </MDBBadge>
+                <span>{status} vacation</span>
+            </React.Fragment>)
+    });
+
     return (
-        <MDBContainer>
-            <MDBBadge className="pr-4 mx-2 calendar-label ineligible-label"><span hidden>label</span></MDBBadge>
-            <span>Ineligible for vacation </span>
-            <MDBBadge className="pr-4 mx-2 calendar-label approved-label"><span hidden>label</span></MDBBadge>
-            <span>Approved for vacation </span>
-            <MDBBadge className="pr-4 mx-2 calendar-label pending-label"><span hidden>label</span></MDBBadge>
-            <span>Pending for vacation </span>
-        </MDBContainer>
+        <>
+            {labels}
+        </>
     )
 }
 export default CalendarLabel;
