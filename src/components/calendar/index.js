@@ -38,7 +38,7 @@ function Calendar(props) {
             deniedVacation()
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props.checked, props.pending, props.allApproved, props.approved, props.denied]);
+    }, [props.checked, props.pending, props.allSelectedUserVacations, props.approved, props.denied]);
 
     useEffect(() => {
 
@@ -46,8 +46,8 @@ function Calendar(props) {
 
     function userVacations() {
         let tmp = [];
-        if (props.allApproved) {
-            props.allApproved.forEach(vac => {
+        if (props.allSelectedUserVacations) {
+            props.allSelectedUserVacations.forEach(vac => {
                 let vacation =
                 {
                     dates: getDates(vac.period_start, vac.period_end),
