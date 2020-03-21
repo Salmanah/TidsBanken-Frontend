@@ -28,10 +28,7 @@ function CalendarView(props) {
         { start: '2020-04-09', end: '2020-04-11' }
     ]);
 
-    const [approvedDates] = React.useState([
-        { start: '2020-03-12', end: '2020-03-15' },
-        { start: '2020-04-12', end: '2020-04-14' }
-    ]);
+    const [approvedDates, setApprovedDates] = React.useState([]);
 
     useEffect(() => {
 
@@ -46,11 +43,18 @@ function CalendarView(props) {
 
     useEffect(() => {
         let tmppending = [];
+        let tmpapproved = [];
         props.requests.forEach(req => {
             if (req.status[0].status === 'Pending') {
                 tmppending.push({ start: req.period_start, end: req.period_end })
             }
+            else if (req.status[0].status === 'Approved') {
+                tmpapproved.push({ start: req.period_start, end: req.period_end })
+            } else {
+                console.log("these should be denied: ", req)
+            }
         });
+        setApprovedDates(tmpapproved)
         setPendingDates(tmppending)
 
     }, [props.requests])
@@ -63,7 +67,7 @@ function CalendarView(props) {
             allVacations.forEach(element => {
                 element.forEach(el => {
                     // fix --> status === 'Approved'
-                    if (el.status[0].status === 'Pending') {
+                    if (el.status[0].status === 'Approved') {
                         tmp.push(el);
                     }
                 })
@@ -92,7 +96,6 @@ function CalendarView(props) {
 
         getUserRequestsById(id).then(resp => {
             setAllVacations([...allVacations, resp]);
-
         })
     }
 

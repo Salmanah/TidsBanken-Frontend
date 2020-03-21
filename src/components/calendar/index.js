@@ -300,7 +300,7 @@ function Calendar(props) {
         });
 
         return (
-            <table className="calendar-month">
+            <table className="calendar-year">
                 <thead>
                     <tr>
                         <th colSpan="4">Select a Year</th>
@@ -328,6 +328,7 @@ function Calendar(props) {
 
 
 
+
     for (let d = 1; d <= daysInMonth(); d++) {
 
         if (d < 10) {
@@ -341,12 +342,17 @@ function Calendar(props) {
             if (props.checked || props.admin) {
                 if (vac.dates.includes(year() + "-" + mm + "-" + d)) {
                     userDetails.push(
-                        <span key={vac.id}>
-                            <em>{vac.name}</em>
-                            <br /> </span>);
+                        <em key={vac.id} className={vac.dates.length}>
+                            {vac.name}
+                            <br />
+                        </em>
+                    );
+                    console.log(userDetails)
                 }
             }
         });
+
+
 
         /*if (allSelectedUserVacations.includes(year() + "-" + mm + "-" + d)) {
             console.log(allSelectedUserVacations)
@@ -377,7 +383,7 @@ function Calendar(props) {
 
             <td id={`${year()}-${mm}-${d}`} key={d} className={`calendar-day ${status}`}>
                 {/*`day${d}-${mm}-${year()}` === */}
-                <span className="calendar-number float-left pl-2"
+                <span className="float-left px-1"
                     onClick={e => {
                         onDayClick(e, d);
                     }}
@@ -385,9 +391,11 @@ function Calendar(props) {
                     {d}
 
                 </span>
-                <p className="userVacation text-left mr-2">
-                    {userDetails}
-                </p>
+                <div>
+                    <p className="userVacation text-left">
+                        {userDetails}
+                    </p>
+                </div>
             </td >
         );
     }
