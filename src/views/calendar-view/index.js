@@ -59,6 +59,19 @@ function CalendarView(props) {
 
     }, [props.requests])
 
+    useEffect(() => {
+        let tmpineligible = [];
+
+        console.log(tmpineligible)
+        // props.requests.forEach(req => {
+        //tmpineligible.push({ start: req.period_start, end: req.period_end })
+
+
+        //});
+        //setIneligibleDates(tmpineligible)
+
+    }, [props.ineligible])
+
 
     useEffect(() => {
 
