@@ -23,6 +23,7 @@ function Calendar(props) {
 
     const [pending, setPending] = React.useState([]);
     const [approved, setApproved] = React.useState([]);
+    const [denied, setDenied] = React.useState([]);
     const [ineligible, setIneligible] = React.useState([]);
 
     const [allSelectedUserVacations, setAllSelectedUserVacations] = React.useState([]);
@@ -32,14 +33,12 @@ function Calendar(props) {
         ineligibleVacation();
         userVacations();
         if (!props.checked) {
-            pendingVacation();
+            pendingVacation()
             approvedVacation()
+            deniedVacation()
         }
-
-
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props.checked, props.pending, props.allApproved]);                // using a counter to trigger the render
-    // because it doesn't render on changes to the dateObject on next() and prev()
+    }, [props.checked, props.pending, props.allApproved, props.approved, props.denied]);
 
     useEffect(() => {
 
@@ -49,7 +48,13 @@ function Calendar(props) {
         let tmp = [];
         if (props.allApproved) {
             props.allApproved.forEach(vac => {
-                let vacation = { dates: getDates(vac.period_start, vac.period_end), id: vac.owner[0].id, name: vac.owner[0].name, title: vac.title }
+                let vacation =
+                {
+                    dates: getDates(vac.period_start, vac.period_end),
+                    id: vac.owner[0].id,
+                    name: vac.owner[0].name,
+                    title: vac.title
+                }
                 tmp.push(vacation)
             });
             setAllSelectedUserVacations(tmp)
@@ -73,6 +78,23 @@ function Calendar(props) {
         setIneligible(allInel)
 
     }
+
+    function deniedVacation() {
+        let alltmp = [];
+        let tmp = [];
+
+        if (props.denied) {
+            props.denied.forEach(date =>
+                tmp.push(getDates(date.start, date.end))
+            );
+            for (let i = 0; i < tmp.length; i++) {
+                tmp[i].forEach(element =>
+                    alltmp.push(element)
+                );
+            }
+            setDenied(alltmp)
+        }
+    }
     function pendingVacation() {
 
         let allPend = [];
@@ -81,14 +103,14 @@ function Calendar(props) {
             props.pending.forEach(date =>
                 pend.push(getDates(date.start, date.end))
             );
-        }
 
-        for (let i = 0; i < pend.length; i++) {
-            pend[i].forEach(element =>
-                allPend.push(element)
-            );
+            for (let i = 0; i < pend.length; i++) {
+                pend[i].forEach(element =>
+                    allPend.push(element)
+                );
+            }
+            setPending(allPend)
         }
-        setPending(allPend)
     }
 
     function approvedVacation() {
@@ -98,15 +120,13 @@ function Calendar(props) {
             props.approved.forEach(date =>
                 appr.push(getDates(date.start, date.end))
             );
+            for (let i = 0; i < appr.length; i++) {
+                appr[i].forEach(element =>
+                    allAppr.push(element)
+                );
+            }
+            setApproved(allAppr)
         }
-
-        for (let i = 0; i < appr.length; i++) {
-            appr[i].forEach(element =>
-                allAppr.push(element)
-            );
-        }
-        setApproved(allAppr)
-
     }
     function daysInMonth() {
         return dateObject.daysInMonth();
@@ -327,8 +347,6 @@ function Calendar(props) {
     let daysInMonthArray = [];
 
 
-
-
     for (let d = 1; d <= daysInMonth(); d++) {
 
         if (d < 10) {
@@ -347,7 +365,6 @@ function Calendar(props) {
                             <br />
                         </em>
                     );
-                    console.log(userDetails)
                 }
             }
         });
@@ -364,6 +381,10 @@ function Calendar(props) {
         }
         else if (!props.checked && approved.includes(year() + "-" + mm + "-" + d)) {
             status = "approved"
+
+        }
+        else if (!props.checked && denied.includes(year() + "-" + mm + "-" + d)) {
+            status = "denied"
 
         }
         else if (ineligible.includes(year() + "-" + mm + "-" + d)) {

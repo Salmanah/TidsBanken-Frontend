@@ -19,10 +19,10 @@ function CalendarView(props) {
     const [selected] = React.useState([]);
     const [allVacations, setAllVacations] = React.useState([]);
     const [selectedOptions, setSelectedOptions] = React.useState(selected);
+
     const [allApprovedVacations, setAllApprovedVacations] = React.useState([]);
-
     const [pendingDates, setPendingDates] = React.useState([]);
-
+    const [deniedDates, setDeniedDates] = React.useState([]);
     const [ineligibleDates] = React.useState([
         { start: '2020-03-09', end: '2020-03-11' },
         { start: '2020-04-09', end: '2020-04-11' }
@@ -44,6 +44,7 @@ function CalendarView(props) {
     useEffect(() => {
         let tmppending = [];
         let tmpapproved = [];
+        let tmpdenied = [];
         props.requests.forEach(req => {
             if (req.status[0].status === 'Pending') {
                 tmppending.push({ start: req.period_start, end: req.period_end })
@@ -51,11 +52,12 @@ function CalendarView(props) {
             else if (req.status[0].status === 'Approved') {
                 tmpapproved.push({ start: req.period_start, end: req.period_end })
             } else {
-                console.log("these should be denied: ", req)
+                tmpdenied.push({ start: req.period_start, end: req.period_end })
             }
         });
-        setApprovedDates(tmpapproved)
         setPendingDates(tmppending)
+        setApprovedDates(tmpapproved)
+        setDeniedDates(tmpdenied)
 
     }, [props.requests])
 
@@ -187,7 +189,13 @@ function CalendarView(props) {
             }
             <Row>
                 <Col>
-                    {props.admin ? <Calendar admin='true' ineligible={ineligibleDates} allApproved={allApprovedVacations} /> : !checked ? <Calendar checked={checked} pending={pendingDates} approved={approvedDates} ineligible={ineligibleDates} /> : <Calendar checked={checked} pending={null} approved={null} allApproved={allApprovedVacations} ineligible={ineligibleDates} />}
+                    {props.admin ?
+                        <Calendar admin='true' ineligible={ineligibleDates} allApproved={allApprovedVacations} />
+                        :
+                        !checked ?
+                            <Calendar checked={checked} pending={pendingDates} approved={approvedDates} ineligible={ineligibleDates} denied={deniedDates} />
+                            :
+                            <Calendar checked={checked} pending={null} approved={null} allApproved={allApprovedVacations} ineligible={ineligibleDates} />}
                 </Col>
             </Row>
             <Row className="mb-5">
