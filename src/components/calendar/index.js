@@ -47,13 +47,15 @@ function Calendar(props) {
     function userVacations() {
         let tmp = [];
         if (props.allSelectedUserVacations) {
+            console.log(props.allSelectedUserVacations)
             props.allSelectedUserVacations.forEach(vac => {
                 let vacation =
                 {
                     dates: getDates(vac.period_start, vac.period_end),
                     id: vac.owner[0].id,
                     name: vac.owner[0].name,
-                    title: vac.title
+                    title: vac.title,
+                    status: vac.status[0].status
                 }
                 tmp.push(vacation)
             });
@@ -359,8 +361,9 @@ function Calendar(props) {
         allSelectedUserVacations.forEach(vac => {
             if (props.checked || props.admin) {
                 if (vac.dates.includes(year() + "-" + mm + "-" + d)) {
+                    let status = vac.status.toLowerCase();
                     userDetails.push(
-                        <em key={vac.id} className={vac.dates.length}>
+                        <em key={vac.id} className={status}>
                             {vac.name}
                             <br />
                         </em>

@@ -86,11 +86,9 @@ function CalendarView(props) {
                 element.forEach(el => {
                     if (el.status[0].status === 'Approved') {
                         approved.push(el);
-
                     }
-
-                    else if (props.admin) {
-                        console.log("get all")
+                    if (props.admin) {
+                        all.push(el);
                     }
                 })
             });
@@ -102,7 +100,7 @@ function CalendarView(props) {
 
     useEffect(() => {
 
-    }, [allApprovedVacations])
+    }, [allApprovedVacations, allSelectedVacations])
 
 
     const handleChange = selectedOption => {
@@ -199,7 +197,7 @@ function CalendarView(props) {
             <Row>
                 <Col>
                     {props.admin ?
-                        <Calendar admin='true' ineligible={ineligibleDates} allSelectedUserVacations={allApprovedVacations} />
+                        <Calendar admin='true' ineligible={ineligibleDates} allSelectedUserVacations={allSelectedVacations} />
                         :
                         !checked ?
                             <Calendar checked={checked} pending={pendingDates} approved={approvedDates} ineligible={ineligibleDates} denied={deniedDates} />
