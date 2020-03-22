@@ -11,7 +11,7 @@
 
 /* @start tail.DateTime */
 .tail-datetime-calendar {
-    width: 98%;
+    width: 100%;
     height: auto;
     margin: 25px 0px;
     padding: 0;
@@ -119,7 +119,6 @@
   .tail-datetime-calendar .calendar-date table tbody tr > * {
     border: 0.1px solid #8080804d;
     color: #334455;
-    cursor: pointer;
     position: relative;
     font-size: 14px;
     background-color: #ffffff;
@@ -185,9 +184,6 @@
     padding-left: 40px;
     
   }*/
-  .tail-datetime-calendar .calendar-date table tbody tr > *:hover {
-    color: #cd283c;
-  }
 
   .tail-datetime-calendar .calendar-date table tbody tr > *.empty,
   .tail-datetime-calendar .calendar-date table tbody tr > *.disable {
@@ -311,31 +307,38 @@
   /* @end tail.DateTime */
 
   .userVacation{
-    line-height: 23px;
     margin-bottom: 5px;
     border:none;
-    padding-left: 30px;
+    padding-left: 20px;
   }
-  .userVacation em {
+  .userVacation p {
     color: black;
     font-size:12px;
     padding: 0.5px 4px;
-    border-radius: 5px;
+    border-radius: 1.5px;
+    margin: 5px;
+    line-height: 15px;
   }
 
-  .userVacation em.approved{
+  .userVacation p.approved{
     background-color: #60c260a3;
     background: linear-gradient(0deg, rgba(63, 165, 68, 0.39) 0%, #60c2604f, #caecca 100%);
 }
 
-  .userVacation em.denied{
+  .userVacation p.denied{
     background-color: #e57373d6;
     background: linear-gradient(0deg, #d2585882 0%, #e5737391, #ef9a9a82 100%);
   }
 
-  .userVacation em.pending{
+  .userVacation p.pending{
     background-color: #fdfd078c;
     background: linear-gradient(0deg, rgba(218, 218, 34, 0.59) 0%, #fdfd078c, #ffff7a26 100%);
+  }
+
+
+  p.selectedVacation em{
+    font-size: 10px;
+
   }
 
   .userDeniedVacation{

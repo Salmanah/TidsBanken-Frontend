@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import moment from "moment";
 import "./Calendar.css";
-
+import { Collapse } from 'react-bootstrap';
 /*
     Credit: 
     Core functionality of calendar component is taken from Mosh Hamedani's tutorial:
@@ -27,6 +27,8 @@ function Calendar(props) {
     const [ineligible, setIneligible] = React.useState([]);
 
     const [allSelectedUserVacations, setAllSelectedUserVacations] = React.useState([]);
+
+
 
     useEffect(() => {
 
@@ -61,13 +63,17 @@ function Calendar(props) {
                     id: vac.owner[0].id,
                     name: vac.owner[0].name,
                     title: vac.title,
-                    status: vac.status[0].status
+                    status: vac.status[0].status,
+                    duration: [vac.period_start, vac.period_end],
+                    openCollapse: false
                 }
                 tmp.push(vacation)
             });
             setAllSelectedUserVacations(tmp)
         }
     }
+
+
 
     function ineligibleVacation() {
         let allInel = [];
@@ -339,6 +345,15 @@ function Calendar(props) {
         );
     };
 
+    function openCollapse(id) {
+        allSelectedUserVacations.forEach(vac => {
+            if (vac.id === id) {
+                vac.openCollapse = !vac.openCollapse
+                setCount(count + 1)
+            }
+        })
+    }
+
     function onDayClick(e, d) {     //get the day you click on in calendar
 
         setSelectedDay(d);
@@ -369,16 +384,21 @@ function Calendar(props) {
                 if (vac.dates.includes(year() + "-" + mm + "-" + d)) {
                     let status = vac.status.toLowerCase();
                     userDetails.push(
-                        <em key={vac.id} className={status}>
-                            {vac.name}
-                            <br />
-                        </em>
+                        <p key={vac.id} className={`selectedVacation ${status}`} onClick={() => openCollapse(vac.id)}
+                            aria-controls={`vacation-request-${vac.id}-collapse`}
+                            aria-expanded={vac.openCollapse}>
+                            {`${vac.name}: `}
+                            <em>{vac.title}</em><br />
+                            <Collapse in={vac.openCollapse}>
+                                <em id={`vacation-request-${vac.id}-collapse`} className="pt-1">
+                                    {vac.duration[0]} - {vac.duration[1]} <a href="#">View request history</a>
+                                </em>
+                            </Collapse>
+                        </p>
                     );
                 }
             }
         });
-
-
 
         /*if (allSelectedUserVacations.includes(year() + "-" + mm + "-" + d)) {
             console.log(allSelectedUserVacations)
@@ -422,9 +442,9 @@ function Calendar(props) {
 
                 </span>
                 <div>
-                    <p className="userVacation text-left">
+                    <div className="userVacation text-left">
                         {userDetails}
-                    </p>
+                    </div>
                 </div>
             </td >
         );
