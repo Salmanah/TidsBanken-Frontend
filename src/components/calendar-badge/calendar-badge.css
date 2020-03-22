@@ -7,4 +7,5 @@ button.delete-search {
 
 span.tags-search.badge {
     background-color: #cfd8dc85 !important;
+    background: linear-gradient(0deg, #b2dfdb7d 0%, #e0f2f163, #e0f2f1a6 100%);
 }
