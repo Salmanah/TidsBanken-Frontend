@@ -142,15 +142,12 @@ function CalendarView(props) {
         })
         setAllApprovedVacations(newAllApprovedVacations)
 
-        let newAllVacations = allVacations.filter(user => {
+        let newAllSelectedVacations = allSelectedVacations.filter(user => {
 
-            let remove = user.forEach(vac => {
-                return vac.owner[0].id !== id
-            });
-            return remove
-        })
-        setAllVacations(newAllVacations)
+            return user.owner[0].id !== id
+        });
 
+        setAllSelectedVacations(newAllSelectedVacations)
     }
 
     return (

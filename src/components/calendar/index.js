@@ -53,6 +53,11 @@ function Calendar(props) {
         // eslint-disable-next-line react-hooks/exhaustive-deps  
         [props]);
 
+    /* useEffect(() => {
+         console.log("state", allSelectedUserVacations);
+         console.log("props", props.allSelectedUserVacations)
+     }, [allSelectedUserVacations, props.allSelectedUserVacations])*/
+
     function userVacations() {
         let tmp = [];
         if (props.allSelectedUserVacations) {
@@ -391,7 +396,9 @@ function Calendar(props) {
                             <em>{vac.title}</em><br />
                             <Collapse in={vac.openCollapse}>
                                 <em id={`vacation-request-${vac.id}-collapse`} className="pt-1">
-                                    {vac.duration[0]} - {vac.duration[1]} <a href="#">View request history</a>
+                                    {vac.duration[0]} - {vac.duration[1]}
+                                    <br />
+                                    <a href="#">View request history</a>
                                 </em>
                             </Collapse>
                         </p>
