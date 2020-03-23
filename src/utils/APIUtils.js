@@ -161,8 +161,8 @@ export function adminEditVacationRequest(id, newStatus) {
     return Promise.reject("No access token set.");
   }
   console.log(
-    "SENDING REQUEST TO BACKEND ",
-    API_BASE_URL + `/admin/request/${id}/edit`
+    `SENDING REQUEST TO BACKEND, 
+    ${API_BASE_URL}/admin/request/${id}/edit`
   );
   console.log("SENDING STATUS " + `${newStatus}`);
   return request({
