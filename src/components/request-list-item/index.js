@@ -1,27 +1,27 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
-import {ListItem, ListItemText, List, Collapse} from '@material-ui/core';
+import { ListItem, ListItemText, List, Collapse } from '@material-ui/core';
 import { ExpandMore, ExpandLess } from '@material-ui/icons';
-import './requestListItem.css';
+import './request-list-item.css';
 
 
 
 
-class RequestListItem extends Component{
+class RequestListItem extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
-            open : false
+            open: false
         }
     }
 
-    handleMoreInfoClick(){
-        this.setState({open : !this.state.open})
+    handleMoreInfoClick() {
+        this.setState({ open: !this.state.open })
     }
 
-    itemClicked(event, currentRequest){
-        this.props.parentProps.history.push({ 
+    itemClicked(event, currentRequest) {
+        this.props.parentProps.history.push({
             pathname: "/ViewVacationRequest",
             state: {
                 request: currentRequest
@@ -30,12 +30,12 @@ class RequestListItem extends Component{
     }
 
 
-    render(){
-        return(
+    render() {
+        return (
             <div>
                 <ListItem button onClick={e => this.handleMoreInfoClick(e)}>
                     <ListItemText>{this.props.request.title}</ListItemText>
-                    {this.state.open? <ExpandLess/> : <ExpandMore/>}
+                    {this.state.open ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
                 <Collapse in={this.state.open} timeout="auto" unmountOnExit>
                     <List>
@@ -46,14 +46,14 @@ class RequestListItem extends Component{
                             <ListItemText>Status: {this.props.request.status[0].status}</ListItemText>
                         </ListItem>
                         <ListItem className="itemContent">
-                            <Button size="sm" onClick={e=>this.itemClicked(e, this.props.request)}>Read more</Button>
+                            <Button size="sm" onClick={e => this.itemClicked(e, this.props.request)}>Read more</Button>
                         </ListItem>
                     </List>
                 </Collapse>
 
 
             </div>
-            
+
         )
     }
 }
