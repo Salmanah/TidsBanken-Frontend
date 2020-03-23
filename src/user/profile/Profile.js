@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import './Profile.css';
-import {adminEditVacationRequest,deleteVacationRequest,createVacationRequest, createCommentForVacationRequest,deleteCommentById} from '../../utils/APIUtils';
+import {adminEditVacationRequest,deleteVacationRequest,createVacationRequest, createCommentForVacationRequest,deleteCommentById,getUserRequestsById,getVacationRequestByID} from '../../utils/APIUtils';
 
 function Profile(props) {
 
     useEffect(() => {
-        deleteCommentById(4,34)
+        getVacationRequestByID(7)
             .then(response => {
                 console.log("response: ", response);
             }).catch(error => {
