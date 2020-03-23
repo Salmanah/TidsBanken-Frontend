@@ -18,8 +18,7 @@ function Main() {
 
         getAllUsers().then(resp => { setAllUsers(resp) }).catch(err => { console.error(err) })
 
-        getAllIneligiblePeriods().then(resp => { setIneligiblePeriods(resp) });
-
+        getAllIneligiblePeriods().then(resp => { setIneligiblePeriods(resp) }).catch(err => { console.error(err.message) })
 
     }, [])
 
@@ -34,7 +33,7 @@ function Main() {
 
     return (
         <>
-            {vacationRequests !== null && admin !== null && allUsers !== null && myId !== null && IneligiblePeriods !== null ? <CalendarView requests={vacationRequests} allUsers={allUsers} id={myId} admin={admin} ineligible={IneligiblePeriods} /> : null}
+            {admin !== null && allUsers !== null && myId !== null ? <CalendarView requests={vacationRequests} allUsers={allUsers} id={myId} admin={admin} ineligible={IneligiblePeriods} /> : null}
         </>
     )
 }

@@ -43,31 +43,34 @@ function CalendarView(props) {
         let tmppending = [];
         let tmpapproved = [];
         let tmpdenied = [];
-        props.requests.forEach(req => {
-            if (req.status[0].status === 'Pending') {
-                tmppending.push({ start: req.period_start, end: req.period_end })
-            }
-            else if (req.status[0].status === 'Approved') {
-                tmpapproved.push({ start: req.period_start, end: req.period_end })
-            } else {
-                tmpdenied.push({ start: req.period_start, end: req.period_end })
-            }
-        });
-        setPendingDates(tmppending)
-        setApprovedDates(tmpapproved)
-        setDeniedDates(tmpdenied)
+
+        if (props.requests) {
+            props.requests.forEach(req => {
+                if (req.status[0].status === 'Pending') {
+                    tmppending.push({ start: req.period_start, end: req.period_end })
+                }
+                else if (req.status[0].status === 'Approved') {
+                    tmpapproved.push({ start: req.period_start, end: req.period_end })
+                } else {
+                    tmpdenied.push({ start: req.period_start, end: req.period_end })
+                }
+            });
+            setPendingDates(tmppending)
+            setApprovedDates(tmpapproved)
+            setDeniedDates(tmpdenied)
+        }
 
     }, [props.requests])
 
     useEffect(() => {
         let tmpineligible = [];
 
-        props.ineligible.forEach(req => {
-            tmpineligible.push({ start: req.period_start, end: req.period_end })
-
-
-        });
-        setIneligibleDates(tmpineligible)
+        if (props.ineligible) {
+            props.ineligible.forEach(req => {
+                tmpineligible.push({ start: req.period_start, end: req.period_end })
+            });
+            setIneligibleDates(tmpineligible)
+        }
 
     }, [props.ineligible])
 
