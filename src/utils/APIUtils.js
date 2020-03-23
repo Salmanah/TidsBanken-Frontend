@@ -288,7 +288,7 @@ export function getAllIneligiblePeriods() {
   }
   console.log(
     "SENDING REQUEST TO BACKEND ",
-    API_BASE_URL + `/admin/ineligible`
+    API_BASE_URL + `/ineligible`
   );
   return request({
     url: API_BASE_URL + `/admin/ineligible`,
