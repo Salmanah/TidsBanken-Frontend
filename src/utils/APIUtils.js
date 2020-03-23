@@ -164,7 +164,7 @@ export function adminEditVacationRequest(id, newStatus) {
     `SENDING REQUEST TO BACKEND, 
     ${API_BASE_URL}/admin/request/${id}/edit`
   );
-  console.log("SENDING STATUS " + `${newStatus}`);
+  console.log(`SENDING STATUS ${newStatus}`);
   return request({
     url: API_BASE_URL + `/admin/request/${id}/edit`,
     method: "PATCH",
