@@ -1,29 +1,17 @@
 import React, { useState } from "react";
 import { MDBInput, MDBContainer, MDBRow, MDBCard, MDBCardBody } from 'mdbreact';
 import './createVacationForm.css';
-import { createVacationRequest, createCommentForVacationRequest } from "../../utils/APIUtils";
-import {Col} from 'react-bootstrap';
+import { createVacationRequest, createCommentForVacationRequest, getUserRequestsById } from "../../utils/APIUtils";
+import { Col } from 'react-bootstrap';
 
 
 const CreateVacationRequest = (props) => {
-/*
-    constructor(props) {
-        super(props);
-        this.state = {
-            maxVacationLength: 21, //skal kunne endres av admin i settings
-            title: "",
-            startDate: "",
-            endingDate: "",
-            comment: null
-        }
-    }
-*/
 
-    const [maxVacationLength, setMaxVacationLength] = useState(21); //skal kunne endres
-    const [comment, setComment] = useState(null);
-    const [title, setTitle] = useState(null);
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
+    const [maxVacationLength] = useState(21); //skal kunne endres
+    const [comment, setComment] = useState("");
+    const [title, setTitle] = useState("");
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
 
 
     function handleTitleChange(event) {
@@ -46,18 +34,27 @@ const CreateVacationRequest = (props) => {
         setEndDate(event.target.value);
     }
 
-
     function handleSubmitClick(event) {
         createVacationRequest(title, startDate, endDate)
-        .then(response => {
-            console.log(response)
-            createCommentForVacationRequest(response, comment)
-            .then(resp => {
-                console.log(resp)
-                alert("Request successfully submitted")
-                props.history.push("/")
+            .then(response => {
+                console.log(response)
+                createCommentForVacationRequest(response, comment)
+                    .then(resp => {
+                        console.log(resp)
+                        alert("Request successfully submitted")
+                        getUserRequestsById(resp.user[0].id).then(resp => {
+                            let req = resp[resp.length - 1];
+
+                            props.history.push({
+                                pathname: "/ViewVacationRequest",
+                                state: {
+                                    request: req
+                                }
+                            });
+                        })
+
+                    })
             })
-        })
     }
 
     function getFormattedDate(date) {
@@ -146,8 +143,8 @@ const CreateVacationRequest = (props) => {
             </MDBContainer>
         </div>
 
-        )
-    
+    )
+
 }
 
 export default CreateVacationRequest;
