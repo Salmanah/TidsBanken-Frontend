@@ -34,7 +34,7 @@ function Main() {
 
     return (
         <>
-            {vacationRequests !== null && admin !== null && allUsers !== null && myId !== null ? <CalendarView requests={vacationRequests} allUsers={allUsers} id={myId} admin={admin} ineligible={IneligiblePeriods} /> : null}
+            {vacationRequests !== null && admin !== null && allUsers !== null && myId !== null && IneligiblePeriods !== null ? <CalendarView requests={vacationRequests} allUsers={allUsers} id={myId} admin={admin} ineligible={IneligiblePeriods} /> : null}
         </>
     )
 }
