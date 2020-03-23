@@ -24,10 +24,7 @@ function CalendarView(props) {
     const [allSelectedVacations, setAllSelectedVacations] = React.useState([]);
     const [pendingDates, setPendingDates] = React.useState([]);
     const [deniedDates, setDeniedDates] = React.useState([]);
-    const [ineligibleDates] = React.useState([
-        { start: '2020-03-09', end: '2020-03-11' },
-        { start: '2020-04-09', end: '2020-04-11' }
-    ]);
+    const [ineligibleDates, setIneligibleDates] = React.useState([]);
 
     const [approvedDates, setApprovedDates] = React.useState([]);
 
@@ -63,15 +60,14 @@ function CalendarView(props) {
     }, [props.requests])
 
     useEffect(() => {
-        //let tmpineligible = [];
+        let tmpineligible = [];
 
-        //console.log(tmpineligible)
-        // props.requests.forEach(req => {
-        //tmpineligible.push({ start: req.period_start, end: req.period_end })
+        props.ineligible.forEach(req => {
+            tmpineligible.push({ start: req.period_start, end: req.period_end })
 
 
-        //});
-        //setIneligibleDates(tmpineligible)
+        });
+        setIneligibleDates(tmpineligible)
 
     }, [props.ineligible])
 
