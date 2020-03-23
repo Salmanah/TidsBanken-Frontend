@@ -4,6 +4,8 @@ import Comment from '../../components/comment/index';
 import {Modal, Button, Form} from 'react-bootstrap';
 import { getAllCommentsByVacationRequestIDAsAdmin, getAllCommentsByVacationRequestID, createCommentForVacationRequest, getVacationRequestByID, createCommentForVacationRequestAsAdmin, getVacationRequestByIDasAdmin } from "../../utils/APIUtils";
 
+//The comment section should only be visisble to the request owner
+//and admin
 
 const CommentList = (props) => {
 
@@ -46,10 +48,6 @@ const CommentList = (props) => {
             .then( resp => {
                 setCommentList(resp)
             }).catch(err => {console.error(err)})
-            //getVacationRequestByIDasAdmin(vacationRequest.request_id)
-            //.then(resp=>{
-            //setVacationRequest(resp)
-            //}).catch(err => {console.error(err)})
         } else {
             getAllCommentsByVacationRequestID(vacationRequest.request_id)
             .then(resp => {
@@ -57,11 +55,6 @@ const CommentList = (props) => {
             }).catch(err => {console.error(err)})
         }
     },[response])
-
-    //useEffect(()=>{
-      //  setCommentList(vacationRequest.comment)
-    //},[vacationRequest])
-
 
 
 
@@ -86,13 +79,8 @@ const CommentList = (props) => {
                     </Modal.Footer>
                 </Modal>
             </ListItem>
-            {commentList.map((c,index)=>{
-                return(
-                    <ListItem>
-                    {c.message}
-                </ListItem>
-                )
-                
+            {commentList.slice(0).reverse().map((c,index)=>{
+                return( <Comment comment={c}/> )
             })}
         </List>
     )

@@ -7,8 +7,6 @@ import {Container, Col, Row, Button } from 'react-bootstrap';
 import { adminEditVacationRequest } from "../../utils/APIUtils";
 import CommentList from '../../components/comment-list/index';
 
-//Tar inn en request id og displayer korresponderende request
-
 
 const ViewVacationRequest = (props) => {
 
@@ -48,7 +46,7 @@ const ViewVacationRequest = (props) => {
                 </Container>
             ) 
             : (
-                <div>(ikke admin eller status != pending) knapper her?</div>
+                <div></div>
             )}
 
             <List>
@@ -68,13 +66,24 @@ const ViewVacationRequest = (props) => {
                     <ListItemText> Status: {status}</ListItemText>
                 </ListItem>
                 <Divider />
-                <ListItem button onClick={e => handleViewComments(e)} >
-                    <ListItemText>Comments</ListItemText>
-                    {commentRevealed ? <ExpandLess /> : <ExpandMore />}
-                </ListItem>
-                <Collapse in={commentRevealed} timeout="auto" unmountOnExit>
-                <CommentList parentProps={props}/>
-                </Collapse>
+                { //har ikke testet om denne faktisk funker hvis man ikke er admin eller owner
+                props.currentUser.admin || props.currentUser.id === vacationRequest.owner[0].id ? (
+                    (
+                    <div>
+                        <ListItem button onClick={e => handleViewComments(e)} >
+                            <ListItemText>Comments</ListItemText>
+                            {commentRevealed ? <ExpandLess /> : <ExpandMore />}
+                        </ListItem>
+                        <Collapse in={commentRevealed} timeout="auto" unmountOnExit>
+                        <CommentList parentProps={props}/>
+                        </Collapse>
+                    </div>
+                    )
+                ) : ( 
+                    <div>
+                    </div>)
+                }
+                
             </List>
                     
         </div>

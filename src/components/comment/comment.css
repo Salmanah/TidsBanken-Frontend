@@ -1,0 +1,8 @@
+.itemAboutComment{
+    font-style: italic;
+    color: gray;
+}
+
+.commentTimestamp{
+    text-align: end;
+}
