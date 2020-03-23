@@ -106,7 +106,7 @@
   .tail-datetime-calendar .calendar-date table thead tr > *,
   .tail-datetime-calendar .calendar-date table tbody tr > * {
     color: #ffffff;
-    width: 35px;
+    width: 75px;
     height: 45px;
     padding: 0;
     font-size: 12px;
