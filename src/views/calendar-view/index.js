@@ -47,12 +47,12 @@ function CalendarView(props) {
         if (props.requests) {
             props.requests.forEach(req => {
                 if (req.status[0].status === 'Pending') {
-                    tmppending.push({ start: req.period_start, end: req.period_end })
+                    tmppending.push({ title: req.title, start: req.period_start, end: req.period_end })
                 }
                 else if (req.status[0].status === 'Approved') {
-                    tmpapproved.push({ start: req.period_start, end: req.period_end })
+                    tmpapproved.push({ title: req.title, start: req.period_start, end: req.period_end })
                 } else {
-                    tmpdenied.push({ start: req.period_start, end: req.period_end })
+                    tmpdenied.push({ title: req.title, start: req.period_start, end: req.period_end })
                 }
             });
             setPendingDates(tmppending)

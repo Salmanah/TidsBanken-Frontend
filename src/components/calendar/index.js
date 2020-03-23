@@ -81,70 +81,63 @@ function Calendar(props) {
 
 
     function ineligibleVacation() {
-        let allInel = [];
-        let inel = [];
+        let alltmp = [];
+        let tmp = [];
         if (props.ineligible) {
             props.ineligible.forEach(date =>
-                inel.push(getDates(date.start, date.end))
+                tmp.push(getDates(date.start, date.end))
             );
         }
 
-        for (let i = 0; i < inel.length; i++) {
-            inel[i].forEach(element =>
-                allInel.push(element)
+        for (let i = 0; i < tmp.length; i++) {
+            tmp[i].forEach(element =>
+                alltmp.push(element)
             );
         }
-        setIneligible(allInel)
+        setIneligible(alltmp)
 
     }
 
     function deniedVacation() {
-        let alltmp = [];
         let tmp = [];
 
         if (props.denied) {
-            props.denied.forEach(date =>
-                tmp.push(getDates(date.start, date.end))
-            );
-            for (let i = 0; i < tmp.length; i++) {
-                tmp[i].forEach(element =>
-                    alltmp.push(element)
-                );
-            }
-            setDenied(alltmp)
+            props.denied.forEach(date => {
+                let obj = {
+                    dates: getDates(date.start, date.end),
+                    title: date.title
+                }
+                tmp.push(obj)
+            });
+            setDenied(tmp)
         }
     }
     function pendingVacation() {
 
-        let allPend = [];
-        let pend = [];
+        let tmp = [];
         if (props.pending) {
-            props.pending.forEach(date =>
-                pend.push(getDates(date.start, date.end))
-            );
-
-            for (let i = 0; i < pend.length; i++) {
-                pend[i].forEach(element =>
-                    allPend.push(element)
-                );
-            }
-            setPending(allPend)
+            props.pending.forEach(date => {
+                let obj = {
+                    dates: getDates(date.start, date.end),
+                    title: date.title
+                }
+                tmp.push(obj)
+            });
+            setPending(tmp)
         }
     }
 
     function approvedVacation() {
-        let allAppr = [];
-        let appr = [];
+        let tmp = [];
         if (props.approved) {
-            props.approved.forEach(date =>
-                appr.push(getDates(date.start, date.end))
-            );
-            for (let i = 0; i < appr.length; i++) {
-                appr[i].forEach(element =>
-                    allAppr.push(element)
-                );
-            }
-            setApproved(allAppr)
+            props.approved.forEach(date => {
+                let obj = {
+                    dates: getDates(date.start, date.end),
+                    title: date.title
+                }
+                tmp.push(obj)
+            });
+            setApproved(tmp)
         }
     }
     function daysInMonth() {
@@ -411,19 +404,30 @@ function Calendar(props) {
             console.log(allSelectedUserVacations)
         }*/
         let status = "";
+        let title = "";
 
-        if (!props.checked && pending.includes(year() + "-" + mm + "-" + d)) {
-            status = "pending";
+        if (!props.checked) {
+            pending.forEach(pend => {
+                if (pend.dates.includes(year() + "-" + mm + "-" + d)) {
+                    status = "pending";
+                    title = pend.title;
+                }
+            });
+            approved.forEach(appr => {
+                if (appr.dates.includes(year() + "-" + mm + "-" + d)) {
+                    status = "approved";
+                    title = appr.title;
+                }
+            });
+            denied.forEach(den => {
+                if (den.dates.includes(year() + "-" + mm + "-" + d)) {
+                    status = "denied";
+                    title = den.title;
+                }
+            });
         }
-        else if (!props.checked && approved.includes(year() + "-" + mm + "-" + d)) {
-            status = "approved"
 
-        }
-        else if (!props.checked && denied.includes(year() + "-" + mm + "-" + d)) {
-            status = "denied"
-
-        }
-        else if (ineligible.includes(year() + "-" + mm + "-" + d)) {
+        if (ineligible.includes(year() + "-" + mm + "-" + d)) {
             status = "ineligible"
 
         }
@@ -449,6 +453,7 @@ function Calendar(props) {
 
                 </span>
                 <div>
+                    <p className="myReqTitle"><em>{title}</em></p>
                     <div className="userVacation text-left">
                         {userDetails}
                     </div>
