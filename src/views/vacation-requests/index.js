@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import './vacationRequests.css';
 import { List, CircularProgress } from '@material-ui/core';
 import RequestListItem from '../../components/requestListItem/index';
-import {getUserRequestAndApproved} from '../../utils/APIUtils';
+import {getUserRequestsById, getUserRequestAndApproved} from '../../utils/APIUtils';
 import ToggleBox from '../../components/toggle-box/index';
 import {Container, Col, Row} from 'react-bootstrap';
  
@@ -15,11 +15,12 @@ const VacationRequests = (props) => {
 
 
     useEffect(()=>{
-        
-        getUserRequestAndApproved().then(resp => {
-            setRequests(resp)
-            setLoading(false)
-        })
+
+        getUserRequestsById(props.currentUser.id)
+        .then(resp => {
+            setRequests(resp);
+            setLoading(false);
+        }).catch(err => console.error(err))
     },[])
 
     const status = ["Pending", "Approved", "Denied"]
