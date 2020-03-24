@@ -23,6 +23,9 @@ function Main(props) {
     }, [])
 
     useEffect(() => {
+    }, [IneligiblePeriods])
+
+    useEffect(() => {
 
         if (myId !== null) {
 

@@ -1,15 +1,14 @@
-import React, {useState } from "react";
+import React, { useState } from "react";
 import './viewVacationRequest.css';
 import { List, ListItem, Divider, Collapse, ListItemText } from '@material-ui/core';
 import { ExpandLess, ExpandMore } from '@material-ui/icons';
 import EditIcon from '@material-ui/icons/Edit';
-import {Container, Col, Row, Button } from 'react-bootstrap';
+import { Container, Col, Row, Button } from 'react-bootstrap';
 import { adminEditVacationRequest } from "../../utils/APIUtils";
 import CommentList from '../../components/comment-list/index';
 
 
 const ViewVacationRequest = (props) => {
-
 
     const [vacationRequest, setVacationRequest] = useState(props.location.state.request);
     const [status, setStatus] = useState(vacationRequest.status[0].status);
@@ -20,14 +19,14 @@ const ViewVacationRequest = (props) => {
         setCommentRevealed(!commentRevealed)
     }
 
-    function handleChangeStatus(e, status){
+    function handleChangeStatus(e, status) {
         adminEditVacationRequest(vacationRequest.request_id, status).then(resp => {
             console.log(resp)
-        }).catch(err => {console.log(err)})
+        }).catch(err => { console.log(err) })
         setStatus(status)
     }
 
-    return(
+    return (
         <div>
             <h1>Vacation request</h1>
             {props.currentUser.admin && status === "Pending" ? (
@@ -44,10 +43,10 @@ const ViewVacationRequest = (props) => {
                         </Col>
                     </Row>
                 </Container>
-            ) 
-            : (
-                <div></div>
-            )}
+            )
+                : (
+                    <div></div>
+                )}
 
             <List>
                 <ListItem>
@@ -67,25 +66,25 @@ const ViewVacationRequest = (props) => {
                 </ListItem>
                 <Divider />
                 { //har ikke testet om denne faktisk funker hvis man ikke er admin eller owner
-                props.currentUser.admin || props.currentUser.id === vacationRequest.owner[0].id ? (
-                    (
-                    <div>
-                        <ListItem button onClick={e => handleViewComments(e)} >
-                            <ListItemText>Comments</ListItemText>
-                            {commentRevealed ? <ExpandLess /> : <ExpandMore />}
-                        </ListItem>
-                        <Collapse in={commentRevealed} timeout="auto" unmountOnExit>
-                        <CommentList parentProps={props}/>
-                        </Collapse>
-                    </div>
-                    )
-                ) : ( 
-                    <div>
-                    </div>)
+                    props.currentUser.admin || props.currentUser.id === vacationRequest.owner[0].id ? (
+                        (
+                            <div>
+                                <ListItem button onClick={e => handleViewComments(e)} >
+                                    <ListItemText>Comments</ListItemText>
+                                    {commentRevealed ? <ExpandLess /> : <ExpandMore />}
+                                </ListItem>
+                                <Collapse in={commentRevealed} timeout="auto" unmountOnExit>
+                                    <CommentList parentProps={props} />
+                                </Collapse>
+                            </div>
+                        )
+                    ) : (
+                            <div>
+                            </div>)
                 }
-                
+
             </List>
-                    
+
         </div>
     )
 }
@@ -107,7 +106,7 @@ export default ViewVacationRequest;
         this.setState({ commentRevealed: !this.state.commentRevealed })
     }
 
-    
+
 
     render() {
 

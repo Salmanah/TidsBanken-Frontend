@@ -47,12 +47,12 @@ function CalendarView(props) {
         if (props.requests) {
             props.requests.forEach(req => {
                 if (req.status[0].status === 'Pending') {
-                    tmppending.push({ title: req.title, start: req.period_start, end: req.period_end })
+                    tmppending.push({ all: req, id: req.request_id, title: req.title, start: req.period_start, end: req.period_end })
                 }
                 else if (req.status[0].status === 'Approved') {
-                    tmpapproved.push({ title: req.title, start: req.period_start, end: req.period_end })
+                    tmpapproved.push({ all: req, id: req.request_id, title: req.title, start: req.period_start, end: req.period_end })
                 } else {
-                    tmpdenied.push({ title: req.title, start: req.period_start, end: req.period_end })
+                    tmpdenied.push({ all: req, id: req.request_id, title: req.title, start: req.period_start, end: req.period_end })
                 }
             });
             setPendingDates(tmppending)
@@ -196,9 +196,9 @@ function CalendarView(props) {
                         <Calendar history={props.history} admin='true' ineligible={ineligibleDates} allSelectedUserVacations={allSelectedVacations} />
                         :
                         !checked ?
-                            <Calendar checked={checked} pending={pendingDates} approved={approvedDates} ineligible={ineligibleDates} denied={deniedDates} />
+                            <Calendar checked={checked} history={props.history} pending={pendingDates} approved={approvedDates} ineligible={ineligibleDates} denied={deniedDates} />
                             :
-                            <Calendar checked={checked} pending={null} approved={null} allSelectedUserVacations={allApprovedVacations} ineligible={ineligibleDates} />}
+                            <Calendar checked={checked} history={props.history} pending={null} approved={null} allSelectedUserVacations={allApprovedVacations} ineligible={ineligibleDates} />}
                 </Col>
             </Row>
             <Row className="mb-5">
