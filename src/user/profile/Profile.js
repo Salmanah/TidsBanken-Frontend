@@ -17,6 +17,7 @@ function Profile(props) {
 
     return (
         <div className="profile-container">
+            <p>Hei</p>
             <div className="container">
                 <div className="profile-info">
                     <div className="profile-avatar">
