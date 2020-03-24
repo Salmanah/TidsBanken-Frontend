@@ -4,7 +4,7 @@ import './main.css';
 import { getCurrentUser, getAllUsers, getUserRequestsById, getAllIneligiblePeriods } from '../../utils/APIUtils';
 
 
-function Main() {
+function Main(props) {
 
     const [admin, setAdmin] = React.useState(null);
     const [myId, setMyId] = React.useState(null);
@@ -33,7 +33,7 @@ function Main() {
 
     return (
         <>
-            {admin !== null && allUsers !== null && myId !== null ? <CalendarView requests={vacationRequests} allUsers={allUsers} id={myId} admin={admin} ineligible={IneligiblePeriods} /> : null}
+            {admin !== null && allUsers !== null && myId !== null ? <CalendarView history={props.history} requests={vacationRequests} allUsers={allUsers} id={myId} admin={admin} ineligible={IneligiblePeriods} /> : null}
         </>
     )
 }

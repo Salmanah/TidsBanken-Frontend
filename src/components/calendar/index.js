@@ -66,6 +66,7 @@ function Calendar(props) {
                 {
                     dates: getDates(vac.period_start, vac.period_end),
                     id: vac.owner[0].id,
+                    req_id: vac.request_id,
                     name: vac.owner[0].name,
                     title: vac.title,
                     status: vac.status[0].status,
@@ -345,9 +346,18 @@ function Calendar(props) {
 
     function openCollapse(id) {
         allSelectedUserVacations.forEach(vac => {
-            if (vac.id === id) {
+            if (vac.req_id === id) {
                 vac.openCollapse = !vac.openCollapse
                 setCount(count + 1)
+            }
+        })
+    }
+
+    function handleRedirectVacationRequest(user) {
+        props.history.push({
+            pathname: "/VacationRequestHistory",
+            state: {
+                user: user
             }
         })
     }
@@ -382,7 +392,7 @@ function Calendar(props) {
                 if (vac.dates.includes(year() + "-" + mm + "-" + d)) {
                     let status = vac.status.toLowerCase();
                     userDetails.push(
-                        <p key={vac.id} className={`selectedVacation ${status}`} onClick={() => openCollapse(vac.id)}
+                        <p key={vac.id} className={`selectedVacation ${status}`} onClick={() => openCollapse(vac.req_id)}
                             aria-controls={`vacation-request-${vac.id}-collapse`}
                             aria-expanded={vac.openCollapse}>
                             {`${vac.name}: `}
@@ -391,7 +401,7 @@ function Calendar(props) {
                                 <em id={`vacation-request-${vac.id}-collapse`} className="pt-1">
                                     {vac.duration[0]} - {vac.duration[1]}
                                     <br />
-                                    <a href="#">View request history</a>
+                                    <button onClick={() => handleRedirectVacationRequest(vac)}>View request history</button>
                                 </em>
                             </Collapse>
                         </p>
