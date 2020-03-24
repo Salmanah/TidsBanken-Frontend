@@ -66,6 +66,7 @@ function Calendar(props) {
                 {
                     dates: getDates(vac.period_start, vac.period_end),
                     id: vac.owner[0].id,
+                    req_id: vac.request_id,
                     name: vac.owner[0].name,
                     title: vac.title,
                     status: vac.status[0].status,
@@ -105,7 +106,8 @@ function Calendar(props) {
             props.denied.forEach(date => {
                 let obj = {
                     dates: getDates(date.start, date.end),
-                    title: date.title
+                    title: date.title,
+                    all: date.all
                 }
                 tmp.push(obj)
             });
@@ -119,7 +121,8 @@ function Calendar(props) {
             props.pending.forEach(date => {
                 let obj = {
                     dates: getDates(date.start, date.end),
-                    title: date.title
+                    title: date.title,
+                    all: date.all
                 }
                 tmp.push(obj)
             });
@@ -133,7 +136,8 @@ function Calendar(props) {
             props.approved.forEach(date => {
                 let obj = {
                     dates: getDates(date.start, date.end),
-                    title: date.title
+                    title: date.title,
+                    all: date.all
                 }
                 tmp.push(obj)
             });
@@ -345,9 +349,18 @@ function Calendar(props) {
 
     function openCollapse(id) {
         allSelectedUserVacations.forEach(vac => {
-            if (vac.id === id) {
+            if (vac.req_id === id) {
                 vac.openCollapse = !vac.openCollapse
                 setCount(count + 1)
+            }
+        })
+    }
+
+    function redirectToVacationRequestHistory(user) {
+        props.history.push({
+            pathname: "/VacationRequestHistory",
+            state: {
+                user: user
             }
         })
     }
@@ -357,6 +370,16 @@ function Calendar(props) {
         setSelectedDay(d);
         console.log("SELECTED DAY: ", selectedDay);
     };
+
+    function RedirectToViewVacationRequest(vacation) {
+
+        props.history.push({
+            pathname: "/ViewVacationRequest",
+            state: {
+                request: vacation.all
+            }
+        })
+    }
 
     let weekdayshortname = weekdayshort.map(day => {
         return <th key={day}>{day}</th>;
@@ -382,7 +405,7 @@ function Calendar(props) {
                 if (vac.dates.includes(year() + "-" + mm + "-" + d)) {
                     let status = vac.status.toLowerCase();
                     userDetails.push(
-                        <p key={vac.id} className={`selectedVacation ${status}`} onClick={() => openCollapse(vac.id)}
+                        <p key={vac.id} className={`selectedVacation ${status}`} onClick={() => openCollapse(vac.req_id)}
                             aria-controls={`vacation-request-${vac.id}-collapse`}
                             aria-expanded={vac.openCollapse}>
                             {`${vac.name}: `}
@@ -391,7 +414,7 @@ function Calendar(props) {
                                 <em id={`vacation-request-${vac.id}-collapse`} className="pt-1">
                                     {vac.duration[0]} - {vac.duration[1]}
                                     <br />
-                                    <a href="#">View request history</a>
+                                    <button onClick={() => redirectToVacationRequestHistory(vac)}>View request history</button>
                                 </em>
                             </Collapse>
                         </p>
@@ -400,29 +423,27 @@ function Calendar(props) {
             }
         });
 
-        /*if (allSelectedUserVacations.includes(year() + "-" + mm + "-" + d)) {
-            console.log(allSelectedUserVacations)
-        }*/
         let status = "";
-        let title = "";
+        let title = [];
 
         if (!props.checked) {
             pending.forEach(pend => {
                 if (pend.dates.includes(year() + "-" + mm + "-" + d)) {
                     status = "pending";
-                    title = pend.title;
+                    title.push(<button key={pend.title} onClick={() => RedirectToViewVacationRequest(pend)}>{pend.title}</button>);
+
                 }
             });
             approved.forEach(appr => {
                 if (appr.dates.includes(year() + "-" + mm + "-" + d)) {
                     status = "approved";
-                    title = appr.title;
+                    title.push(<button key={appr.title} onClick={() => RedirectToViewVacationRequest(appr)}>{appr.title}</button>);
                 }
             });
             denied.forEach(den => {
                 if (den.dates.includes(year() + "-" + mm + "-" + d)) {
                     status = "denied";
-                    title = den.title;
+                    title.push(<button key={den.title} onClick={() => RedirectToViewVacationRequest(den)}>{den.title}</button>);
                 }
             });
         }
@@ -453,7 +474,7 @@ function Calendar(props) {
 
                 </span>
                 <div>
-                    <p className="myReqTitle"><em>{title}</em></p>
+                    <p className="myReqTitle">{title}</p>
                     <div className="userVacation text-left">
                         {userDetails}
                     </div>
