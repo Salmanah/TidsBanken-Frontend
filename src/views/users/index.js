@@ -18,6 +18,8 @@ const Users = (props) => {
         getAllUsers()
         .then(response=>{
             setUsers(response);
+            console.log("getallusers response:")
+            console.log(response)
             setLoading(false);
         })
         .catch(error => {console.error('Error:', error)})
@@ -30,9 +32,9 @@ const Users = (props) => {
             {loading ? (<Spinner animation="border" />) : (
                 <List>
                     {users.map((element, index) => {
-                        if (!element.admin){
+                        
                             return <UserListItem key={index} user={element} parentProps={props} />
-                        }
+                        
                     })}
                 </List>)
             }
