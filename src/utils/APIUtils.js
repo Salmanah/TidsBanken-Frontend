@@ -330,3 +330,14 @@ export function getIneligiblePeriodById(ip_id) {
   });
 }
 
+export function deleteIneligiblePeriod(id) {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+  }
+  console.log("SENDING POST REQUEST TO BACKEND ", API_BASE_URL + `/admin/ineligible/${id}`)
+  return request({
+    url: API_BASE_URL + `/admin/ineligible/${id}`,
+    method: 'PATCH'
+  });
+}
+
