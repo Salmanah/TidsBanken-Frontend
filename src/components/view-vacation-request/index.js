@@ -29,7 +29,7 @@ const ViewVacationRequest = (props) => {
     return (
         <div>
             <h1>Vacation request</h1>
-            {props.currentUser.admin && status === "Pending" ? (
+            {props.currentUser.admin && status === "Pending" && !(props.currentUser.id === vacationRequest.owner[0].id ) ? (
                 <Container>
                     <Row>
                         <Col>
