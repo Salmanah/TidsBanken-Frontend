@@ -1,41 +1,62 @@
-import React, { useState } from "react";
-import { MDBInput, MDBContainer, MDBRow, MDBCard, MDBCardBody } from 'mdbreact';
+import React, { useEffect, useState } from "react";
+import { MDBInput, MDBCard, MDBCardBody } from 'mdbreact';
 import './createVacationForm.css';
-import { createVacationRequest, createCommentForVacationRequest, getUserRequestsById } from "../../utils/APIUtils";
-import { Col } from 'react-bootstrap';
-
+import { createVacationRequest, createCommentForVacationRequest, getUserRequestsById, getAllIneligiblePeriods } from "../../utils/APIUtils";
+import { Container, Row, Col } from 'react-bootstrap';
+import DatePicker from "react-datepicker";
+import { getDates } from '../../utils/common.js'
+import { addDays } from 'date-fns';
+import "react-datepicker/dist/react-datepicker.css";
 
 const CreateVacationRequest = (props) => {
 
-    const [maxVacationLength] = useState(21); //skal kunne endres
+    const [maxVacationLength] = useState(12); //skal kunne endres
     const [comment, setComment] = useState("");
     const [title, setTitle] = useState("");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
+    const [allIneligibles, setAllIneligibles] = useState([]);
+    const [ineligible, setIneligible] = useState([])
+    let tmp = [];
 
+    useEffect(() => {
+        getAllIneligiblePeriods().then(resp => setAllIneligibles(resp)).catch(err => console.log(err));
+    }, [])
+
+    useEffect(() => {
+        allIneligibles.forEach(inel => {
+            let dates = getDates(inel.period_start, inel.period_end);
+
+            for (let i = 0; i < dates.length; i++) {
+                let el = dates[i].split("-");
+                let date = el[0] + "," + el[1] + "," + el[2]
+                tmp.push(new Date(date))
+            }
+        })
+        setIneligible(tmp)
+
+    }, [allIneligibles])
 
     function handleTitleChange(event) {
-        //this.setState({ title: event.target.value });
         setTitle(event.target.value);
     }
 
+    function handleStartDateSelect(date) {
+        setStartDate(date);
+    };
+
+    function handleEndDateSelect(date) {
+        setEndDate(date);
+    }
     function handleCommentChange(event) {
-        //this.setState({ comment: event.target.value });
         setComment(event.target.value);
     }
 
-    function handleStartDateChange(event) {
-        //this.setState({ startDate: event.target.value });
-        setStartDate(event.target.value);
-    }
-
-    function handleEndDateChange(event) {
-        //this.setState({ endingDate: event.target.value });
-        setEndDate(event.target.value);
-    }
-
     function handleSubmitClick(event) {
-        createVacationRequest(title, startDate, endDate)
+        let start_date = getFormattedDate(startDate);
+        let end_date = getFormattedDate(endDate);
+        console.log(title, comment)
+        createVacationRequest(title, start_date, end_date)
             .then(response => {
                 console.log(response)
                 createCommentForVacationRequest(response, comment)
@@ -52,99 +73,108 @@ const CreateVacationRequest = (props) => {
                                 }
                             });
                         })
-
                     })
             })
     }
 
     function getFormattedDate(date) {
-        //var today = new Date();
-        var dd = String(date.getDate()).padStart(2, '0');
-        var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
-        var yyyy = date.getFullYear();
-        return yyyy + "-" + mm + "-" + dd;
+
+        let month = date.getMonth() + 1; //January is 0!
+        let day = date.getDate();
+        let year = date.getFullYear();
+
+        if (month < 10)
+            month = "0" + month;
+
+        if (day < 10)
+            day = "0" + day;
+
+        return year + "-" + month + "-" + day;
     }
-
-    function addDays(date, days) {
-        var result = new Date(date);
-        result.setDate(result.getDate() + days);
-        return result;
-    }
-
-
-    let today = new Date();
-    let maxEndDate = addDays(startDate, maxVacationLength);
-    let minEndDate = addDays(startDate, 1);
-
-
     return (
-        <div>
-            <MDBContainer>
-                <MDBRow>
-                    <Col md={{ span: 6, offset: 3 }}>
-                        <MDBCard>
-                            <MDBCardBody>
-                                <form>
-                                    <p className="h4 text-center py-4">Vacation request form</p>
-                                    <label className="grey-text font-weight-light" >
-                                        Request title
-                    </label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        value={title}
-                                        onChange={e => handleTitleChange(e)}
-                                        required
-                                    />
-                                    <br />
-
-                                    <label className="grey-text font-weight-light">
-                                        Vacation start date
-                    </label>
-                                    <input
-                                        type="date"
-                                        className="form-control"
-                                        min={getFormattedDate(today)}
-                                        onChange={e => handleStartDateChange(e)}
-                                        required
-                                    />
-                                    <br />
-                                    <label className="grey-text font-weight-light">
-                                        Vacation end date
-                    </label>
-                                    <input
-                                        type="date"
-                                        className="form-control"
-                                        min={getFormattedDate(minEndDate)}
-                                        max={getFormattedDate(maxEndDate)}
-                                        onChange={e => handleEndDateChange(e)}
-                                        required
-                                    />
-                                    <br />
-                                    <label
-                                        htmlFor="defaultFormCardEmailEx"
-                                        className="grey-text font-weight-light" >
-                                        Comments
-                    </label>
-                                    <MDBInput
-                                        type="textarea"
-                                        value={comment}
-                                        onChange={e => handleCommentChange(e)} />
-                                    <div className="text-center py-4 mt-3">
-                                        <button type="button" className="btn btn-primary" onClick={e => handleSubmitClick(e)}>
+        <Container>
+            <Row>
+                <Col md={{ span: 6, offset: 3 }}>
+                    <MDBCard className="my-4">
+                        <MDBCardBody>
+                            <form>
+                                <Col md={12} className="my-2">
+                                    <p className="h4 text-center py-3">Vacation request form</p>
+                                </Col>
+                                <Row>
+                                    <Col md={12} className="my-2">
+                                        <label className="grey-text font-weight-light" >
+                                            * Request title
+                                        </label>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            onChange={e => handleTitleChange(e)}
+                                            required
+                                        />
+                                    </Col>
+                                </Row>
+                                <Row className="my-2">
+                                    <Col md={6}>
+                                        <label className="grey-text font-weight-light">
+                                            * Vacation start date
+                                        </label>
+                                        <DatePicker
+                                            excludeDates={ineligible}
+                                            minDate={new Date()}
+                                            dateFormat="dd/MM/yyyy"
+                                            onSelect={handleStartDateSelect}
+                                            selected={startDate}
+                                            required
+                                        />
+                                    </Col>
+                                    <Col md={6}>
+                                        <label className="grey-text font-weight-light">
+                                            * Vacation end date
+                                            </label>
+                                        <DatePicker
+                                            dateFormat="dd/MM/yyyy"
+                                            excludeDates={ineligible}
+                                            minDate={startDate}
+                                            maxDate={addDays(new Date(), maxVacationLength)}
+                                            onSelect={handleEndDateSelect}
+                                            selected={endDate}
+                                            required
+                                        />
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col md={12} className="my-2">
+                                        <label
+                                            htmlFor="defaultFormCardEmailEx"
+                                            className="grey-text font-weight-light" >
+                                            * Comments
+                                            </label>
+                                        <br />
+                                        <textarea
+                                            onChange={e => handleCommentChange(e)}
+                                            rows="3"
+                                            required
+                                        />
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col md={12} className="text-center mt-2">
+                                        <button
+                                            type="button"
+                                            className="btn btn-primary"
+                                            onClick={e => handleSubmitClick(e)}>
                                             Submit
-                            </button>
-                                    </div>
-                                </form>
-                            </MDBCardBody>
-                        </MDBCard>
-                    </Col>
-                </MDBRow>
-            </MDBContainer>
-        </div>
-
+                                        </button>
+                                    </Col>
+                                </Row>
+                            </form>
+                        </MDBCardBody>
+                    </MDBCard>
+                </Col>
+            </Row>
+        </Container>
     )
-
 }
 
 export default CreateVacationRequest;
