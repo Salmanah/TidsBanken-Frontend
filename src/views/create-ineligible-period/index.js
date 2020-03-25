@@ -37,8 +37,22 @@ function CreateIneligiblePeriod() {
                     <Modal.Title>Create ineligible period</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <label htmlFor="inStartDate">Start date</label><br /><input name="inStartDate" type="date" value={inStartDate} onChange={e => handleStartDateChange(e)}></input> <br /> <br />
-                    <label htmlFor="inEndDate">End date</label><br /><input name="inEndDate" type="date" value={inEndDate} onChange={e => handleEndDateChange(e)}></input>
+                    <label htmlFor="inStartDate">Start date</label>
+                    <br />
+                    <input
+                        name="inStartDate"
+                        type="date"
+                        value={inStartDate}
+                        onChange={e => handleStartDateChange(e)}>
+                    </input>
+                    <br /> <br />
+                    <label htmlFor="inEndDate">End date</label>
+                    <br />
+                    <input name="inEndDate"
+                        type="date"
+                        value={inEndDate}
+                        onChange={e => handleEndDateChange(e)}>
+                    </input>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
