@@ -311,7 +311,7 @@
     border:none;
     padding-left: 20px;
   }
-  .userVacation p {
+  .userVacation div {
     color: black;
     font-size:12px;
     padding: 0.5px 4px;
@@ -320,23 +320,23 @@
     line-height: 15px;
   }
 
-  .userVacation p.approved{
+  .userVacation div.approved{
     background-color: #60c260a3;
     background: linear-gradient(0deg, rgba(63, 165, 68, 0.39) 0%, #60c2604f, #caecca 100%);
 }
 
-  .userVacation p.denied{
+  .userVacation div.denied{
     background-color: #e57373d6;
     background: linear-gradient(0deg, #d2585882 0%, #e5737391, #ef9a9a82 100%);
   }
 
-  .userVacation p.pending{
+  .userVacation div.pending{
     background-color: #fdfd078c;
     background: linear-gradient(0deg, rgba(218, 218, 34, 0.59) 0%, #fdfd078c, #ffff7a26 100%);
   }
 
 
-  p.selectedVacation em{
+  div.selectedVacation em{
     font-size: 10px;
 
   }
@@ -358,15 +358,26 @@
     color:white;
   }
 
-  p.myReqTitle {
+  div.myReqTitle {
     margin-bottom: 0px;
 
   }
 
-  p.myReqTitle em {
-    color: #90a4ae;
+  div.myReqTitle {
+    color: black;
     font-size: 10px;
  
   }
+button.calendar-redirect{
+  background-color: #ffff0000;
+  border: none;
+  padding-left: 0px;
+  padding-top: 5px;
+}
+
+button.calendar-redirect:hover{
+ cursor: pointer;
+ text-decoration: underline;
+}
 
   

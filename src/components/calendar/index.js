@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import moment from "moment";
 import "./Calendar.css";
 import { Collapse } from 'react-bootstrap';
+import { printDate } from '../../utils/common.js'
 /*
     Credit: 
     Core functionality of calendar component is taken from Mosh Hamedani's tutorial:
@@ -403,21 +404,22 @@ function Calendar(props) {
         allSelectedUserVacations.forEach(vac => {
             if (props.checked || props.admin) {
                 if (vac.dates.includes(year() + "-" + mm + "-" + d)) {
+                    let startDate = printDate(vac.duration[0])
+                    let endDate = printDate(vac.duration[1])
                     let status = vac.status.toLowerCase();
                     userDetails.push(
-                        <p key={vac.id} className={`selectedVacation ${status}`} onClick={() => openCollapse(vac.req_id)}
+                        <div key={vac.id} className={`selectedVacation ${status}`} onClick={() => openCollapse(vac.req_id)}
                             aria-controls={`vacation-request-${vac.id}-collapse`}
                             aria-expanded={vac.openCollapse}>
                             {`${vac.name}: `}
                             <em>{vac.title}</em><br />
                             <Collapse in={vac.openCollapse}>
-                                <em id={`vacation-request-${vac.id}-collapse`} className="pt-1">
-                                    {vac.duration[0]} - {vac.duration[1]}
-                                    <br />
-                                    <button onClick={() => redirectToVacationRequestHistory(vac)}>View request history</button>
-                                </em>
+                                <div id={`vacation-request-${vac.id}-collapse`} className="pt-1 text-center">
+                                    <em >{startDate} - {endDate}</em>
+                                    <button className="calendar-redirect" onClick={() => redirectToVacationRequestHistory(vac)}>View request history</button>
+                                </div>
                             </Collapse>
-                        </p>
+                        </div>
                     );
                 }
             }
@@ -430,20 +432,29 @@ function Calendar(props) {
             pending.forEach(pend => {
                 if (pend.dates.includes(year() + "-" + mm + "-" + d)) {
                     status = "pending";
-                    title.push(<button key={pend.title} onClick={() => RedirectToViewVacationRequest(pend)}>{pend.title}</button>);
+                    title.push(
+                        <button className="calendar-redirect" key={pend.title} onClick={() => RedirectToViewVacationRequest(pend)}>
+                            <em>{pend.title}</em>
+                        </button>);
 
                 }
             });
             approved.forEach(appr => {
                 if (appr.dates.includes(year() + "-" + mm + "-" + d)) {
                     status = "approved";
-                    title.push(<button key={appr.title} onClick={() => RedirectToViewVacationRequest(appr)}>{appr.title}</button>);
+                    title.push(
+                        <button className="calendar-redirect" key={appr.title} onClick={() => RedirectToViewVacationRequest(appr)}>
+                            <em>{appr.title}</em>
+                        </button>);
                 }
             });
             denied.forEach(den => {
                 if (den.dates.includes(year() + "-" + mm + "-" + d)) {
                     status = "denied";
-                    title.push(<button key={den.title} onClick={() => RedirectToViewVacationRequest(den)}>{den.title}</button>);
+                    title.push(
+                        <button className="calendar-redirect" key={den.title} onClick={() => RedirectToViewVacationRequest(den)}>
+                            <em>{den.title}</em>
+                        </button>);
                 }
             });
         }
