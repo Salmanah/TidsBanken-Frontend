@@ -32,7 +32,7 @@ function CalendarView(props) {
 
         let tmpusers = []
         props.allUsers.forEach(user => {
-            if (!user.admin && user.id !== props.id) {
+            if (user.id !== props.id) {
                 tmpusers.push({ value: user.id, label: user.name })
             }
         });
@@ -160,45 +160,31 @@ function CalendarView(props) {
                 </Col>
             </Row>
 
-            {props.admin ?
-                (<>
-                    <Row>
-                        <Col md={5}>
-                            <CalendarSearchSelect options={users} change={handleChange} />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col className="mx-5 my-2 p-2">
-                            {selectedPeopleBadges}
-                        </Col>
-                    </Row>
-                </>)
-                :
-                (<>
-                    <Row>
-                        <Col md={5}>
-                            <CalendarSwitch isChecked={checked} toggleChecked={handleToggleChecked} />
-                        </Col>
-                        <Col md={4}>
-                            {checked ? <CalendarSearchSelect options={users} change={handleChange} /> : null}
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col className="mx-5 my-2 p-2">
-                            {checked ? selectedPeopleBadges : null}
-                        </Col>
-                    </Row>
-                </>)
-            }
+            <Row>
+                <Col md={5}>
+                    <CalendarSwitch isChecked={checked} toggleChecked={handleToggleChecked} />
+                </Col>
+                <Col md={4}>
+                    {checked ? <CalendarSearchSelect options={users} change={handleChange} /> : null}
+                </Col>
+            </Row>
+            <Row>
+                <Col className="mx-5 my-2 p-2">
+                    {checked ? selectedPeopleBadges : null}
+                </Col>
+            </Row>
             <Row>
                 <Col>
                     {props.admin ?
-                        <Calendar history={props.history} admin='true' ineligible={ineligibleDates} allSelectedUserVacations={allSelectedVacations} />
+                        !checked ?
+                            <Calendar checked={checked} pending={pendingDates} approved={approvedDates} ineligible={ineligibleDates} denied={deniedDates} />
+                            :
+                            <Calendar checked={checked} history={props.history} admin='true' ineligible={ineligibleDates} allSelectedUserVacations={allSelectedVacations} />
                         :
                         !checked ?
                             <Calendar checked={checked} history={props.history} pending={pendingDates} approved={approvedDates} ineligible={ineligibleDates} denied={deniedDates} />
                             :
-                            <Calendar checked={checked} history={props.history} pending={null} approved={null} allSelectedUserVacations={allApprovedVacations} ineligible={ineligibleDates} />}
+                            <Calendar checked={checked} history={props.history} pending={null} allSelectedUserVacations={allApprovedVacations} ineligible={ineligibleDates} />}
                 </Col>
             </Row>
             <Row className="mb-5">
