@@ -4,15 +4,23 @@ import { ExpandMore, ExpandLess } from '@material-ui/icons';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import {editUser, getCurrentUser} from '../../utils/APIUtils';
+import './userListItem.css';
 
 
 const UserListItem = (props) => {
+
+    console.log("userlistitem props")
+    console.log(props)
+
+    const [currentUserId, setCurrentUserId] = useState(props.parentProps.currentUser.id)
 
 
     const [open, setOpen] = useState(false);
     const [user, setUser] = useState(props.user)
 
-
+    function handleViewProfile(){
+        console.log("view user profile")
+    }
 
     function viewRequestsClick(){
         props.parentProps.history.push({
@@ -24,51 +32,75 @@ const UserListItem = (props) => {
     }
 
     const [verified, setVerified] = useState(user.emailVerified);
-    const [gotResponse, setGotResponse] = useState(false);
 
     function handleVerifyUser(){
-        console.log("verify click")
         editUser(user.id, user.name, user.admin, true)
         .then(resp => {
-            console.log("edit user resp:")
-            console.log(resp)
             setVerified(true)
         }).catch(err => console.error(err));
     }
 
     function handleUnVerifyUser(){
-        console.log("verify click")
         editUser(user.id, user.name, user.admin, false)
         .then(resp => {
-            console.log("edit user resp:")
-            console.log(resp)
             setVerified(false)
+        }).catch(err => console.error(err));
+    }
+
+    const [admin, setAdmin] = useState(user.admin);
+
+    function handleMakeUser(){
+        console.log("make admin user")
+        editUser(user.id, user.name, false, user.emailVerified)
+        .then(resp => {
+            setAdmin(false)
+            console.log(resp)
+        }).catch(err => console.error(err));
+    }
+
+    function handleMakeAdmin(){
+        console.log("make user admin")
+        editUser(user.id, user.name, true, user.emailVerified)
+        .then(resp => {
+            console.log(resp)
+            setAdmin(true)
         }).catch(err => console.error(err));
     }
 
     
     return (
         <div>
-                <ListItem >
-                    {verified ? <IconButton onClick={handleUnVerifyUser}><CheckCircleIcon color="primary"/></IconButton> : 
-                    <IconButton onClick={handleVerifyUser}><CheckCircleOutlineIcon/></IconButton>}
-                    
-                    <ListItemText>{props.user.name}</ListItemText>
-                    {open? <IconButton onClick={e => {setOpen(false)}}><ExpandLess/></IconButton> : <IconButton onClick={e=>{setOpen(true)}}><ExpandMore/></IconButton>}
+            <ListItem >
+                {verified ? 
+                <IconButton onClick={handleUnVerifyUser}><CheckCircleIcon className="checkedIcon"/></IconButton> 
+                : <IconButton onClick={handleVerifyUser}><CheckCircleOutlineIcon/></IconButton>}
+                {admin ? 
+                <><ListItemText>{user.name} <div className="role">Admin</div> </ListItemText></>
+                : <ListItemText>{user.name} <div className="role">User</div> </ListItemText>}
+                {open ? 
+                <IconButton onClick={e => {setOpen(false)}}><ExpandLess/></IconButton> 
+                : <IconButton onClick={e=>{setOpen(true)}}><ExpandMore/></IconButton>}
+            </ListItem>
+            <Collapse in={open} timeout="auto" unmountOnExit>
+                <ListItem className="itemContent">
+                    <ListItemText>ID : {props.user.id}</ListItemText>
                 </ListItem>
-                <Collapse in={open} timeout="auto" unmountOnExit>
-                    <ListItem className="itemContent">
-                        <ListItemText>ID : {props.user.id}</ListItemText>
-                    </ListItem>
-                    <ListItem className="itemContent">
-                        <ListItemText>E-mail: {props.user.email}</ListItemText>
-                    </ListItem>
-                    <ListItem className="itemContent">
-                            <ListItemText><Button onClick={viewRequestsClick}>View requests</Button><Button>Make admin</Button></ListItemText>
-                            <ListItemText></ListItemText>                        
-                    </ListItem>
-                </Collapse>
-            </div>
+                <ListItem className="itemContent">
+                    <ListItemText>E-mail: {props.user.email}</ListItemText>
+                </ListItem>
+                {(verified && !(user.id === currentUserId)) ? 
+                <ListItem className="itemContent">
+                        <ListItemText>
+                            <Button onClick={handleViewProfile}>View profile</Button>
+                            <Button onClick={viewRequestsClick}>View requests</Button>
+                            {admin ? 
+                            <Button onClick={handleMakeUser}>Make user</Button>
+                            : <Button onClick={handleMakeAdmin}>Make admin</Button>}
+                        </ListItemText>
+                 </ListItem>
+                 : <></>}
+            </Collapse>
+        </div>
     )
 }
 

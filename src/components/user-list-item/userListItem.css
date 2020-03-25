@@ -1,0 +1,9 @@
+.role{
+    font-style: italic;
+    color: lightgray;
+    font-size: small;
+}
+
+.checkedIcon{
+    color: green;
+}
