@@ -81,7 +81,7 @@ const CreateVacationRequest = (props) => {
         <div>
             <MDBContainer>
                 <MDBRow>
-                    <Col md={{ span: 10, offset: 1 }}>
+                    <Col md={{ span: 6, offset: 3 }}>
                         <MDBCard>
                             <MDBCardBody>
                                 <form>

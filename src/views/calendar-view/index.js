@@ -150,7 +150,7 @@ function CalendarView(props) {
     }
 
     return (
-        <Container>
+        <Container className="Calendar-View">
             <Row>
                 <Col>
                     <h1>My calendar</h1>

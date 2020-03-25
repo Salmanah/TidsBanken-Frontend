@@ -26,58 +26,52 @@ const VacationRequests = (props) => {
     const status = ["Pending", "Approved", "Denied"]
 
     return (
-
-        <div>
-            <Container>
-                <Row>
-                    {status.map((st) => {
-                        return (
-
-                            <Col><ToggleBox title={st}>
+        <Container>
+            <Row>
+                {status.map((st) => {
+                    return (
+                        <Col>
+                            <ToggleBox title={st}>
                                 {loading ? (<CircularProgress />)
                                     : (
-                                        <div>
-                                            <List>
-                                                {requests.map((request) => {
-                                                    if (request.status[0].status === st) {
-                                                        return (
-                                                            <RequestListItem request={request} parentProps={props} />
-                                                        )
-                                                    }
+                                        <List>
+                                            {requests.map((request) => {
+                                                if (request.status[0].status === st) {
+                                                    return (
+                                                        <RequestListItem request={request} parentProps={props} />
+                                                    )
                                                 }
-                                                )}
-                                            </List>
-                                        </div>
+                                            }
+                                            )}
+                                        </List>
                                     )
                                 }
                             </ToggleBox>
-                            </Col>)
-                    })}
-                    <Col>
-                        <ToggleBox title="all">
-                            <div>
-                                {loading ? (<CircularProgress />)
-                                    : (
-                                        <div>
-                                            <List>
-                                                {requests.map(
-                                                    (request, index) => {
-                                                        return (
-                                                            <div>
-                                                                <RequestListItem request={request} parentProps={props} />
-                                                            </div>
-                                                        )
-                                                    }
-                                                )}
-                                            </List>
-                                        </div>
-                                    )}
-                            </div>
-                        </ToggleBox>
-                    </Col>
-                </Row>
-            </Container>
-        </div>
+                        </Col>)
+                })}
+                <Col>
+                    <ToggleBox title="all">
+                        <div>
+                            {loading ? (<CircularProgress />)
+                                : (
+                                    <List>
+                                        {requests.map(
+                                            (request, index) => {
+                                                return (
+                                                    <div>
+                                                        <RequestListItem request={request} parentProps={props} />
+                                                    </div>
+                                                )
+                                            }
+                                        )}
+                                    </List>
+
+                                )}
+                        </div>
+                    </ToggleBox>
+                </Col>
+            </Row>
+        </Container>
     )
 }
 
