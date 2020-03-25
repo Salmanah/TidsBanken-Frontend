@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import moment from "moment";
 import "./Calendar.css";
 import { Collapse } from 'react-bootstrap';
-import { printDate } from '../../utils/common.js'
+import { printDate, getDates } from '../../utils/common.js'
 /*
     Credit: 
     Core functionality of calendar component is taken from Mosh Hamedani's tutorial:
@@ -274,30 +274,7 @@ function Calendar(props) {
 
     };
 
-    function getDates(startDate, stopDate) {
-        var dateArray = [];
 
-        if (typeof startDate == 'object') {  //small hack to separate the dates in calendar from the ones from vacations
-            let currentDate = moment(startDate);
-            stopDate = moment(stopDate, "YYYY");
-
-            while (currentDate <= stopDate) {
-
-                dateArray.push(moment(currentDate).format("YYYY"));
-                currentDate = moment(currentDate).add(1, "year");
-            }
-            return dateArray;
-
-        } else if (typeof startDate == 'string') {
-            let currentDate = moment(startDate, 'YYYY-MM-DD');
-            stopDate = moment(stopDate, 'YYYY-MM-DD');
-            while (currentDate <= stopDate) {
-                dateArray.push(moment(currentDate).format('YYYY-MM-DD'))
-                currentDate = moment(currentDate).add(1, 'days');
-            }
-            return dateArray;
-        }
-    }
 
     function YearTable(props) {
         let months = [];
