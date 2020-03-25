@@ -30,7 +30,7 @@ class ApplicationFrame extends Component {
                                         <Nav.Link><Link to="/">Home</Link></Nav.Link>
                                     </NavDropdown.Item>
                                     <NavDropdown.Item>
-                                        <Nav.Link><Link to="/VacationRequests">Vacation requests</Link></Nav.Link>
+                                        <Nav.Link><Link to="/VacationRequests">My vacation requests</Link></Nav.Link>
                                     </NavDropdown.Item>
                                 </NavDropdown>
                                 <NavDropdown title={navDropdownTitle}>
@@ -58,6 +58,9 @@ class ApplicationFrame extends Component {
                                 <NavDropdown title={menuDropdownTitle}>
                                     <NavDropdown.Item>
                                         <Nav.Link><Link to="/">Home</Link></Nav.Link>
+                                    </NavDropdown.Item>
+                                    <NavDropdown.Item>
+                                        <Nav.Link><Link to="/VacationRequests">My vacation requests</Link></Nav.Link>
                                     </NavDropdown.Item>
                                 </NavDropdown>
                                 <NavDropdown title={navDropdownTitle}>
