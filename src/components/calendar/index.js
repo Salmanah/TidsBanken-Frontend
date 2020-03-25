@@ -34,11 +34,13 @@ function Calendar(props) {
     useEffect(() => {
 
         ineligibleVacation();
-        userVacations();
+
         if (!props.checked) {
             pendingVacation()
             approvedVacation()
             deniedVacation()
+        } else {
+            userVacations();
         }
 
     },
