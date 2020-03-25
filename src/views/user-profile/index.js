@@ -19,6 +19,7 @@ const UserProfile = (props) => {
 
         getOtherUserAsAdmin(userId)
         .then(resp => {
+            console.log(resp)
             setUser(resp)
         }).catch(err => {console.error(err)})
 
@@ -36,7 +37,6 @@ const UserProfile = (props) => {
                     <List>
                         <ListItem><ListItemText>Name: {user.name}</ListItemText></ListItem>
                         <ListItem><ListItemText>Email: {user.email}</ListItemText></ListItem>
-                        
                     </List>
                 </Col>
             </Row>

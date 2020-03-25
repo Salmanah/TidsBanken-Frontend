@@ -80,7 +80,7 @@ export function createVacationRequest(requestTitle, requestPeriodStart, requestP
   });
 }
 
-export function deleteVacationRequest(id) {
+/*export function deleteVacationRequest(id) {
   if (!localStorage.getItem(ACCESS_TOKEN)) {
     return Promise.reject("No access token set.");
   }
@@ -89,8 +89,29 @@ export function deleteVacationRequest(id) {
     url: API_BASE_URL + `/admin/request/${id}`,
     method: 'PATCH'
   });
+}*/
+
+export function deleteVacationRequestAdmin(id) {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+  }
+  console.log("SENDING POST REQUEST TO BACKEND ", API_BASE_URL + `/admin/request/{id}`)
+  return request({
+    url: API_BASE_URL + `/admin/request/${id}`,
+    method: 'PATCH'
+  });
 }
 
+export function deleteVacationRequest(id) {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+  }
+  console.log("SENDING POST REQUEST TO BACKEND ", API_BASE_URL + `/request/{id}`)
+  return request({
+    url: API_BASE_URL + `/request/${id}`,
+    method: 'PATCH'
+  });
+}
 
 
 
@@ -354,5 +375,34 @@ export function editUser(id, name,admin, email_verified) {
       admin: admin,
       email_verified: email_verified,
     }),
+  });
+}
+
+
+export function getNotificationForCurrentUser() {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+  }
+  console.log(
+    "SENDING REQUEST TO BACKEND ",
+    API_BASE_URL + `/notification/`
+  );
+  return request({
+    url: API_BASE_URL + `/notification/`,
+    method: "GET"
+  });
+}
+
+export function getNotificationForAdmin() {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+  }
+  console.log(
+    "SENDING REQUEST TO BACKEND ",
+    API_BASE_URL + `/admin/notification/`
+  );
+  return request({
+    url: API_BASE_URL + `/admin/notification/`,
+    method: "GET"
   });
 }
