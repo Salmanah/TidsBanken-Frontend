@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { List, ListItemText, ListItem, Divider } from '@material-ui/core';
 import { getUserRequestsById } from "../../utils/APIUtils";
 import { Spinner } from 'react-bootstrap';
@@ -9,8 +9,8 @@ import './vacationRequestHistory.css';
 const VacationRequestHistory = (props) => {
 
     const userId = props.location.state.user.id;
-    const [requests, setRequests] = React.useState([]);
-    const [loading, setLoading] = React.useState(true);
+    const [requests, setRequests] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         getUserRequestsById(userId)
