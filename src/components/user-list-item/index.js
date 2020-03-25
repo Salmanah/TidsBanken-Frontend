@@ -9,9 +9,6 @@ import './userListItem.css';
 
 const UserListItem = (props) => {
 
-    console.log("userlistitem props")
-    console.log(props)
-
     const [currentUserId, setCurrentUserId] = useState(props.parentProps.currentUser.id)
 
 
@@ -19,7 +16,10 @@ const UserListItem = (props) => {
     const [user, setUser] = useState(props.user)
 
     function handleViewProfile(){
-        console.log("view user profile")
+        props.parentProps.history.push({
+            pathname : "/UserProfile",
+            userId : user.id,
+        })
     }
 
     function viewRequestsClick(){

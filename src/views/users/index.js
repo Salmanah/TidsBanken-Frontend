@@ -18,8 +18,6 @@ const Users = (props) => {
         getAllUsers()
         .then(response=>{
             setUsers(response);
-            console.log("getallusers response:")
-            console.log(response)
             setLoading(false);
         })
         .catch(error => {console.error('Error:', error)})
