@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import './viewVacationRequest.css';
-import { List, ListItem, Divider, Collapse, ListItemText } from '@material-ui/core';
+import { List, ListItem, Divider, Collapse, ListItemText, Button } from '@material-ui/core';
 import { ExpandLess, ExpandMore } from '@material-ui/icons';
-import EditIcon from '@material-ui/icons/Edit';
-import { Container, Col, Row, Button, Modal, Alert } from 'react-bootstrap';
+import { Container, Col, Row, Modal, Alert } from 'react-bootstrap';
 import { adminEditVacationRequest, deleteVacationRequest } from "../../utils/APIUtils";
 import CommentList from '../../components/comment-list/index';
+
 
 
 const ViewVacationRequest = (props) => {
@@ -48,6 +48,13 @@ const ViewVacationRequest = (props) => {
         setOpenConfirmDelete(false);
     }
 
+    function handleViewOwnerProfile(){
+        props.history.push({
+            pathname : "/UserProfile",
+            userId : vacationRequest.owner[0].id
+        })
+    }
+
     return (
         <div>
             <h1>Vacation request</h1>
@@ -55,13 +62,13 @@ const ViewVacationRequest = (props) => {
                 <Container>
                     <Row>
                         <Col>
-                            <Button variant="success" onClick={e => handleChangeStatus(e, "Approved")}>Approve</Button>
+                            <Button variant="outlined" color="primary" size="large" onClick={e => handleChangeStatus(e, "Approved")}>Approve</Button>
                         </Col>
                         <Col>
-                            <Button variant="danger" onClick={e => handleChangeStatus(e, "Denied")}>Deny</Button>
+                            <Button variant="outlined" color="secondary" size="large" onClick={e => handleChangeStatus(e, "Denied")}>Deny</Button>
                         </Col>
                         <Col>
-                            <Button variant="outline-danger" onClick={handleOpen}>Delete</Button>
+                            <Button  color="secondary" size="large" onClick={handleOpen}>Delete</Button>
                             <Modal show={openConfirmDelete} onHide={handleClose}>
                                 <Modal.Header>
                                 <Modal.Title>Warning</Modal.Title>
@@ -86,15 +93,16 @@ const ViewVacationRequest = (props) => {
 
             <List>
                 <ListItem>
-                    <ListItemText>Title: {vacationRequest.title}</ListItemText> <EditIcon />
-                </ListItem>
-                <Divider />
-                <ListItem button>
-                    <ListItemText>Owner: {vacationRequest.owner[0].name}</ListItemText>
+                    <ListItemText>Title: {vacationRequest.title}</ListItemText>
                 </ListItem>
                 <Divider />
                 <ListItem>
-                    <ListItemText>Period: {vacationRequest.period_start} to {vacationRequest.period_end}</ListItemText> <EditIcon />
+                    <ListItemText>Owner: {vacationRequest.owner[0].name}</ListItemText>
+                    <Button onClick={handleViewOwnerProfile}>View profile</Button>
+                </ListItem>
+                <Divider />
+                <ListItem>
+                    <ListItemText>Period: {vacationRequest.period_start} to {vacationRequest.period_end}</ListItemText>
                 </ListItem>
                 <Divider />
                 <ListItem>
