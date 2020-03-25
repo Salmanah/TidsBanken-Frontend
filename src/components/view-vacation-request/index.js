@@ -3,12 +3,14 @@ import './viewVacationRequest.css';
 import { List, ListItem, Divider, Collapse, ListItemText } from '@material-ui/core';
 import { ExpandLess, ExpandMore } from '@material-ui/icons';
 import EditIcon from '@material-ui/icons/Edit';
-import { Container, Col, Row, Button } from 'react-bootstrap';
-import { adminEditVacationRequest } from "../../utils/APIUtils";
+import { Container, Col, Row, Button, Modal, Alert } from 'react-bootstrap';
+import { adminEditVacationRequest, deleteVacationRequest } from "../../utils/APIUtils";
 import CommentList from '../../components/comment-list/index';
 
 
 const ViewVacationRequest = (props) => {
+
+    console.log(props)
 
     const [vacationRequest, setVacationRequest] = useState(props.location.state.request);
     const [status, setStatus] = useState(vacationRequest.status[0].status);
@@ -26,6 +28,26 @@ const ViewVacationRequest = (props) => {
         setStatus(status)
     }
 
+    const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
+
+    function handleOpen(){
+        setOpenConfirmDelete(true);
+    }
+    function handleClose(){
+        setOpenConfirmDelete(false);
+    }
+
+    function handleDeleteRequest(){
+        console.log("delete request")
+        deleteVacationRequest(vacationRequest.request_id)
+        .then(resp=>{
+            console.log(resp)
+            alert("The request has been deleted")
+            props.history.push("/")
+        }).catch(err => {console.error(err)});
+        setOpenConfirmDelete(false);
+    }
+
     return (
         <div>
             <h1>Vacation request</h1>
@@ -37,9 +59,23 @@ const ViewVacationRequest = (props) => {
                         </Col>
                         <Col>
                             <Button variant="danger" onClick={e => handleChangeStatus(e, "Denied")}>Deny</Button>
-                        </Col>c
+                        </Col>
                         <Col>
-                            <Button variant="outline-danger">Delete</Button>
+                            <Button variant="outline-danger" onClick={handleOpen}>Delete</Button>
+                            <Modal show={openConfirmDelete} onHide={handleClose}>
+                                <Modal.Header>
+                                <Modal.Title>Warning</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>Are you sure you want to delete this request?</Modal.Body>
+                                <Modal.Footer>
+                                <Button variant="secondary" onClick={handleDeleteRequest}>
+                                    Yes
+                                </Button>
+                                <Button variant="primary" onClick={handleClose}>
+                                    No
+                                </Button>
+                                </Modal.Footer>
+                            </Modal>
                         </Col>
                     </Row>
                 </Container>
