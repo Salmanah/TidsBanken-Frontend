@@ -29,7 +29,9 @@ const Users = (props) => {
         return (
         <div>
             <h1>User settings</h1>
-            {loading ? (<Spinner animation="border" />) : (
+            {loading ? 
+            (<Spinner animation="border" />) 
+            : (
                 <List>
                     {users.map((element, index) => {
                         
