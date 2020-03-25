@@ -1,4 +1,5 @@
-.vacationRequestContent{
-    padding-top: 60px;
-}
 
+.acceptButton{
+    color: green;
+    font-family: 'Courier New', Courier, monospace;
+}
