@@ -156,7 +156,18 @@ function CalendarView(props) {
                     <h1>My calendar</h1>
                 </Col>
                 <Col className="my-4 text-right my-auto">
-                    {props.admin ? <CreateIneligiblePeriod /> : <Link to="/CreateVacationRequest"><MDBBtn className="btn btn-unique mr-2">Create vacation request</MDBBtn></Link>}
+                    {props.admin ?
+                        (<>
+                            <Link to="/CreateVacationRequest">
+                                <MDBBtn className="btn mr-2">Create vacation request</MDBBtn>
+                            </Link>
+                            <CreateIneligiblePeriod />
+                        </>)
+                        :
+                        (<Link to="/CreateVacationRequest">
+                            <MDBBtn className="btn mr-2">Create vacation request</MDBBtn>
+                        </Link>)
+                    }
                 </Col>
             </Row>
 

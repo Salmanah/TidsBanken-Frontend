@@ -1,5 +1,6 @@
 import React from "react";
 import { Modal, Button } from 'react-bootstrap';
+import { MDBBtn } from "mdbreact";
 import { createIneligiblePeriod } from '../../utils/APIUtils';
 
 
@@ -30,8 +31,8 @@ function CreateIneligiblePeriod() {
     const handleShow = () => setShow(true);
 
     return (
-        <div>
-            <Button onClick={handleShow}>Create ineligible period</Button>
+        <>
+            <MDBBtn className="btn" onClick={handleShow}>Create ineligible period</MDBBtn>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Create ineligible period</Modal.Title>
@@ -63,7 +64,7 @@ function CreateIneligiblePeriod() {
                         </Button>
                 </Modal.Footer>
             </Modal>
-        </div>
+        </>
     )
 }
 
