@@ -31,13 +31,16 @@ import VacationSettings from './views/vacation-settings/index';
 
 import VacationRequestHistory from './components/vacation-request-history/index';
 
+import Standby from './views/standby/index';
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       authenticated: false,
       currentUser: null,
-      loading: false
+      loading: false,
+      goToLogin:false
     }
 
     this.loadCurrentlyLoggedInUser = this.loadCurrentlyLoggedInUser.bind(this);
@@ -51,6 +54,8 @@ class App extends Component {
 
     getCurrentUser()
       .then(response => {
+        console.log("currentUser:")
+        console.log(response)
         this.setState({
           currentUser: response,
           authenticated: true,
@@ -81,20 +86,17 @@ class App extends Component {
       return <LoadingIndicator />
     }
 
-    return (
-      <div className="app">
+    else if (!this.state.authenticated) {
+      console.log("authentisert og admin")
+      return (
+        <div className="app">
         <Router>
           <div className="app-top-box">
             <AppHeader authenticated={this.state.authenticated} currentUser={this.state.currentUser} onLogout={this.handleLogout} />
           </div>
           <div className="app-body">
             <Switch>
-
-              {this.state.authenticated ?
-                (<Route exact path="/" component={Main}></Route>)
-                :
-                (<Route exact path="/" component={Login}></Route>)}
-
+              <Route exact path="/" component={Login}></Route>
               <PrivateRoute path="/profile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={Profile} />
               <Route path="/login" render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>
               <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>
@@ -115,7 +117,78 @@ class App extends Component {
           </div>
         </Router>
       </div>
-    );
+      )
+    }
+
+    else if (this.state.authenticated) {
+      if (this.state.currentUser.emailVerified || this.state.currentUser.admin){
+        console.log("autentisert and email verified")
+        return (
+          <div className="app">
+          <Router>
+            <div className="app-top-box">
+              <AppHeader authenticated={this.state.authenticated} currentUser={this.state.currentUser} onLogout={this.handleLogout} />
+            </div>
+            <div className="app-body">
+              <Switch>
+                <Route exact path="/" component={Main}></Route>
+                <PrivateRoute path="/profile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={Profile} />
+                <Route path="/login" render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>
+                <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>
+                <PrivateRoute path="/VacationRequests" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationRequests} />
+                <PrivateRoute path="/CreateVacationRequest" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={CreateVacationRequest} />
+                <PrivateRoute path="/ViewVacationRequest" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ViewVacationRequest} />
+                <PrivateRoute path="/ViewRequestHistory" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ViewRequestHistory} />
+                <PrivateRoute path="/CreateIneligiblePeriod" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={CreateIneligiblePeriod} />
+                <PrivateRoute path="/ApplicationSettings" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ApplicationSettings} />
+                <PrivateRoute path="/VacationRequests" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationRequests} />
+                {/** <PrivateRoute path="/UserProfile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={UserProfile} /> ->*/} 
+                <PrivateRoute path="/UserProfile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={UserProfile} />
+                <PrivateRoute path="/Users" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={Users} />
+                <PrivateRoute path="/VacationSettings" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationSettings} />
+                <PrivateRoute path="/VacationRequestHistory"  authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationRequestHistory} />
+                <Route component={NotFound}></Route>
+              </Switch>
+            </div>
+          </Router>
+        </div>
+        )
+      } else {
+        return (
+          <div className="app">
+          
+          <Router>
+            <div className="app-body">
+              <Switch>
+                {this.state.goToLogin ? (
+                  <Route exact path="/" component={Login}></Route>
+                ):
+                (
+                  <div>
+                    <Route exact path="/" component={Standby}></Route>
+                  <button onClick={e => {console.log("click"); this.setState({goToLogin:true})}}>Go to login page</button>
+                  </div>
+                  
+
+                )}
+                
+              </Switch>
+            </div>
+          </Router>
+        </div>
+        )
+      }
+      console.log("authentisert og admin")
+      
+    }
+
+    
+    
+
+
+
+    
+    
   }
 }
 
