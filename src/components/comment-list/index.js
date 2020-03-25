@@ -44,7 +44,7 @@ const CommentList = (props) => {
 
     useEffect(()=>{
         if (props.parentProps.currentUser.admin) {
-            getAllCommentsByVacationRequestIDAsAdmin
+            getAllCommentsByVacationRequestIDAsAdmin(vacationRequest.request_id)
             .then( resp => {
                 setCommentList(resp)
             }).catch(err => {console.error(err)})

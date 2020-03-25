@@ -341,3 +341,18 @@ export function deleteIneligiblePeriod(id) {
   });
 }
 
+export function editUser(id, name,admin, email_verified) {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+  }
+  console.log("SENDING POST REQUEST TO BACKEND ", API_BASE_URL + `/request`)
+  return request({
+    url: API_BASE_URL + `/user/${id}/edit`,
+    method: 'PATCH',
+    body: JSON.stringify({
+      name: name,
+      admin: admin,
+      email_verified: email_verified,
+    }),
+  });
+}
