@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { Link } from 'react-router-dom';
 import './ApplicationFrame.css';
 import { Navbar, Nav, NavDropdown, Button } from 'react-bootstrap';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import SettingsIcon from '@material-ui/icons/Settings';
 import MenuIcon from '@material-ui/icons/Menu';
+import Notifications from '../../components/notifications/index';
 
 class ApplicationFrame extends Component {
 
@@ -14,7 +14,7 @@ class ApplicationFrame extends Component {
 
         const username = this.props.parentProps.currentUser.name;
 
-        const navDropdownTitle = (<span><NotificationsIcon size="sm" /></span>);
+        //const navDropdownTitle = (<span><NotificationsIcon size="sm" /></span>);
         const settingsDropdownTitle = (<span><SettingsIcon /></span>);
         const menuDropdownTitle = (<span><MenuIcon /></span>)
 
@@ -33,9 +33,7 @@ class ApplicationFrame extends Component {
                                         <Nav.Link><Link to="/VacationRequests">My vacation requests</Link></Nav.Link>
                                     </NavDropdown.Item>
                                 </NavDropdown>
-                                <NavDropdown title={navDropdownTitle}>
-                                    <NavDropdown.Item>Notification 1</NavDropdown.Item>
-                                </NavDropdown>
+                                <Notifications currentUser={this.props.parentProps.currentUser}/>
                             </Nav>
                             {/*<Navbar.Collapse className="justify-content-end">*/}
                             <Navbar.Text> Signed in as: <Link to="/MyProfile">{username}</Link></Navbar.Text>
@@ -63,9 +61,7 @@ class ApplicationFrame extends Component {
                                         <Nav.Link><Link to="/VacationRequests">My vacation requests</Link></Nav.Link>
                                     </NavDropdown.Item>
                                 </NavDropdown>
-                                <NavDropdown title={navDropdownTitle}>
-                                    <NavDropdown.Item>Notification 1</NavDropdown.Item>
-                                </NavDropdown>
+                                <Notifications currentUser={this.props.parentProps.currentUser}/>
                             </Nav>
                             {/*<Navbar.Collapse className="justify-content-end">*/}
                             <Navbar.Text> Signed in as: <Link to="/MyProfile">{username}</Link></Navbar.Text>
