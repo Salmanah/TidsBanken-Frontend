@@ -38,7 +38,7 @@ class ApplicationFrame extends Component {
                                 </NavDropdown>
                             </Nav>
                             {/*<Navbar.Collapse className="justify-content-end">*/}
-                            <Navbar.Text> Signed in as: <Link to="/UserProfile">{username}</Link></Navbar.Text>
+                            <Navbar.Text> Signed in as: <Link to="/MyProfile">{username}</Link></Navbar.Text>
                             <Nav>
                                 <Nav.Link></Nav.Link><Button variant="outline-info" size="sm" onClick={this.props.parentProps.onLogout}>Logout</Button>
                             </Nav>
@@ -65,7 +65,7 @@ class ApplicationFrame extends Component {
                                 </NavDropdown>
                             </Nav>
                             {/*<Navbar.Collapse className="justify-content-end">*/}
-                            <Navbar.Text> Signed in as: <Link to="/UserProfile">{username}</Link></Navbar.Text>
+                            <Navbar.Text> Signed in as: <Link to="/MyProfile">{username}</Link></Navbar.Text>
                             <Nav>
                                 <NavDropdown title={settingsDropdownTitle}>
                                     <NavDropdown.Item><Link to="/Users">Users</Link></NavDropdown.Item>

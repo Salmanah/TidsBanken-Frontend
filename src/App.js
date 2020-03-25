@@ -32,6 +32,7 @@ import VacationSettings from './views/vacation-settings/index';
 import VacationRequestHistory from './components/vacation-request-history/index';
 
 import Standby from './views/standby/index';
+import MyProfile from './views/my-profile/index';
 
 class App extends Component {
   constructor(props) {
@@ -54,8 +55,6 @@ class App extends Component {
 
     getCurrentUser()
       .then(response => {
-        console.log("currentUser:")
-        console.log(response)
         this.setState({
           currentUser: response,
           authenticated: true,
@@ -87,7 +86,6 @@ class App extends Component {
     }
 
     else if (!this.state.authenticated) {
-      console.log("authentisert og admin")
       return (
         <div className="app">
         <Router>
@@ -112,6 +110,7 @@ class App extends Component {
               <PrivateRoute path="/Users" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={Users} />
               <PrivateRoute path="/VacationSettings" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationSettings} />
               <PrivateRoute path="/VacationRequestHistory"  authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationRequestHistory} />
+              <PrivateRoute path="/MyProfile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={MyProfile} />
               <Route component={NotFound}></Route>
             </Switch>
           </div>
@@ -122,7 +121,6 @@ class App extends Component {
 
     else if (this.state.authenticated) {
       if (this.state.currentUser.emailVerified || this.state.currentUser.admin){
-        console.log("autentisert and email verified")
         return (
           <div className="app">
           <Router>
@@ -147,6 +145,8 @@ class App extends Component {
                 <PrivateRoute path="/Users" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={Users} />
                 <PrivateRoute path="/VacationSettings" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationSettings} />
                 <PrivateRoute path="/VacationRequestHistory"  authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationRequestHistory} />
+                <PrivateRoute path="/MyProfile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={MyProfile} />
+
                 <Route component={NotFound}></Route>
               </Switch>
             </div>
@@ -178,7 +178,6 @@ class App extends Component {
         </div>
         )
       }
-      console.log("authentisert og admin")
       
     }
 
