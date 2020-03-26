@@ -1,18 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import './vacationRequests.css';
 import { List, CircularProgress } from '@material-ui/core';
 import RequestListItem from '../../components/request-list-item/index';
 import { getUserRequestsById } from '../../utils/APIUtils';
+import { getNumberOfVacationDaysSpent } from '../../utils/common';
 import ToggleBox from '../../components/toggle-box/index';
+import RemainingVacationDays from '../../components/remaining-vacation-days/index';
 import { Container, Col, Row } from 'react-bootstrap';
-
 
 const VacationRequests = (props) => {
 
-    const [loading, setLoading] = React.useState(true);
-
-    const [requests, setRequests] = React.useState([]);
-
+    const [loading, setLoading] = useState(true);
+    const [requests, setRequests] = useState([]);
+    const [spentVacationDays, setSpentVacationDays] = useState([]);
+    const [totalVacationDays] = useState(25);
+    const [remainingVacationDays, setRemainingVacationDays] = useState(25);
+    const status = ["Pending", "Approved", "Denied"]
 
     useEffect(() => {
 
@@ -23,10 +26,28 @@ const VacationRequests = (props) => {
             }).catch(err => console.error(err))
     }, [props.currentUser.id])
 
-    const status = ["Pending", "Approved", "Denied"]
+
+    useEffect(() => {
+
+        let spent = getNumberOfVacationDaysSpent(requests);
+        setSpentVacationDays(spent)
+
+    }, [requests])
+
+
+    useEffect(() => {
+
+        setRemainingVacationDays(totalVacationDays - spentVacationDays)
+
+    }, [spentVacationDays])
 
     return (
         <Container>
+            <Row>
+                <Col md={12}>
+                    <RemainingVacationDays spent={spentVacationDays} total={totalVacationDays} remaining={remainingVacationDays} />
+                </Col>
+            </Row>
             <Row>
                 {status.map((st) => {
                     return (
