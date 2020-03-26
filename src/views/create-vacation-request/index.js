@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { MDBCard, MDBCardBody } from 'mdbreact';
 import './createVacationForm.css';
+import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker";
+import { MDBCard, MDBCardBody } from 'mdbreact';
+import { addDays } from 'date-fns';
 import { createVacationRequest, createCommentForVacationRequest, getUserRequestsById, getAllIneligiblePeriods, getMaxVacationDays } from "../../utils/APIUtils";
 import { Container, Row, Col } from 'react-bootstrap';
-import DatePicker from "react-datepicker";
 import { getDates, getNumberOfVacationDaysSpent } from '../../utils/common.js'
-import { addDays } from 'date-fns';
-import "react-datepicker/dist/react-datepicker.css";
 
 const CreateVacationRequest = (props) => {
 
-    const [maxVacationLength, setMaxVacationLength] = useState(); //skal kunne endres
+    const [maxVacationLength, setMaxVacationLength] = useState();
     const [comment, setComment] = useState("");
     const [title, setTitle] = useState("");
     const [startDate, setStartDate] = useState();
