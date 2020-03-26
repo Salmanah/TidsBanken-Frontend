@@ -136,7 +136,7 @@ const CreateVacationRequest = (props) => {
                                             dateFormat="dd/MM/yyyy"
                                             excludeDates={ineligible}
                                             minDate={startDate}
-                                            maxDate={addDays(new Date(), maxVacationLength)}
+                                            maxDate={addDays(startDate, maxVacationLength)}
                                             onSelect={handleEndDateSelect}
                                             selected={endDate}
                                             required
