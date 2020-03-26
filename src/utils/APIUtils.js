@@ -362,7 +362,7 @@ export function deleteIneligiblePeriod(id) {
   });
 }
 
-export function editUser(id, name,admin, email_verified) {
+export function editUser(id, name, admin, email_verified) {
   if (!localStorage.getItem(ACCESS_TOKEN)) {
     return Promise.reject("No access token set.");
   }
@@ -404,5 +404,36 @@ export function getNotificationForAdmin() {
   return request({
     url: API_BASE_URL + `/admin/notification/`,
     method: "GET"
+  });
+}
+
+export function setMaxVacationDays(max_vacation_days) {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+  }
+  console.log(
+    "SENDING REQUEST TO BACKEND ",
+    API_BASE_URL + `/admin/vacationDays/`
+  );
+  return request({
+    url: API_BASE_URL + `/admin/vacationDays/`,
+    method: "POST",
+    body: JSON.stringify({
+      max_vacation_days: max_vacation_days,
+    }),
+  });
+}
+
+export function getMaxVacationDays() {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+  }
+  console.log(
+    "SENDING REQUEST TO BACKEND ",
+    API_BASE_URL + `/vacationDays/`
+  );
+  return request({
+    url: API_BASE_URL + `/vacationDays/`,
+    method: "GET",
   });
 }
