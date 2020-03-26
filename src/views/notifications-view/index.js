@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { getNotificationForAdmin, getNotificationForCurrentUser, getCurrentUser } from "../../utils/APIUtils";
 import {List, ListItem, ListItemText} from '@material-ui/core';
+import {Container, Row, Col} from 'react-bootstrap';
 
 const NotificationsView = (props) => {
     
@@ -47,8 +48,10 @@ const NotificationsView = (props) => {
 
  
     return(
-        <>
-            <h1>Notifications</h1>
+        <Container>
+            <Row>
+            <Col md={{ span: 8, offset: 2 }}>
+                <h1>Notifications</h1>
             <List>
             {nots.slice(0).reverse().map((element, index) => {
                     if (element === "No notifications yet"){
@@ -58,7 +61,11 @@ const NotificationsView = (props) => {
                     }
                 })}
             </List>
-        </>
+            </Col>
+            </Row>
+
+            
+        </Container>
     )
 }
 

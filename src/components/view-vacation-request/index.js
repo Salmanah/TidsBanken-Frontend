@@ -3,7 +3,7 @@ import './viewVacationRequest.css';
 import { List, ListItem, Divider, Collapse, ListItemText, Button } from '@material-ui/core';
 import { ExpandLess, ExpandMore } from '@material-ui/icons';
 import { Container, Col, Row, Modal, Alert } from 'react-bootstrap';
-import { adminEditVacationRequest, deleteVacationRequest } from "../../utils/APIUtils";
+import { adminEditVacationRequest, deleteVacationRequest, deleteVacationRequestAdmin } from "../../utils/APIUtils";
 import CommentList from '../../components/comment-list/index';
 
 
@@ -37,15 +37,35 @@ const ViewVacationRequest = (props) => {
         setOpenConfirmDelete(false);
     }
 
-    function handleDeleteRequest() {
-        console.log("delete request")
-        deleteVacationRequest(vacationRequest.request_id)
-            .then(resp => {
+    function handleDeleteRequest(){
+        if(props.currentUser.admin){
+            console.log("admin wants to delete request")
+            deleteVacationRequestAdmin(vacationRequest.request_id)
+            .then( resp => {
                 console.log(resp)
+                setOpenConfirmDelete(false);
                 alert("The request has been deleted")
                 props.history.push("/")
-            }).catch(err => { console.error(err) });
-        setOpenConfirmDelete(false);
+            }).catch(err => {
+                console.error(err);
+                setOpenConfirmDelete(false);
+                alert("ERROR!: The request was NOT deleted")
+            })
+        } else {
+            console.log("user wants to delete request")
+            deleteVacationRequest(vacationRequest.request_id)
+            .then(resp=>{
+                console.log(resp)
+                setOpenConfirmDelete(false);
+                alert("The request has been deleted")
+                props.history.push("/")
+            }).catch(err => {
+                console.error(err);
+                setOpenConfirmDelete(false);
+                alert("ERROR!: The request was NOT deleted")
+            })
+        }
+        
     }
 
     function handleViewOwnerProfile() {
@@ -56,7 +76,10 @@ const ViewVacationRequest = (props) => {
     }
 
     return (
-        <div>
+        <Container>
+            <Row>
+            <Col md={{ span: 8, offset: 2 }}>
+                <div>
             <h1>Vacation request</h1>
             {props.currentUser.admin && status === "Pending" && !(props.currentUser.id === vacationRequest.owner[0].id) ? (
                 <Container>
@@ -88,7 +111,21 @@ const ViewVacationRequest = (props) => {
                 </Container>
             )
                 : (
-                    <div></div>
+                    <div><Button  color="secondary" size="large" onClick={handleOpen}>Delete</Button>
+                    <Modal show={openConfirmDelete} onHide={handleClose}>
+                        <Modal.Header>
+                        <Modal.Title>Warning</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>Are you sure you want to delete this request?</Modal.Body>
+                        <Modal.Footer>
+                        <Button variant="secondary" onClick={handleDeleteRequest}>
+                            Yes
+                        </Button>
+                        <Button variant="primary" onClick={handleClose}>
+                            No
+                        </Button>
+                        </Modal.Footer>
+                    </Modal></div>
                 )}
 
             <List>
@@ -130,6 +167,10 @@ const ViewVacationRequest = (props) => {
             </List>
 
         </div>
+            </Col>
+            </Row>
+        </Container>
+        
     )
 }
 

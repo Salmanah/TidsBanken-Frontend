@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { List, ListItemText, ListItem, Divider } from '@material-ui/core';
 import { getUserRequestsById } from "../../utils/APIUtils";
 import { getNumberOfVacationDaysSpent } from "../../utils/common";
-import { Spinner } from 'react-bootstrap';
+import { Spinner, Container, Row, Col } from 'react-bootstrap';
 import HistoryListItem from '../../components/history-list-item/index';
 import './vacationRequestHistory.css';
 import RemainingVacationDays from '../../components/remaining-vacation-days/index';
@@ -42,7 +42,10 @@ const VacationRequestHistory = (props) => {
 
     if (props.currentUser.admin) {
         return (
-            <div>
+            <Container>
+                <Row>
+                <Col md={{ span: 8, offset: 2 }}>
+                    <div>
                 <List>
                     <Divider />
                     <ListItem>
@@ -70,6 +73,10 @@ const VacationRequestHistory = (props) => {
                     </List>
                 )}
             </div>
+                </Col>
+                </Row>
+            </Container>
+            
         )
     } else {
         return (
