@@ -9,10 +9,11 @@ import Badge from '@material-ui/core/Badge';
 
 //skal returnere 
 const Notifications = (props) => {
+
     const [userId, setUserId] = useState(props.currentUser.id);
    
     const [nots, setNots] = useState([])
-
+    //localStorage.setItem(`notsCount${userId}`, 0); Bruk når databasen resettes
     const [notCount, setNotCount] = useState(localStorage.getItem(`notsCount${userId}`));
     const [notify, setNotify] = useState(false);
 
@@ -39,25 +40,29 @@ const Notifications = (props) => {
 
     let [count, setCount] = useState(0);
 
+    function action(resp){
+        console.log(resp.length)
+        setNots(resp)
+        localStorage.setItem(`notsCount${userId}`, resp.length)
+
+        if (notCount < resp.length){
+            setNotify(true);
+        } 
+
+    }
+
     useInterval(() => {
     // Your custom logic here
+
+    console.log(localStorage.getItem(`notsCount${userId}`))
+    console.log(notCount)
 
     if (props.currentUser.admin){
 
         console.log("getforadmin")
         getNotificationForAdmin()
-        
         .then(resp=>{
-            console.log(resp)
-            setNots(resp)
-            localStorage.setItem(`notsCount${userId}`, resp.length)
-
-            console.log(notCount)
-            console.log(resp.length)
-
-            if (notCount < resp.length){
-                setNotify(true);
-            } 
+            action(resp)
         }).catch(err => {
             console.error(err)
             let list = [];
@@ -69,16 +74,7 @@ const Notifications = (props) => {
 
         getNotificationForCurrentUser()
         .then(resp=>{
-            setNots(resp)
-            localStorage.setItem(`notsCount${userId}`, resp.length)
-
-            console.log(notCount)
-            console.log(resp.length)
-
-            if (notCount < resp.length){
-                setNotify(true);
-                setNotCount(resp.length)
-            } 
+            action(resp)
         }).catch(err => {
             console.error(err);
             let list = [];
@@ -89,27 +85,16 @@ const Notifications = (props) => {
 
     }, 15000);
 
-
-    
-
-
-    /*
-
     useEffect(()=>{
 
+        console.log(localStorage.getItem(`notsCount${userId}`))
+        console.log(notCount)
+
         if (props.currentUser.admin){
+            console.log("getforadmin")
             getNotificationForAdmin()
             .then(resp=>{
-                console.log(resp)
-                setNots(resp)
-                localStorage.setItem(`notsCount${userId}`, resp.length)
-
-                console.log(notCount)
-                console.log(resp.length)
-
-                if (notCount < resp.length){
-                    setNotify(true);
-                } 
+                action(resp)
             }).catch(err => {
                 console.error(err)
                 let list = [];
@@ -117,17 +102,10 @@ const Notifications = (props) => {
                 setNots(list);
             })
         }else{
+            console.log("getforuser")
             getNotificationForCurrentUser()
             .then(resp=>{
-                setNots(resp)
-                localStorage.setItem(`notsCount${userId}`, resp.length)
-
-                console.log(notCount)
-                console.log(resp.length)
-
-                if (notCount < resp.length){
-                    setNotify(true);
-                } 
+                action(resp)
             }).catch(err => {
                 console.error(err);
                 let list = [];
@@ -135,7 +113,10 @@ const Notifications = (props) => {
                 setNots(list);
             })
         }
-    },[])*/
+    },[])
+
+
+    
 
 
     function handleSeen(){
