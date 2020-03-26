@@ -6,9 +6,6 @@ import './comment.css';
 
 const Comment = (props) => {
 
-    console.log("Comment component")
-    console.log(props.comment)
-
     return(
         <div>
             <ListItem>
