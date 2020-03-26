@@ -16,6 +16,8 @@ const ViewVacationRequest = (props) => {
     const [status, setStatus] = useState(vacationRequest.status[0].status);
     const [commentRevealed, setCommentRevealed] = useState(false);
 
+    console.log(vacationRequest)
+
 
     function handleViewComments(event) {
         setCommentRevealed(!commentRevealed)
@@ -42,29 +44,17 @@ const ViewVacationRequest = (props) => {
             console.log("admin wants to delete request")
             deleteVacationRequestAdmin(vacationRequest.request_id)
             .then( resp => {
-                console.log(resp)
-                setOpenConfirmDelete(false);
-                alert("The request has been deleted")
-                props.history.push("/")
-            }).catch(err => {
-                console.error(err);
-                setOpenConfirmDelete(false);
-                alert("ERROR!: The request was NOT deleted")
-            })
+            }).catch(err=>{console.error(err)})
         } else {
             console.log("user wants to delete request")
             deleteVacationRequest(vacationRequest.request_id)
-            .then(resp=>{
-                console.log(resp)
-                setOpenConfirmDelete(false);
-                alert("The request has been deleted")
-                props.history.push("/")
-            }).catch(err => {
-                console.error(err);
-                setOpenConfirmDelete(false);
-                alert("ERROR!: The request was NOT deleted")
-            })
+            .catch(err=>{console.error(err)})
         }
+        setOpenConfirmDelete(false);
+        alert("The request has been deleted")
+        props.history.push("/")
+
+
         
     }
 
@@ -75,13 +65,13 @@ const ViewVacationRequest = (props) => {
         })
     }
 
-    return (
-        <Container>
+    if (status === "Pending"){
+        return(<Container>
             <Row>
             <Col md={{ span: 8, offset: 2 }}>
                 <div>
             <h1>Vacation request</h1>
-            {props.currentUser.admin && status === "Pending" && !(props.currentUser.id === vacationRequest.owner[0].id ) ? (
+            {props.currentUser.admin && !(props.currentUser.id === vacationRequest.owner[0].id ) ? (
                 <Container>
                     <Row>
                         <Col>
@@ -135,7 +125,9 @@ const ViewVacationRequest = (props) => {
                 <Divider />
                 <ListItem>
                     <ListItemText>Owner: {vacationRequest.owner[0].name}</ListItemText>
+                    {props.currentUser.admin ? 
                     <Button onClick={handleViewOwnerProfile}>View profile</Button>
+                    : <></>}
                 </ListItem>
                 <Divider />
                 <ListItem>
@@ -169,9 +161,60 @@ const ViewVacationRequest = (props) => {
         </div>
             </Col>
             </Row>
-        </Container>
-        
-    )
+        </Container>)
+    } else {
+        return (
+            <Container>
+                <Row>
+                <Col md={{ span: 8, offset: 2 }}>
+                    <div>
+                    <h1>Vacation request</h1>
+                <List>
+                <ListItem>
+                    <ListItemText>Title: {vacationRequest.title}</ListItemText>
+                </ListItem>
+                <Divider />
+                <ListItem>
+                    <ListItemText>Owner: {vacationRequest.owner[0].name}</ListItemText>
+                    {props.currentUser.admin ? 
+                    <Button onClick={handleViewOwnerProfile}>View profile</Button>
+                    : <></>}
+                </ListItem>
+                <Divider />
+                <ListItem>
+                    <ListItemText>Period: {vacationRequest.period_start} to {vacationRequest.period_end}</ListItemText>
+                </ListItem>
+                <Divider />
+                <ListItem>
+                    <ListItemText> Status: {status}</ListItemText>
+                </ListItem>
+                <Divider />
+                { //har ikke testet om denne faktisk funker hvis man ikke er admin eller owner
+                    props.currentUser.admin || props.currentUser.id === vacationRequest.owner[0].id ? (
+                        (
+                            <div>
+                                <ListItem button onClick={e => handleViewComments(e)} >
+                                    <ListItemText>Comments</ListItemText>
+                                    {commentRevealed ? <ExpandLess /> : <ExpandMore />}
+                                </ListItem>
+                                <Collapse in={commentRevealed} timeout="auto" unmountOnExit>
+                                    <CommentList parentProps={props} />
+                                </Collapse>
+                            </div>
+                        )
+                    ) : (
+                            <div>
+                            </div>)
+                }
+
+            </List>
+            </div>
+                    </Col>
+                </Row>
+            </Container>
+            
+        )
+    }
 }
 
 export default ViewVacationRequest;
