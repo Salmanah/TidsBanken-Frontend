@@ -1,0 +1,6 @@
+.circled {
+    border-radius: 50%;
+    display: inline-block;
+    background-color: #30bd66;
+    color: white;
+}

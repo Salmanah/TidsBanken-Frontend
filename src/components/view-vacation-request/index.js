@@ -30,10 +30,10 @@ const ViewVacationRequest = (props) => {
 
     const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
 
-    function handleOpen(){
+    function handleOpen() {
         setOpenConfirmDelete(true);
     }
-    function handleClose(){
+    function handleClose() {
         setOpenConfirmDelete(false);
     }
 
@@ -68,10 +68,10 @@ const ViewVacationRequest = (props) => {
         
     }
 
-    function handleViewOwnerProfile(){
+    function handleViewOwnerProfile() {
         props.history.push({
-            pathname : "/UserProfile",
-            userId : vacationRequest.owner[0].id
+            pathname: "/UserProfile",
+            userId: vacationRequest.owner[0].id
         })
     }
 
@@ -81,7 +81,7 @@ const ViewVacationRequest = (props) => {
             <Col md={{ span: 8, offset: 2 }}>
                 <div>
             <h1>Vacation request</h1>
-            {props.currentUser.admin && status === "Pending" && !(props.currentUser.id === vacationRequest.owner[0].id ) ? (
+            {props.currentUser.admin && status === "Pending" && !(props.currentUser.id === vacationRequest.owner[0].id) ? (
                 <Container>
                     <Row>
                         <Col>
@@ -91,18 +91,18 @@ const ViewVacationRequest = (props) => {
                             <Button variant="outlined" color="secondary" size="large" onClick={e => handleChangeStatus(e, "Denied")}>Deny</Button>
                         </Col>
                         <Col>
-                            <Button  color="secondary" size="large" onClick={handleOpen}>Delete</Button>
+                            <Button color="secondary" size="large" onClick={handleOpen}>Delete</Button>
                             <Modal show={openConfirmDelete} onHide={handleClose}>
                                 <Modal.Header>
-                                <Modal.Title>Warning</Modal.Title>
+                                    <Modal.Title>Warning</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>Are you sure you want to delete this request?</Modal.Body>
                                 <Modal.Footer>
-                                <Button variant="secondary" onClick={handleDeleteRequest}>
-                                    Yes
+                                    <Button variant="secondary" onClick={handleDeleteRequest}>
+                                        Yes
                                 </Button>
-                                <Button variant="primary" onClick={handleClose}>
-                                    No
+                                    <Button variant="primary" onClick={handleClose}>
+                                        No
                                 </Button>
                                 </Modal.Footer>
                             </Modal>
