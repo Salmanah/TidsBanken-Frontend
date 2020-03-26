@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { List, ListItemText, ListItem, Divider } from '@material-ui/core';
 import { getUserRequestsById } from "../../utils/APIUtils";
+import { getNumberOfVacationDaysSpent } from "../../utils/common";
 import { Spinner } from 'react-bootstrap';
 import HistoryListItem from '../../components/history-list-item/index';
 import './vacationRequestHistory.css';
+import RemainingVacationDays from '../../components/remaining-vacation-days/index';
 
 //for admin
 const VacationRequestHistory = (props) => {
@@ -11,6 +13,9 @@ const VacationRequestHistory = (props) => {
     const userId = props.location.state.user.id;
     const [requests, setRequests] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [spentVacationDays, setSpentVacationDays] = useState([]);
+    const [totalVacationDays] = useState(25);
+    const [remainingVacationDays, setRemainingVacationDays] = useState(25);
 
     useEffect(() => {
         getUserRequestsById(userId)
@@ -22,7 +27,16 @@ const VacationRequestHistory = (props) => {
 
     }, [])
 
-    useEffect(() => { }, [requests])
+    useEffect(() => {
+        let spent = getNumberOfVacationDaysSpent(requests);
+        setSpentVacationDays(spent)
+    }, [requests])
+
+    useEffect(() => {
+
+        setRemainingVacationDays(totalVacationDays - spentVacationDays)
+
+    }, [spentVacationDays])
 
 
 
@@ -42,7 +56,7 @@ const VacationRequestHistory = (props) => {
                     </ListItem>
                     <Divider />
                     <ListItem className="historyInfo">
-                        <ListItemText>Her skal number of available and remaining vacation days</ListItemText>
+                        <ListItemText> This user has {remainingVacationDays} of {totalVacationDays} vacation days left</ListItemText>
                     </ListItem>
                     <Divider />
                 </List>
