@@ -10,7 +10,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const CreateVacationRequest = (props) => {
 
-    const [maxVacationLength] = useState(12); //skal kunne endres
+    const [maxVacationLength, setMaxVacationLength] = useState(); //skal kunne endres
     const [comment, setComment] = useState("");
     const [title, setTitle] = useState("");
     const [startDate, setStartDate] = useState();
@@ -27,6 +27,7 @@ const CreateVacationRequest = (props) => {
     useEffect(() => {
         getAllIneligiblePeriods().then(resp => setAllIneligibles(resp)).catch(err => console.log(err));
         getUserRequestsById(props.currentUser.id).then(resp => setAllVacationRequests(resp)).catch(err => console.log(err));
+        getMaxVacationDays().then(resp => setMaxVacationLength(resp)).catch(err => console.log(err));
     }, [])
 
     useEffect(() => {
@@ -68,14 +69,12 @@ const CreateVacationRequest = (props) => {
         }
     }, [allVacationRequests])
 
-
     useEffect(() => {
         let tmp = []
         tmp = [...ineligible, ...request]
         setExcludedDays(tmp);
 
     }, [ineligible, request])
-
 
     useEffect(() => {
         if (startDate) {
@@ -85,7 +84,7 @@ const CreateVacationRequest = (props) => {
             setMax(next)
         }
 
-    }, [startDate])
+    }, [startDate, maxVacationLength, excludedDays])
 
     function getRemainingVacationDays() {
         return totalVacationDays - vacationDaysSpent;
