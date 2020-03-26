@@ -1,3 +1,16 @@
 .settingsContent{
     padding-top: 60px;
 }
+
+
+.MuiInput-underline:before {
+    border-bottom: none !important;
+}
+
+.small-text {
+    color: #607d8b9e;
+}
+
+.MuiInput-root {
+    width:75px;
+}
