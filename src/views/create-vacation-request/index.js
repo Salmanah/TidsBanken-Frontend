@@ -87,7 +87,7 @@ const CreateVacationRequest = (props) => {
     }, [startDate, maxVacationLength, excludedDays])
 
     function getRemainingVacationDays() {
-        return totalVacationDays - vacationDaysSpent;
+        return (totalVacationDays - vacationDaysSpent) - 1; //- 1 or else it counts from startDate
     }
 
     function getNextExcludedDay() {
