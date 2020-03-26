@@ -35,3 +35,19 @@ export function getDates(startDate, stopDate) {
         return dateArray;
     }
 }
+
+export function getNumberOfVacationDaysSpent(requests) {
+    let tmp = [];
+    let length = 0;
+    requests.forEach(req => {
+        tmp.push(getDates(req.period_start, req.period_end))
+
+    });
+
+    tmp.forEach(date => {
+        length += date.length;
+    })
+    return length;
+
+}
+
