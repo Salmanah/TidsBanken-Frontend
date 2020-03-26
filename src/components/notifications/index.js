@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {Link, NavLink} from 'react-router-dom';
 import { Dropdown, Nav, Navbar, NavDropdown, NavItem } from "react-bootstrap";
 import {LinkContainer} from 'react-router-bootstrap';
@@ -16,7 +16,84 @@ const Notifications = (props) => {
     const [notCount, setNotCount] = useState(localStorage.getItem(`notsCount${userId}`));
     const [notify, setNotify] = useState(false);
 
+
+    function useInterval(callback, delay) {
+        const savedCallback = useRef();
+      
+        // Remember the latest callback.
+        useEffect(() => {
+          savedCallback.current = callback;
+        }, [callback]);
+      
+        // Set up the interval.
+        useEffect(() => {
+          function tick() {
+            savedCallback.current();
+          }
+          if (delay !== null) {
+            let id = setInterval(tick, delay);
+            return () => clearInterval(id);
+          }
+        }, [delay]);
+      }
+
+    let [count, setCount] = useState(0);
+
+    useInterval(() => {
+    // Your custom logic here
+
+    if (props.currentUser.admin){
+
+        console.log("getforadmin")
+        getNotificationForAdmin()
+        
+        .then(resp=>{
+            console.log(resp)
+            setNots(resp)
+            localStorage.setItem(`notsCount${userId}`, resp.length)
+
+            console.log(notCount)
+            console.log(resp.length)
+
+            if (notCount < resp.length){
+                setNotify(true);
+            } 
+        }).catch(err => {
+            console.error(err)
+            let list = [];
+            list.push("No notifications yet");
+            setNots(list);
+        })
+    }else{
+        console.log("getforuser")
+
+        getNotificationForCurrentUser()
+        .then(resp=>{
+            setNots(resp)
+            localStorage.setItem(`notsCount${userId}`, resp.length)
+
+            console.log(notCount)
+            console.log(resp.length)
+
+            if (notCount < resp.length){
+                setNotify(true);
+                setNotCount(resp.length)
+            } 
+        }).catch(err => {
+            console.error(err);
+            let list = [];
+            list.push("No notifications yet");
+            setNots(list);
+        })
+    }
+
+    }, 15000);
+
+
     
+
+
+    /*
 
     useEffect(()=>{
 
@@ -58,7 +135,7 @@ const Notifications = (props) => {
                 setNots(list);
             })
         }
-    },[])
+    },[])*/
 
 
     function handleSeen(){
