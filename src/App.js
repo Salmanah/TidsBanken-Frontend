@@ -33,6 +33,7 @@ import VacationRequestHistory from './components/vacation-request-history/index'
 
 import Standby from './views/standby/index';
 import MyProfile from './views/my-profile/index';
+import NotificationsView from './views/notifications-view/index';
 
 class App extends Component {
   constructor(props) {
@@ -111,6 +112,8 @@ class App extends Component {
               <PrivateRoute path="/VacationSettings" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationSettings} />
               <PrivateRoute path="/VacationRequestHistory"  authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationRequestHistory} />
               <PrivateRoute path="/MyProfile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={MyProfile} />
+              <PrivateRoute path="/Notifications"  authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={NotificationsView}/>
+
               <Route component={NotFound}></Route>
             </Switch>
           </div>
@@ -146,7 +149,7 @@ class App extends Component {
                 <PrivateRoute path="/VacationSettings" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationSettings} />
                 <PrivateRoute path="/VacationRequestHistory"  authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationRequestHistory} />
                 <PrivateRoute path="/MyProfile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={MyProfile} />
-
+                <PrivateRoute path="/Notifications"  authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={NotificationsView}/>
                 <Route component={NotFound}></Route>
               </Switch>
             </div>
