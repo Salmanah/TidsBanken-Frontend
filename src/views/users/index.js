@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import CreateUser from '../../components/create-user/index';
-import { Button } from 'react-bootstrap';
+import { Button, Container, Row, Col } from 'react-bootstrap';
 import './users.css';
 import ToggleBox from '../../components/toggle-box/index';
 import ViewAllUsers from '../../components/view-all-users/index';
@@ -25,20 +25,30 @@ const Users = (props) => {
 
     if (props.currentUser.admin){
         return (
-        <div>
-            <h1>User settings</h1>
-            {loading ? 
-            (<Spinner animation="border" />) 
-            : (
-                <List>
-                    {users.map((element, index) => {
-                        
-                            return <UserListItem key={index} user={element} parentProps={props} />
-                        
-                    })}
-                </List>)
-            }
-        </div>
+            <Container>
+               <Row>
+                   <Col md={{ span: 8, offset: 2 }}>
+                   <div>
+                        <h1>User settings</h1>
+                        {loading ? 
+                        (<Spinner animation="border" />) 
+                        : (
+                            <List>
+                                {users.map((element, index) => {
+                                    
+                                        return <UserListItem key={index} user={element} parentProps={props} />
+                                    
+                                })}
+                            </List>)
+                        }
+                    </div>
+                   </Col>
+               </Row>
+                    
+  
+                
+            </Container>
+        
     )
     } else {
         return(

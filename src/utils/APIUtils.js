@@ -95,7 +95,7 @@ export function deleteVacationRequestAdmin(id) {
   if (!localStorage.getItem(ACCESS_TOKEN)) {
     return Promise.reject("No access token set.");
   }
-  console.log("SENDING POST REQUEST TO BACKEND ", API_BASE_URL + `/admin/request/{id}`)
+  console.log("SENDING POST REQUEST TO BACKEND ", API_BASE_URL + `/admin/request/${id}`)
   return request({
     url: API_BASE_URL + `/admin/request/${id}`,
     method: 'PATCH'
