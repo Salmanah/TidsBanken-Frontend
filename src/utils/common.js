@@ -41,7 +41,7 @@ export function getNumberOfVacationDaysSpent(requests) {
     let tmp = [];
     let length = 0;
     requests.forEach(req => {
-        if (req.status[0].status === 'Approved') {
+        if (req.status[0].status !== 'Denied') {
             tmp.push(getDates(req.period_start, req.period_end))
         }
     });
