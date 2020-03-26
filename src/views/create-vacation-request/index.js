@@ -17,7 +17,7 @@ const CreateVacationRequest = (props) => {
     const [endDate, setEndDate] = useState("");
     const [allIneligibles, setAllIneligibles] = useState([]);
     const [ineligible, setIneligible] = useState([])
-    const [requests, setRequests] = useState([]);
+    const [request, setRequest] = useState([]);
     const [vacationDaysSpent, setVacationDaysSpent] = useState();
     const [allVacationRequests, setAllVacationRequests] = useState();
 
@@ -29,6 +29,7 @@ const CreateVacationRequest = (props) => {
     useEffect(() => {
         let tmp = [];
         allIneligibles.forEach(inel => {
+            console.log(inel)
             let dates = getDates(inel.period_start, inel.period_end);
 
             for (let i = 0; i < dates.length; i++) {
@@ -47,23 +48,25 @@ const CreateVacationRequest = (props) => {
         setVacationDaysSpent(spent)
 
         allVacationRequests.forEach(req => {
-            let dates = getDates(req.period_start, req.period_end);
+            console.log(req)
+            //let dates = getDates(req.period_start, req.period_end);
 
-            for (let i = 0; i < dates.length; i++) {
+            /*for (let i = 0; i < dates.length; i++) {
                 let el = dates[i].split("-");
                 let date = el[0] + "," + el[1] + "," + el[2]
                 tmp.push(new Date(date))
-            }
+            }*/
         })
-        setRequests(tmp)
+        setRequest(tmp)
 
     }, [allVacationRequests])
 
 
     useEffect(() => {
-        //console.log(ineligible)
+        console.log(ineligible)
+        console.log(request)
 
-    }, [ineligible])
+    }, [ineligible, request])
 
     function handleTitleChange(event) {
         setTitle(event.target.value);
