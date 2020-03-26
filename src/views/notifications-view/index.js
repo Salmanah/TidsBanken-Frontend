@@ -46,6 +46,13 @@ const NotificationsView = (props) => {
         
     },[currentUser])
 
+    function handleGoToRequest(notification){
+        console.log("Go from nots to request")
+        console.log(notification)
+
+
+    }
+
  
     return(
         <Container>
@@ -57,7 +64,7 @@ const NotificationsView = (props) => {
                     if (element === "No notifications yet"){
                         return(<ListItem><ListItemText>{element}</ListItemText></ListItem>)
                     } else{
-                        return(<ListItem><ListItemText>{element.datetimestamp} {element.message}</ListItemText></ListItem>)
+                        return(<ListItem button onClick={handleGoToRequest(element)}><ListItemText>{element.datetimestamp} {element.message}</ListItemText></ListItem>)
                     }
                 })}
             </List>
