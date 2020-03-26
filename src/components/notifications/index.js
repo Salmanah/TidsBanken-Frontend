@@ -41,54 +41,23 @@ const Notifications = (props) => {
     let [count, setCount] = useState(0);
 
     function action(resp){
-        console.log(resp.length)
+        //console.log("resp.length: " + resp.length)
         setNots(resp)
         localStorage.setItem(`notsCount${userId}`, resp.length)
+        
 
-        if (notCount < resp.length){
+        if (notCount != resp.length){
             setNotify(true);
+            setNotCount(resp.length)
         } 
+        
 
     }
 
-    useInterval(() => {
-    // Your custom logic here
+    function gettingNotifications(){
 
-    console.log(localStorage.getItem(`notsCount${userId}`))
-    console.log(notCount)
-
-    if (props.currentUser.admin){
-
-        console.log("getforadmin")
-        getNotificationForAdmin()
-        .then(resp=>{
-            action(resp)
-        }).catch(err => {
-            console.error(err)
-            let list = [];
-            list.push("No notifications yet");
-            setNots(list);
-        })
-    }else{
-        console.log("getforuser")
-
-        getNotificationForCurrentUser()
-        .then(resp=>{
-            action(resp)
-        }).catch(err => {
-            console.error(err);
-            let list = [];
-            list.push("No notifications yet");
-            setNots(list);
-        })
-    }
-
-    }, 15000);
-
-    useEffect(()=>{
-
-        console.log(localStorage.getItem(`notsCount${userId}`))
-        console.log(notCount)
+        //console.log("i localstorage: " + localStorage.getItem(`notsCount${userId}`))
+    //console.log("notCount " + notCount)
 
         if (props.currentUser.admin){
             console.log("getforadmin")
@@ -113,7 +82,19 @@ const Notifications = (props) => {
                 setNots(list);
             })
         }
-    },[])
+    }
+    
+    useEffect(()=>{
+            gettingNotifications()
+        },[])
+
+    useInterval(() => {
+        gettingNotifications()
+
+    }, 15000);
+
+    
+    
 
 
     
