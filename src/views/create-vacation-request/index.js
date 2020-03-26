@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { MDBCard, MDBCardBody } from 'mdbreact';
 import './createVacationForm.css';
-import { createVacationRequest, createCommentForVacationRequest, getUserRequestsById, getAllIneligiblePeriods } from "../../utils/APIUtils";
+import { createVacationRequest, createCommentForVacationRequest, getUserRequestsById, getAllIneligiblePeriods, getMaxVacationDays } from "../../utils/APIUtils";
 import { Container, Row, Col } from 'react-bootstrap';
 import DatePicker from "react-datepicker";
 import { getDates, getNumberOfVacationDaysSpent } from '../../utils/common.js'
@@ -13,14 +13,16 @@ const CreateVacationRequest = (props) => {
     const [maxVacationLength] = useState(12); //skal kunne endres
     const [comment, setComment] = useState("");
     const [title, setTitle] = useState("");
-    const [startDate, setStartDate] = useState("");
+    const [startDate, setStartDate] = useState();
     const [endDate, setEndDate] = useState("");
     const [allIneligibles, setAllIneligibles] = useState([]);
     const [ineligible, setIneligible] = useState([])
     const [request, setRequest] = useState([]);
+    const [totalVacationDays] = useState(25)
     const [vacationDaysSpent, setVacationDaysSpent] = useState();
     const [allVacationRequests, setAllVacationRequests] = useState([]);
-    const [excludedDays, setExcludedDays] = useState([])
+    const [excludedDays, setExcludedDays] = useState([]);
+    const [max, setMax] = useState()
 
     useEffect(() => {
         getAllIneligiblePeriods().then(resp => setAllIneligibles(resp)).catch(err => console.log(err));
@@ -55,7 +57,6 @@ const CreateVacationRequest = (props) => {
             let dates;
             allVacationRequests.forEach(req => {
                 return dates = getDates(req.period_start, req.period_end);
-
             })
 
             for (let i = 0; i < dates.length; i++) {
@@ -71,18 +72,41 @@ const CreateVacationRequest = (props) => {
     useEffect(() => {
         let tmp = []
         tmp = [...ineligible, ...request]
-
         setExcludedDays(tmp);
 
     }, [ineligible, request])
 
+
     useEffect(() => {
+        if (startDate) {
+            let daysUntilNextExcludedDay = getNextExcludedDay();
+            let remainingVacationDays = getRemainingVacationDays();
+            let next = Math.min(daysUntilNextExcludedDay, maxVacationLength, remainingVacationDays)
+            setMax(next)
+        }
 
+    }, [startDate])
 
-        console.log(excludedDays);
+    function getRemainingVacationDays() {
+        return totalVacationDays - vacationDaysSpent;
+    }
 
-    }, [excludedDays])
+    function getNextExcludedDay() {
+        let differenceInDays = []
 
+        excludedDays.forEach(day => {
+            //if excluded day is after the start date
+            if (day > startDate) {
+                // get days between start date and excluded day
+                let diffTime = day.getTime() - startDate.getTime();
+                let diffDays = diffTime / (1000 * 3600 * 24);
+                diffDays = Math.round(diffDays)
+                differenceInDays.push(diffDays)
+            }
+        })
+        // return the days until the next excluded day
+        return Math.min.apply(Math, differenceInDays)
+    }
 
     function handleTitleChange(event) {
         setTitle(event.target.value);
@@ -183,7 +207,7 @@ const CreateVacationRequest = (props) => {
                                             dateFormat="dd/MM/yyyy"
                                             excludeDates={excludedDays}
                                             minDate={startDate}
-                                            maxDate={addDays(startDate, maxVacationLength)}
+                                            maxDate={addDays(startDate, max)}
                                             onSelect={handleEndDateSelect}
                                             selected={endDate}
                                             required
