@@ -19,7 +19,8 @@ const CreateVacationRequest = (props) => {
     const [ineligible, setIneligible] = useState([])
     const [request, setRequest] = useState([]);
     const [vacationDaysSpent, setVacationDaysSpent] = useState();
-    const [allVacationRequests, setAllVacationRequests] = useState();
+    const [allVacationRequests, setAllVacationRequests] = useState([]);
+    const [excludedDays, setExcludedDays] = useState([])
 
     useEffect(() => {
         getAllIneligiblePeriods().then(resp => setAllIneligibles(resp)).catch(err => console.log(err));
@@ -27,46 +28,61 @@ const CreateVacationRequest = (props) => {
     }, [])
 
     useEffect(() => {
-        let tmp = [];
-        allIneligibles.forEach(inel => {
-            console.log(inel)
-            let dates = getDates(inel.period_start, inel.period_end);
+
+        if (allIneligibles.length > 0) {
+            let tmp = [];
+            allIneligibles.forEach(inel => {
+                let dates = getDates(inel.period_start, inel.period_end);
+
+                for (let i = 0; i < dates.length; i++) {
+                    let el = dates[i].split("-");
+                    let date = el[0] + "," + el[1] + "," + el[2]
+                    tmp.push(new Date(date))
+                }
+            })
+            setIneligible(tmp)
+        }
+
+    }, [allIneligibles])
+
+    useEffect(() => {
+
+        let spent = getNumberOfVacationDaysSpent(allVacationRequests)
+        setVacationDaysSpent(spent)
+
+        if (allVacationRequests.length > 0) {
+            let tmp = [];
+            let dates;
+            allVacationRequests.forEach(req => {
+                return dates = getDates(req.period_start, req.period_end);
+
+            })
 
             for (let i = 0; i < dates.length; i++) {
                 let el = dates[i].split("-");
                 let date = el[0] + "," + el[1] + "," + el[2]
                 tmp.push(new Date(date))
             }
-        })
-        setIneligible(tmp)
-
-    }, [allIneligibles])
-
-    useEffect(() => {
-        let tmp = [];
-        let spent = getNumberOfVacationDaysSpent(allVacationRequests)
-        setVacationDaysSpent(spent)
-
-        allVacationRequests.forEach(req => {
-            console.log(req)
-            //let dates = getDates(req.period_start, req.period_end);
-
-            /*for (let i = 0; i < dates.length; i++) {
-                let el = dates[i].split("-");
-                let date = el[0] + "," + el[1] + "," + el[2]
-                tmp.push(new Date(date))
-            }*/
-        })
-        setRequest(tmp)
-
+            setRequest(tmp)
+        }
     }, [allVacationRequests])
 
 
     useEffect(() => {
-        console.log(ineligible)
-        console.log(request)
+        let tmp = []
+        tmp = [...ineligible, ...request]
+
+        setExcludedDays(tmp);
 
     }, [ineligible, request])
+
+    useEffect(() => {
+
+
+        console.log(excludedDays);
+
+    }, [excludedDays])
+
 
     function handleTitleChange(event) {
         setTitle(event.target.value);
@@ -151,7 +167,7 @@ const CreateVacationRequest = (props) => {
                                             * Vacation start date
                                         </label>
                                         <DatePicker
-                                            excludeDates={ineligible}
+                                            excludeDates={excludedDays}
                                             minDate={new Date()}
                                             dateFormat="dd/MM/yyyy"
                                             onSelect={handleStartDateSelect}
@@ -165,7 +181,7 @@ const CreateVacationRequest = (props) => {
                                             </label>
                                         <DatePicker
                                             dateFormat="dd/MM/yyyy"
-                                            excludeDates={ineligible}
+                                            excludeDates={excludedDays}
                                             minDate={startDate}
                                             maxDate={addDays(startDate, maxVacationLength)}
                                             onSelect={handleEndDateSelect}
