@@ -4,44 +4,99 @@ import { Dropdown, Nav, Navbar, NavDropdown, NavItem } from "react-bootstrap";
 import {LinkContainer} from 'react-router-bootstrap';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { getNotificationForAdmin, getNotificationForCurrentUser } from "../../utils/APIUtils";
+import Badge from '@material-ui/core/Badge';
 
 
 //skal returnere 
 const Notifications = (props) => {
-
-    console.log("props i notifications")
-    console.log(props)
-
-    const navDropdownTitle = (<span><NotificationsIcon size="sm" /></span>);
-
+    const [userId, setUserId] = useState(props.currentUser.id);
+   
     const [nots, setNots] = useState([])
 
+    const [notCount, setNotCount] = useState(localStorage.getItem(`notsCount${userId}`));
+    const [notify, setNotify] = useState(false);
+
+    
+
     useEffect(()=>{
+
         if (props.currentUser.admin){
             getNotificationForAdmin()
             .then(resp=>{
                 console.log(resp)
                 setNots(resp)
-            }).catch(err => {console.error(err)})
+                localStorage.setItem(`notsCount${userId}`, resp.length)
+
+                console.log(notCount)
+                console.log(resp.length)
+
+                if (notCount < resp.length){
+                    setNotify(true);
+                } 
+            }).catch(err => {
+                console.error(err)
+                let list = [];
+                list.push("No notifications yet");
+                setNots(list);
+            })
         }else{
             getNotificationForCurrentUser()
             .then(resp=>{
-                console.log(resp)
                 setNots(resp)
-            }).catch(err => {console.error(err)})
+                localStorage.setItem(`notsCount${userId}`, resp.length)
+
+                console.log(notCount)
+                console.log(resp.length)
+
+                if (notCount < resp.length){
+                    setNotify(true);
+                } 
+            }).catch(err => {
+                console.error(err);
+                let list = [];
+                list.push("No notifications yet");
+                setNots(list);
+            })
         }
     },[])
 
+
+    function handleSeen(){
+        setNotify(false);
+    }
+
+    const navDropdownTitle = (<span><NotificationsIcon size="sm" /></span>);
+    const navDropdownTitleBadge = (<span><Badge variant="dot" color="error"><NotificationsIcon size="sm" /></Badge></span>);
+
     return(
         <div>
-            <NavDropdown title={navDropdownTitle}>
-                {nots.map(element => {
-                    return(
-                        <NavDropdown.Item>{element.type}</NavDropdown.Item>
-                    )
+            {notify ? 
+                <NavDropdown onClick={handleSeen} title={navDropdownTitleBadge}> 
+                {nots.slice(0).reverse().map((element, index) => {
+                    if (index < 5){
+                        if (element === "No notifications yet"){
+                            return(<NavDropdown.Item><Link to="/Notifications">{element}</Link></NavDropdown.Item>)
+                        } else{
+                            return(<NavDropdown.Item><Link to="/Notifications">{element.datetimestamp} {element.type}</Link></NavDropdown.Item>)
+                        }
+                    }
                 })}
                 
             </NavDropdown>
+                : <NavDropdown title={navDropdownTitle}> 
+                {nots.slice(0).reverse().map((element, index) => {
+                    if (index < 5){
+                        if (element === "No notifications yet"){
+                            return(<NavDropdown.Item><Link to="/Notifications">{element}</Link></NavDropdown.Item>)
+                        } else{
+                            return(<NavDropdown.Item><Link to="/Notifications">{element.datetimestamp} {element.type}</Link></NavDropdown.Item>)
+                        }
+                    }
+                })}
+                
+            </NavDropdown>}
+                
+                
         </div>
     )
 }
