@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useForm } from 'react-hook-form'
 import './createVacationForm.css';
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
@@ -23,6 +24,10 @@ const CreateVacationRequest = (props) => {
     const [allVacationRequests, setAllVacationRequests] = useState([]);
     const [excludedDays, setExcludedDays] = useState([]);
     const [max, setMax] = useState()
+
+    const { register, handleSubmit, watch, errors } = useForm()
+
+    console.log(watch('title'))
 
     useEffect(() => {
         getAllIneligiblePeriods().then(resp => setAllIneligibles(resp)).catch(err => console.log(err));
@@ -122,8 +127,9 @@ const CreateVacationRequest = (props) => {
         setComment(event.target.value);
     }
 
-    function handleSubmitClick(event) {
-        let start_date = getFormattedDate(startDate);
+    const onSubmit = data => {
+        console.log(data)
+        /*let start_date = getFormattedDate(startDate);
         let end_date = getFormattedDate(endDate);
         console.log(title, comment)
         createVacationRequest(title, start_date, end_date)
@@ -135,6 +141,7 @@ const CreateVacationRequest = (props) => {
                         alert("Request successfully submitted")
                         getUserRequestsById(resp.user[0].id).then(resp => {
                             let req = resp[resp.length - 1];
+                            //hent ut id her
 
                             props.history.push({
                                 pathname: "/ViewVacationRequest",
@@ -144,7 +151,7 @@ const CreateVacationRequest = (props) => {
                             });
                         })
                     })
-            })
+            })*/
     }
 
     function getFormattedDate(date) {
@@ -163,6 +170,46 @@ const CreateVacationRequest = (props) => {
     }
     return (
         <Container>
+            <Row>
+                <Col md={{ span: 6, offset: 3 }}>
+                    <MDBCard className="my-4">
+                        <MDBCardBody>
+                            < form onSubmit={handleSubmit(onSubmit)} >
+                                <Col md={12} className="my-2">
+                                    <p className="h4 text-center py-3">Vacation request form</p>
+                                </Col>
+                                <Row>
+                                    <Col md={12} className="my-2">
+                                        <label className="grey-text font-weight-light" >
+                                            * Request title
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            name="title"
+                                            defaultValue="title"
+                                            className="form-control"
+                                            onChange={e => handleTitleChange(e)}
+                                            ref={register({ required: true, pattern: /^[A-Za-z]+$/i })}
+                                        />
+
+                                        < input name="exampleRequired" ref={register({ required: true })} />
+
+                                        {errors.title && <span>This field is required</span>}
+
+                                        <input type="submit" />
+                                    </Col>
+                                </Row>
+                            </form >
+                        </MDBCardBody>
+                    </MDBCard>
+                </Col>
+            </Row>
+        </Container>
+
+
+    )
+    {/*} <Container>
             <Row>
                 <Col md={{ span: 6, offset: 3 }}>
                     <MDBCard className="my-4">
@@ -243,8 +290,8 @@ const CreateVacationRequest = (props) => {
                     </MDBCard>
                 </Col>
             </Row>
-        </Container>
-    )
+    </Container>*/}
+
 }
 
 export default CreateVacationRequest;
