@@ -154,6 +154,11 @@ const CreateVacationRequest = (props) => {
             })*/
     }
 
+    function handleBlur() {
+        console.log("blurred")
+
+    }
+
     function getFormattedDate(date) {
 
         let month = date.getMonth() + 1; //January is 0!
@@ -191,6 +196,7 @@ const CreateVacationRequest = (props) => {
                                             className="form-control"
                                             onChange={e => handleTitleChange(e)}
                                             ref={register({ required: true, pattern: /^[A-Za-z]+$/i })}
+                                            onBlur={() => handleBlur()}
                                         />
 
                                         < input name="exampleRequired" ref={register({ required: true })} />
