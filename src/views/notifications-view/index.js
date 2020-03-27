@@ -60,12 +60,18 @@ const NotificationsView = (props) => {
             .then(resp => {
                     setVacationRequest(resp)
                 }
-            ).catch(err => console.error(err));
+            ).catch(err => {
+                console.error(err);
+                alert("The vacation request you are looking for does no longer seem to exist in the system");
+            });
         } else {
             getVacationRequestByID(notification.notification_id)
             .then(resp => {
                 setVacationRequest(resp)
-            }).catch(err => console.error(err));
+            }).catch(err => {
+                console.error(err);
+                alert("The vacation request you are looking for does no longer seem to exist in the system");
+            });
         }
 
         
