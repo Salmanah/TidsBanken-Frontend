@@ -31,11 +31,13 @@ function CalendarView(props) {
     useEffect(() => {
 
         let tmpusers = []
-        props.allUsers.forEach(user => {
-            if (user.id !== props.id) {
-                tmpusers.push({ value: user.id, label: user.name })
-            }
-        });
+        if (props.allUsers) {
+            props.allUsers.forEach(user => {
+                if (user.id !== props.id) {
+                    tmpusers.push({ value: user.id, label: user.name })
+                }
+            });
+        }
         setUsers(tmpusers)
     }, [props.allUsers, props.id])
 

@@ -5,8 +5,8 @@ import { getCurrentUser, getUserRequestAndApproved, getAllVacationRequestsAsAdmi
 
 function Main(props) {
 
-    const [admin, setAdmin] = useState();
-    const [myId, setMyId] = useState();
+    const [admin, setAdmin] = useState(null);
+    const [myId, setMyId] = useState(null);
     const [vacationRequests, setVacationRequests] = useState();
     const [IneligiblePeriods, setIneligiblePeriods] = useState();
     const [allUsers, setAllUsers] = useState();
@@ -62,7 +62,7 @@ function Main(props) {
 
     useEffect(() => {
 
-        if (myId !== "") {
+        if (myId !== null) {
 
             getUserRequestsById(myId).then(resp => { setVacationRequests(resp) }).catch(err => { console.error(err) })
         }
@@ -71,7 +71,7 @@ function Main(props) {
 
     return (
         <>
-            {admin !== '' && allUsers && myId ? <CalendarView history={props.history} requests={vacationRequests} allUsers={allUsers} id={myId} admin={admin} ineligible={IneligiblePeriods} /> : null}
+            {admin !== null && myId !== null ? <CalendarView history={props.history} requests={vacationRequests} allUsers={allUsers} id={myId} admin={admin} ineligible={IneligiblePeriods} /> : null}
         </>
     )
 }
