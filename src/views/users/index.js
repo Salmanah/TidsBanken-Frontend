@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react';
-import CreateUser from '../../components/create-user/index';
-import { Button, Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import './users.css';
-import ToggleBox from '../../components/toggle-box/index';
-import ViewAllUsers from '../../components/view-all-users/index';
 import { getAllUsers } from '../../utils/APIUtils';
 import {List} from '@material-ui/core';
 import UserListItem from '../../components/user-list-item/index';

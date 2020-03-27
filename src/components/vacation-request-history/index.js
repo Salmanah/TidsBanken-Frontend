@@ -5,9 +5,7 @@ import { getNumberOfVacationDaysSpent } from "../../utils/common";
 import { Spinner, Container, Row, Col } from 'react-bootstrap';
 import HistoryListItem from '../../components/history-list-item/index';
 import './vacationRequestHistory.css';
-import RemainingVacationDays from '../../components/remaining-vacation-days/index';
 
-//for admin
 const VacationRequestHistory = (props) => {
 
     const userId = props.location.state.user.id;

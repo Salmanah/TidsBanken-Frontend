@@ -4,8 +4,6 @@ import Comment from '../../components/comment/index';
 import {Modal, Button, Form} from 'react-bootstrap';
 import { getAllCommentsByVacationRequestIDAsAdmin, getAllCommentsByVacationRequestID, createCommentForVacationRequest, getVacationRequestByID, createCommentForVacationRequestAsAdmin, getVacationRequestByIDasAdmin } from "../../utils/APIUtils";
 
-//The comment section should only be visisble to the request owner
-//and admin
 
 const CommentList = (props) => {
 

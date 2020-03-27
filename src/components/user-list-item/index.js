@@ -3,7 +3,7 @@ import { Collapse, ListItem, Button, ListItemText, IconButton, ListItemSecondary
 import { ExpandMore, ExpandLess } from '@material-ui/icons';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import {editUser, getCurrentUser} from '../../utils/APIUtils';
+import {editUser} from '../../utils/APIUtils';
 import './userListItem.css';
 
 
@@ -50,7 +50,6 @@ const UserListItem = (props) => {
     const [admin, setAdmin] = useState(user.admin);
 
     function handleMakeUser(){
-        console.log("make admin user")
         editUser(user.id, user.name, false, user.emailVerified)
         .then(resp => {
             setAdmin(false)
@@ -59,7 +58,6 @@ const UserListItem = (props) => {
     }
 
     function handleMakeAdmin(){
-        console.log("make user admin")
         editUser(user.id, user.name, true, user.emailVerified)
         .then(resp => {
             console.log(resp)
@@ -94,8 +92,8 @@ const UserListItem = (props) => {
                             <Button onClick={handleViewProfile}>View profile</Button>
                             <Button onClick={viewRequestsClick}>View requests</Button>
                             {admin ? 
-                            <Button onClick={handleMakeUser}>Make user</Button>
-                            : <Button onClick={handleMakeAdmin}>Make admin</Button>}
+                            <Button color="secondary" onClick={handleMakeUser}>Make user</Button>
+                            : <Button color="secondary" onClick={handleMakeAdmin}>Make admin</Button>}
                         </ListItemText>
                  </ListItem>
                  : <></>}
@@ -104,56 +102,5 @@ const UserListItem = (props) => {
     )
 }
 
-
-/*class UserListItem extends Component {
-
-    constructor(props) {
-        super(props)
-        this.state = {
-            checked: true,
-            open : false
-        }
-    }
-
-    handleMoreInfoClick(){
-        this.setState({open : !this.state.open})
-    }
-
-    handleToggle(event) {
-        this.setState({ checked: !this.state.checked })
-    }
-
-    handleEditClick(event) {
-        console.log(event.target.value); //denne blir av og til undefined pga hvor man trykker på knappen
-    }
-
-    handleListItemClick(){
-        console.log("user list item clicked")
-    }
-
-    render() {
-
-        console.log("props i useritem:")
-        console.log(this.props.user)
-
-        return (
-            <div>
-                <ListItem button onClick={e => this.handleMoreInfoClick(e)}>
-                    <ListItemText>{this.props.user.name}</ListItemText>
-                    {this.state.open? <ExpandLess/> : <ExpandMore/>}
-                </ListItem>
-                <Collapse in={this.state.open} timeout="auto" unmountOnExit>
-                    <ListItem>
-                        <ListItemText>More info</ListItemText>
-                    </ListItem>
-                    <ListItem>
-
-                    </ListItem>
-                </Collapse>
-            </div>
-            
-        )
-    }
-}*/
 
 export default UserListItem;

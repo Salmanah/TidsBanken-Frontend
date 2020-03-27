@@ -1,13 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
-import {Link, NavLink} from 'react-router-dom';
-import { Dropdown, Nav, Navbar, NavDropdown, NavItem } from "react-bootstrap";
-import {LinkContainer} from 'react-router-bootstrap';
+import { Link } from 'react-router-dom';
+import { NavDropdown } from "react-bootstrap";
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { getNotificationForAdmin, getNotificationForCurrentUser } from "../../utils/APIUtils";
 import Badge from '@material-ui/core/Badge';
 
 
-//skal returnere 
 const Notifications = (props) => {
 
     const [userId, setUserId] = useState(props.currentUser.id);
@@ -38,10 +36,8 @@ const Notifications = (props) => {
         }, [delay]);
       }
 
-    let [count, setCount] = useState(0);
 
     function action(resp){
-        //console.log("resp.length: " + resp.length)
         setNots(resp)
         localStorage.setItem(`notsCount${userId}`, resp.length)
         
@@ -50,14 +46,9 @@ const Notifications = (props) => {
             setNotify(true);
             setNotCount(resp.length)
         } 
-        
-
     }
 
     function gettingNotifications(){
-
-        //console.log("i localstorage: " + localStorage.getItem(`notsCount${userId}`))
-    //console.log("notCount " + notCount)
 
         if (props.currentUser.admin){
             getNotificationForAdmin()
@@ -90,13 +81,6 @@ const Notifications = (props) => {
         gettingNotifications()
 
     }, 15000);
-
-    
-    
-
-
-    
-
 
     function handleSeen(){
         setNotify(false);
@@ -137,20 +121,5 @@ const Notifications = (props) => {
         </div>
     )
 }
-/*
-class Notifications extends Component{
-    render(){
-
-        const navDropdownTitle = (<span><NotificationsIcon size="sm" /></span>);
-
-        return(
-            <div>
-                    <NavDropdown title={navDropdownTitle}>
-                        <NavDropdown.Item>Notification 12</NavDropdown.Item>
-                    </NavDropdown>
-                </div>
-        )
-    }
-}*/
 
 export default Notifications;
