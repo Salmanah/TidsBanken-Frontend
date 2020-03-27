@@ -190,7 +190,7 @@ function CalendarView(props) {
                 <Col>
                     {props.admin ?
                         !checked ?
-                            <Calendar checked={checked} pending={pendingDates} approved={approvedDates} ineligible={ineligibleDates} denied={deniedDates} />
+                            <Calendar checked={checked} history={props.history} pending={pendingDates} approved={approvedDates} ineligible={ineligibleDates} denied={deniedDates} />
                             :
                             <Calendar checked={checked} history={props.history} admin='true' ineligible={ineligibleDates} allSelectedUserVacations={allSelectedVacations} />
                         :
