@@ -128,7 +128,7 @@ const CreateVacationRequest = (props) => {
         console.log(title, comment)
         createVacationRequest(title, start_date, end_date)
             .then(response => {
-                console.log(response)
+                //let requestId = response;
                 createCommentForVacationRequest(response, comment)
                     .then(resp => {
                         console.log(resp)
