@@ -1,16 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import CalendarView from '../calendar-view/index';
 import './main.css';
 import { getCurrentUser, getUserRequestAndApproved, getAllVacationRequestsAsAdmin, getUserRequestsById, getAllIneligiblePeriods } from '../../utils/APIUtils';
 
-
 function Main(props) {
 
-    const [admin, setAdmin] = React.useState();
-    const [myId, setMyId] = React.useState();
-    const [vacationRequests, setVacationRequests] = React.useState();
-    const [IneligiblePeriods, setIneligiblePeriods] = React.useState();
-    const [allUsers, setAllUsers] = React.useState();
+    const [admin, setAdmin] = useState();
+    const [myId, setMyId] = useState();
+    const [vacationRequests, setVacationRequests] = useState();
+    const [IneligiblePeriods, setIneligiblePeriods] = useState();
+    const [allUsers, setAllUsers] = useState();
 
     useEffect(() => {
         getCurrentUser().then(resp => { setAdmin(resp.admin); setMyId(resp.id) }).catch(err => { console.error(err) })
