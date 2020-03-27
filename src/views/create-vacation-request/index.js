@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useForm } from 'react-hook-form'
 import './createVacationForm.css';
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
@@ -24,10 +23,6 @@ const CreateVacationRequest = (props) => {
     const [allVacationRequests, setAllVacationRequests] = useState([]);
     const [excludedDays, setExcludedDays] = useState([]);
     const [max, setMax] = useState()
-
-    const { register, handleSubmit, watch, errors } = useForm()
-
-    console.log(watch('title'))
 
     useEffect(() => {
         getAllIneligiblePeriods().then(resp => setAllIneligibles(resp)).catch(err => console.log(err));
@@ -127,8 +122,7 @@ const CreateVacationRequest = (props) => {
         setComment(event.target.value);
     }
 
-    const onSubmit = data => {
-        console.log(data)
+    function onSubmit() {
         /*let start_date = getFormattedDate(startDate);
         let end_date = getFormattedDate(endDate);
         console.log(title, comment)
@@ -154,10 +148,6 @@ const CreateVacationRequest = (props) => {
             })*/
     }
 
-    function handleBlur() {
-        console.log("blurred")
-
-    }
 
     function getFormattedDate(date) {
 
@@ -173,49 +163,30 @@ const CreateVacationRequest = (props) => {
 
         return year + "-" + month + "-" + day;
     }
+
+    let logBlur = document.getElementById('logBlur');
+
+    //input.onchange = handleChange;
+    //input.onblur = handleChangeBlur;
+
+    let blurCount = 0;
+
+
+
+    function handleChangeBlur(e) {
+        logBlur.textContent = `The field's Blur value is
+      ${e.target.value.length} character(s) long. Call Times ` + blurCount++;
+
+        if (e.target.value === "") {
+            logBlur.textContent += "empty field"
+        }
+        else if (e.target.value.length <= 3) {
+            logBlur.textContent += "needs to be more than 3 characters long"
+
+        }
+    }
     return (
-        <Container>
-            <Row>
-                <Col md={{ span: 6, offset: 3 }}>
-                    <MDBCard className="my-4">
-                        <MDBCardBody>
-                            < form onSubmit={handleSubmit(onSubmit)} >
-                                <Col md={12} className="my-2">
-                                    <p className="h4 text-center py-3">Vacation request form</p>
-                                </Col>
-                                <Row>
-                                    <Col md={12} className="my-2">
-                                        <label className="grey-text font-weight-light" >
-                                            * Request title
-                                        </label>
-
-                                        <input
-                                            type="text"
-                                            name="title"
-                                            defaultValue="title"
-                                            className="form-control"
-                                            onChange={e => handleTitleChange(e)}
-                                            ref={register({ required: true, pattern: /^[A-Za-z]+$/i })}
-                                            onBlur={() => handleBlur()}
-                                        />
-
-                                        < input name="exampleRequired" ref={register({ required: true })} />
-
-                                        {errors.title && <span>This field is required</span>}
-
-                                        <input type="submit" />
-                                    </Col>
-                                </Row>
-                            </form >
-                        </MDBCardBody>
-                    </MDBCard>
-                </Col>
-            </Row>
-        </Container>
-
-
-    )
-    {/*} <Container>
+        < Container >
             <Row>
                 <Col md={{ span: 6, offset: 3 }}>
                     <MDBCard className="my-4">
@@ -227,21 +198,25 @@ const CreateVacationRequest = (props) => {
                                 <Row>
                                     <Col md={12} className="my-2">
                                         <label className="grey-text font-weight-light" >
-                                            * Request title
-                                        </label>
+                                            * Title
+                                      </label>
                                         <input
+                                            id="title"
                                             type="text"
                                             className="form-control"
+                                            onBlur={(e) => handleChangeBlur(e)}
                                             onChange={e => handleTitleChange(e)}
                                             required
                                         />
+                                        <p></p>
+                                        validate: <p id="logBlur"></p>
                                     </Col>
                                 </Row>
-                                <Row className="my-2">
+                                {/*<Row className="my-2">
                                     <Col md={6}>
                                         <label className="grey-text font-weight-light">
                                             * Vacation start date
-                                        </label>
+                                      </label>
                                         <DatePicker
                                             excludeDates={excludedDays}
                                             minDate={new Date()}
@@ -254,7 +229,7 @@ const CreateVacationRequest = (props) => {
                                     <Col md={6}>
                                         <label className="grey-text font-weight-light">
                                             * Vacation end date
-                                            </label>
+                                          </label>
                                         <DatePicker
                                             dateFormat="dd/MM/yyyy"
                                             excludeDates={excludedDays}
@@ -272,7 +247,7 @@ const CreateVacationRequest = (props) => {
                                             htmlFor="defaultFormCardEmailEx"
                                             className="grey-text font-weight-light" >
                                             * Comments
-                                            </label>
+                                          </label>
                                         <br />
                                         <textarea
                                             onChange={e => handleCommentChange(e)}
@@ -288,16 +263,16 @@ const CreateVacationRequest = (props) => {
                                             className="btn btn-primary"
                                             onClick={e => handleSubmitClick(e)}>
                                             Submit
-                                        </button>
+                                      </button>
                                     </Col>
-                                </Row>
+                                </Row>*/}
                             </form>
                         </MDBCardBody>
                     </MDBCard>
                 </Col>
             </Row>
-    </Container>*/}
-
+        </Container >
+    )
 }
 
 export default CreateVacationRequest;
