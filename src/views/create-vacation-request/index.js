@@ -174,16 +174,20 @@ const CreateVacationRequest = (props) => {
 
 
     function handleChangeBlur(e) {
-        logBlur.textContent = `The field's Blur value is
-      ${e.target.value.length} character(s) long. Call Times ` + blurCount++;
 
         if (e.target.value === "") {
             logBlur.textContent += "empty field"
         }
         else if (e.target.value.length <= 3) {
             logBlur.textContent += "needs to be more than 3 characters long"
+        }
+        //check pattern
+        //else if(pattern) fix
+        else {
+            logBlur.textContent += "good job"
 
         }
+
     }
     return (
         < Container >
@@ -209,7 +213,7 @@ const CreateVacationRequest = (props) => {
                                             required
                                         />
                                         <p></p>
-                                        validate: <p id="logBlur"></p>
+                                        <small id="logBlur"></small>
                                     </Col>
                                 </Row>
                                 {/*<Row className="my-2">
