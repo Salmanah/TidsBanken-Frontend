@@ -60,6 +60,9 @@ class ApplicationFrame extends Component {
                                     <NavDropdown.Item>
                                         <Nav.Link><Link to="/VacationRequests">My vacation requests</Link></Nav.Link>
                                     </NavDropdown.Item>
+                                    <NavDropdown.Item>
+                                        <Nav.Link><Link to="/AllVacationRequests">All vacation requests</Link></Nav.Link>
+                                    </NavDropdown.Item>
                                 </NavDropdown>
                                 <Notifications currentUser={this.props.parentProps.currentUser}/>
                             </Nav>

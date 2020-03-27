@@ -1,3 +1,21 @@
 .itemContent{
     background-color:whitesmoke;
 }
+
+.requestStatusPending{
+    font-style: italic;
+    color: lightgray;
+    font-size: small;
+}
+
+.requestStatusApproved{
+    color: green;
+    font-style: italic;
+    font-size: small;
+}
+
+.requestStatusDenied{
+    color: red;
+    font-style: italic;
+    font-size: small;
+}
