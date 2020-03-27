@@ -60,7 +60,6 @@ const Notifications = (props) => {
     //console.log("notCount " + notCount)
 
         if (props.currentUser.admin){
-            console.log("getforadmin")
             getNotificationForAdmin()
             .then(resp=>{
                 action(resp)
@@ -71,7 +70,6 @@ const Notifications = (props) => {
                 setNots(list);
             })
         }else{
-            console.log("getforuser")
             getNotificationForCurrentUser()
             .then(resp=>{
                 action(resp)

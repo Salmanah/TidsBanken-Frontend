@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { getNotificationForAdmin, getNotificationForCurrentUser, getCurrentUser } from "../../utils/APIUtils";
+import { getNotificationForAdmin, getNotificationForCurrentUser, getCurrentUser, getVacationRequestByID, getVacationRequestByIDasAdmin } from "../../utils/APIUtils";
 import {List, ListItem, ListItemText} from '@material-ui/core';
 import {Container, Row, Col} from 'react-bootstrap';
 
@@ -46,12 +46,43 @@ const NotificationsView = (props) => {
         
     },[currentUser])
 
+
+    const [vacationRequest, setVacationRequest] = useState(null);
+
+
+
     function handleGoToRequest(notification){
         console.log("Go from nots to request")
         console.log(notification)
 
+        if (currentUser.admin){
+            getVacationRequestByIDasAdmin(notification.notification_id)
+            .then(resp => {
+                    setVacationRequest(resp)
+                }
+            ).catch(err => console.error(err));
+        } else {
+            getVacationRequestByID(notification.notification_id)
+            .then(resp => {
+                setVacationRequest(resp)
+            }).catch(err => console.error(err));
+        }
 
+        
     }
+
+    useEffect(()=>{
+        if (vacationRequest != null){
+            console.log(props)
+            props.history.push({
+                pathname: "/ViewVacationRequest",
+                state: {
+                    request : vacationRequest
+                } 
+            })
+        }
+        
+    },[vacationRequest])
 
  
     return(
@@ -64,7 +95,7 @@ const NotificationsView = (props) => {
                     if (element === "No notifications yet"){
                         return(<ListItem><ListItemText>{element}</ListItemText></ListItem>)
                     } else{
-                        return(<ListItem button onClick={handleGoToRequest(element)}><ListItemText>{element.datetimestamp} {element.message}</ListItemText></ListItem>)
+                        return(<ListItem button onClick={e => handleGoToRequest(element)}><ListItemText>{element.datetimestamp} {element.message}</ListItemText></ListItem>)
                     }
                 })}
             </List>
