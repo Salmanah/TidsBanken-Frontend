@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ListItem, ListItemText, List, Collapse, Button } from '@material-ui/core';
 import { ExpandMore, ExpandLess } from '@material-ui/icons';
 import './request-list-item.css';
@@ -101,93 +101,6 @@ const RequestListItem = (props) => {
 
    
 }
-
-
-
-
-/*class RequestListItem extends Component {
-
-    constructor(props) {
-        super(props)
-        this.state = {
-            open: false
-        }
-    }
-
-    handleMoreInfoClick() {
-        this.setState({ open: !this.state.open })
-    }
-
-    itemClicked(event, currentRequest) {
-        this.props.parentProps.history.push({
-            pathname: "/ViewVacationRequest",
-            state: {
-                request: currentRequest
-            }
-        });
-    }
-
-
-    render() {
-        console.log(this.props)
-        if (this.props.admin){
-            return (
-                <div>
-                    <ListItem button onClick={e => this.handleMoreInfoClick(e)}>
-                        <ListItemText>{this.props.request.title} <div>{this.props.request.status[0].status}</div></ListItemText>
-                        {this.state.open ? <ExpandLess /> : <ExpandMore />}
-                    </ListItem>
-                    <Collapse in={this.state.open} timeout="auto" unmountOnExit>
-                    <List>
-                        <ListItem>
-
-                        </ListItem>
-                        <ListItem className="itemContent">
-                            <ListItemText>Request ID: {this.props.request.request_id}</ListItemText>
-                        </ListItem>
-                        <ListItem className="itemContent">
-                            <ListItemText>Owner: ID {this.props.request.owner[0].id} - {this.props.request.owner[0].name}</ListItemText>
-                        </ListItem>
-                        <ListItem className="itemContent">
-                            <ListItemText>Period: {this.props.request.period_start} to {this.props.request.period_end}</ListItemText>
-                        </ListItem>
-                        <ListItem className="itemContent">
-                            <Button>Read more</Button>
-                        </ListItem>
-                    </List>
-                </Collapse>
-                </div>
-            )
-        } else{
-            return (
-            <div>
-                <ListItem button onClick={e => this.handleMoreInfoClick(e)}>
-                    <ListItemText>{this.props.request.title}</ListItemText>
-                    {this.state.open ? <ExpandLess /> : <ExpandMore />}
-                </ListItem>
-                <Collapse in={this.state.open} timeout="auto" unmountOnExit>
-                    <List>
-                        <ListItem className="itemContent">
-                            <ListItemText>Period: {this.props.request.period_start} to {this.props.request.period_end}</ListItemText>
-                        </ListItem>
-                        <ListItem className="itemContent">
-                            <ListItemText>Status: {this.props.request.status[0].status}</ListItemText>
-                        </ListItem>
-                        <ListItem className="itemContent">
-                            <Button size="sm" onClick={e => this.itemClicked(e, this.props.request)}>Read more</Button>
-                        </ListItem>
-                    </List>
-                </Collapse>
-
-
-            </div>
-
-        )
-        }
-        
-    }
-}
-*/
 
 export default RequestListItem;
 
