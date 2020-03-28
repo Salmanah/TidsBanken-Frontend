@@ -193,7 +193,7 @@ export function adminEditVacationRequest(id, newStatus) {
   });
 }
 
-
+// if you are the current user and the request is approved
 export function getVacationRequestByID(id) {
   if (!localStorage.getItem(ACCESS_TOKEN)) {
     return Promise.reject("No access token set.");

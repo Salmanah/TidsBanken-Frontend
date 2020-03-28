@@ -55,9 +55,10 @@ const CreateVacationRequest = (props) => {
 
         if (allVacationRequests.length > 0) {
             let tmp = [];
-            let dates;
+            let dates = [];
             allVacationRequests.forEach(req => {
-                return dates = getDates(req.period_start, req.period_end);
+                getDates(req.period_start, req.period_end);
+                dates.push(...getDates(req.period_start, req.period_end))
             })
 
             for (let i = 0; i < dates.length; i++) {
@@ -79,15 +80,20 @@ const CreateVacationRequest = (props) => {
     useEffect(() => {
         if (startDate) {
             let daysUntilNextExcludedDay = getNextExcludedDay();
-            let remainingVacationDays = getRemainingVacationDays();
+            let remainingVacationDays = getRemainingVacationDays() - 1;//- 1 or else it counts from startDate
+
             let next = Math.min(daysUntilNextExcludedDay, maxVacationLength, remainingVacationDays)
+            //console.log("remaining vacation days ", remainingVacationDays)
+            //console.log("max vacation length ", maxVacationLength)
+            //console.log("next excluded day ", daysUntilNextExcludedDay)
+            //console.log("next ", next)
             setMax(next)
         }
 
     }, [startDate, maxVacationLength, excludedDays])
 
     function getRemainingVacationDays() {
-        return (totalVacationDays - vacationDaysSpent) - 1; //- 1 or else it counts from startDate
+        return (totalVacationDays - vacationDaysSpent);
     }
 
     function getNextExcludedDay() {
@@ -107,8 +113,13 @@ const CreateVacationRequest = (props) => {
         return Math.min.apply(Math, differenceInDays)
     }
 
-    function handleTitleChange(event) {
-        setTitle(event.target.value);
+    function handleTitleChange(e) {
+        let input = document.getElementById(e.target.name);
+        let message = document.getElementById(`message-${e.target.name}`);
+        message.textContent = "";
+        if (validate(input, message)) {
+            setTitle(e.target.value);
+        }
     }
 
     function handleStartDateSelect(date) {
@@ -118,34 +129,54 @@ const CreateVacationRequest = (props) => {
     function handleEndDateSelect(date) {
         setEndDate(date);
     }
-    function handleCommentChange(event) {
-        setComment(event.target.value);
+    function handleCommentChange(e) {
+        let input = document.getElementById(e.target.name);
+        let message = document.getElementById(`message-${e.target.name}`);
+        message.textContent = ""
+
+        if (input.value !== "") {
+            let pattern = patternForHTMLtags()
+            if (pattern.test(input.value)) {
+                message.classList.add("invalid")
+                message.textContent = "Invalid input for comment";
+            } else {
+                setComment(e.target.value);
+            }
+        }
     }
 
-    function handleSubmitClick(event) {
+    function handleSubmit(e) {
+        e.preventDefault();
+
         let start_date = getFormattedDate(startDate);
         let end_date = getFormattedDate(endDate);
-        console.log(title, comment)
         createVacationRequest(title, start_date, end_date)
-            .then(response => {
-                //let requestId = response;
-                createCommentForVacationRequest(response, comment)
-                    .then(resp => {
-                        console.log(resp)
-                        alert("Request successfully submitted")
-                        getUserRequestsById(resp.user[0].id).then(resp => {
-                            let req = resp[resp.length - 1];
-
-                            props.history.push({
-                                pathname: "/ViewVacationRequest",
-                                state: {
-                                    request: req
-                                }
-                            });
+            .then(resp => {
+                if (comment !== "") {
+                    createCommentForVacationRequest(resp, comment)
+                        .then(resp => {
+                            redirect(resp)
                         })
-                    })
+
+                } else {
+                    redirect(resp)
+                }
             })
     }
+
+    function redirect() {
+        alert("Request successfully submitted")
+        getUserRequestsById(props.currentUser.id).then(resp => {
+            let req = resp[resp.length - 1];
+            props.history.push({
+                pathname: "/ViewVacationRequest",
+                state: {
+                    request: req
+                }
+            });
+        })
+    }
+
 
     function getFormattedDate(date) {
 
@@ -161,35 +192,64 @@ const CreateVacationRequest = (props) => {
 
         return year + "-" + month + "-" + day;
     }
+
+    function patternForHTMLtags() {
+        // double spaces and opening and closing tags
+        return /(  )|<(.|\n)*?>/g;
+    }
+
+    function patternForTitle() {
+        // uppercase/lowercase a-å, multiple sentences and numbers
+        return "^[a-zA-Z0-9æøåÆØÅ]+([ a-zA-Z0-9æøåÆØÅ]+)*$"
+    }
+
+    function validate(input, message) {
+        if (!input.checkValidity()) {
+            message.textContent = input.validationMessage;
+            message.classList.add("invalid")
+            return false;
+        } else {
+            return true;
+        }
+    }
     return (
-        <Container>
+        <Container >
             <Row>
                 <Col md={{ span: 6, offset: 3 }}>
                     <MDBCard className="my-4">
                         <MDBCardBody>
-                            <form>
+                            <form onSubmit={handleSubmit}>
+
                                 <Col md={12} className="my-2">
                                     <p className="h4 text-center py-3">Vacation request form</p>
                                 </Col>
                                 <Row>
                                     <Col md={12} className="my-2">
                                         <label className="grey-text font-weight-light" >
-                                            * Request title
+                                            * Title
                                         </label>
                                         <input
+                                            id="title"
+                                            name="title"
                                             type="text"
                                             className="form-control"
-                                            onChange={e => handleTitleChange(e)}
-                                            required
-                                        />
+                                            onChange={(e) => handleTitleChange(e)}
+                                            pattern={patternForTitle()}
+                                            minLength="3"
+                                            maxLength="20"
+                                            required />
+
+                                        <small id="message-title" className="p-2"></small>
                                     </Col>
                                 </Row>
                                 <Row className="my-2">
                                     <Col md={6}>
                                         <label className="grey-text font-weight-light">
                                             * Vacation start date
-                                        </label>
+                                      </label>
                                         <DatePicker
+                                            id="startDate"
+                                            name="startDate"
                                             excludeDates={excludedDays}
                                             minDate={new Date()}
                                             dateFormat="dd/MM/yyyy"
@@ -201,7 +261,7 @@ const CreateVacationRequest = (props) => {
                                     <Col md={6}>
                                         <label className="grey-text font-weight-light">
                                             * Vacation end date
-                                            </label>
+                                          </label>
                                         <DatePicker
                                             dateFormat="dd/MM/yyyy"
                                             excludeDates={excludedDays}
@@ -216,26 +276,28 @@ const CreateVacationRequest = (props) => {
                                 <Row>
                                     <Col md={12} className="my-2">
                                         <label
-                                            htmlFor="defaultFormCardEmailEx"
                                             className="grey-text font-weight-light" >
-                                            * Comments
-                                            </label>
+                                            Comment
+                                          </label>
                                         <br />
                                         <textarea
-                                            onChange={e => handleCommentChange(e)}
+                                            id="comment"
+                                            name="comment"
+                                            cols="5"
                                             rows="3"
-                                            required
+                                            className="form-control"
+                                            maxLength="200"
+                                            onChange={(e) => handleCommentChange(e)}
                                         />
+                                        <small id="message-comment" className="p-2"></small>
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col md={12} className="text-center mt-2">
-                                        <button
-                                            type="button"
-                                            className="btn btn-primary"
-                                            onClick={e => handleSubmitClick(e)}>
-                                            Submit
-                                        </button>
+                                        <input
+                                            type="submit"
+                                            className="btn btn-primary" >
+                                        </input>
                                     </Col>
                                 </Row>
                             </form>
@@ -243,7 +305,7 @@ const CreateVacationRequest = (props) => {
                     </MDBCard>
                 </Col>
             </Row>
-        </Container>
+        </Container >
     )
 }
 

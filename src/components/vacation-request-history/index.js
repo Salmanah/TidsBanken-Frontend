@@ -42,39 +42,39 @@ const VacationRequestHistory = (props) => {
         return (
             <Container>
                 <Row>
-                <Col md={{ span: 8, offset: 2 }}>
-                    <div>
-                <List>
-                    <Divider />
-                    <ListItem>
-                        <ListItemText>{props.location.state.user.name}</ListItemText>
-                    </ListItem>
-                    <ListItem>
-                        <ListItemText>ID : {props.location.state.user.id}</ListItemText>
-                    </ListItem>
-                    <ListItem>
-                        <ListItemText>E-mail: {props.location.state.user.email}</ListItemText>
-                    </ListItem>
-                    <Divider />
-                    <ListItem className="historyInfo">
-                        <ListItemText> This user has {remainingVacationDays} of {totalVacationDays} vacation days left</ListItemText>
-                    </ListItem>
-                    <Divider />
-                </List>
-                {loading ? (<Spinner animation="border" />) : (
-                    <List>
-                        {requests.map((element, index) => {
-                            return (
-                                <HistoryListItem key={element.request_id} element={element} parentProps={props} />
-                            )
-                        })}
-                    </List>
-                )}
-            </div>
-                </Col>
+                    <Col md={{ span: 8, offset: 2 }}>
+                        <div>
+                            <List>
+                                <Divider />
+                                <ListItem>
+                                    <ListItemText>{props.location.state.user.name}</ListItemText>
+                                </ListItem>
+                                <ListItem>
+                                    <ListItemText>ID : {props.location.state.user.id}</ListItemText>
+                                </ListItem>
+                                <ListItem>
+                                    <ListItemText>E-mail: {props.location.state.user.email}</ListItemText>
+                                </ListItem>
+                                <Divider />
+                                <ListItem className="historyInfo">
+                                    <ListItemText> This user has {remainingVacationDays} of {totalVacationDays} vacation days left</ListItemText>
+                                </ListItem>
+                                <Divider />
+                            </List>
+                            {loading ? (<Spinner animation="border" />) : (
+                                <List>
+                                    {requests.map((element, index) => {
+                                        return (
+                                            <HistoryListItem key={element.request_id} element={element} parentProps={props} />
+                                        )
+                                    })}
+                                </List>
+                            )}
+                        </div>
+                    </Col>
                 </Row>
             </Container>
-            
+
         )
     } else {
         return (
