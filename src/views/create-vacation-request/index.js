@@ -145,22 +145,25 @@ const CreateVacationRequest = (props) => {
         }
     }
 
-    function handleSubmit() {
+    function handleSubmit(e) {
+        e.preventDefault();
 
         let start_date = getFormattedDate(startDate);
         let end_date = getFormattedDate(endDate);
         console.log(start_date, end_date, title, comment)
         createVacationRequest(title, start_date, end_date)
-            .then(response => {
-                console.log(response)
+            .then(resp => {
+                console.log(resp)
                 if (comment !== "") {
-                    createCommentForVacationRequest(response, comment)
-                        .then(() => {
-                            redirect()
+                    createCommentForVacationRequest(resp, comment)
+                        .then(resp => {
+                            console.log(resp)
+                            redirect(resp)
                         })
 
                 } else {
-                    redirect()
+                    console.log(resp)
+                    redirect(resp)
                 }
             })
     }
@@ -168,7 +171,9 @@ const CreateVacationRequest = (props) => {
     function redirect() {
         alert("Request successfully submitted")
         getUserRequestsById(props.currentUser.id).then(resp => {
+            console.log(resp)
             let req = resp[resp.length - 1];
+            console.log("push")
             props.history.push({
                 pathname: "/ViewVacationRequest",
                 state: {
@@ -219,7 +224,7 @@ const CreateVacationRequest = (props) => {
                 <Col md={{ span: 6, offset: 3 }}>
                     <MDBCard className="my-4">
                         <MDBCardBody>
-                            <form>
+                            <form onSubmit={handleSubmit}>
 
                                 <Col md={12} className="my-2">
                                     <p className="h4 text-center py-3">Vacation request form</p>
@@ -295,12 +300,10 @@ const CreateVacationRequest = (props) => {
                                 </Row>
                                 <Row>
                                     <Col md={12} className="text-center mt-2">
-                                        <button
-                                            type="button"
-                                            className="btn btn-primary"
-                                            onClick={e => handleSubmit(e)}>
-                                            Submit
-                                      </button>
+                                        <input
+                                            type="submit"
+                                            className="btn btn-primary" >
+                                        </input>
                                     </Col>
                                 </Row>
                             </form>
