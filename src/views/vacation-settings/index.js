@@ -9,7 +9,7 @@ function VacationSettings() {
 
     const [openIneligible, setOpenIneligible] = useState(false);
     const [ineligiblePeriods, setIneligiblePeriods] = useState();
-    const [maxVacation, setMaxVacation] = useState();
+    const [maxVacation, setMaxVacation] = useState(0);
 
 
     useEffect(() => {
@@ -56,7 +56,7 @@ function VacationSettings() {
                                     <ListItemText className="mr-5">Max vacation days per request: {maxVacation}</ListItemText>
                                     <ListItemText className="text-right">
                                         <small className="mr-5 small-text">Change max number: </small>
-                                        <Input id="max-vacation-number" type="number" placeholder={maxVacation}></Input>
+                                        <Input key={`${Math.floor((Math.random() * 1000))}-min`} id="max-vacation-number" type="number" defaultValue={maxVacation}></Input>
                                         <Button color="primary" onClick={() => handleSaveMaxVacation()}>save</Button>
                                     </ListItemText>
 
