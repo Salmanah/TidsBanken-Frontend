@@ -22,6 +22,7 @@ const CreateVacationRequest = (props) => {
     const [vacationDaysSpent, setVacationDaysSpent] = useState();
     const [allVacationRequests, setAllVacationRequests] = useState([]);
     const [excludedDays, setExcludedDays] = useState([]);
+    const [enableEndDate, setEnableEndDate] = useState(true);
     const [max, setMax] = useState()
 
     useEffect(() => {
@@ -124,6 +125,7 @@ const CreateVacationRequest = (props) => {
 
     function handleStartDateSelect(date) {
         setStartDate(date);
+        setEnableEndDate(false);
     };
 
     function handleEndDateSelect(date) {
@@ -218,7 +220,7 @@ const CreateVacationRequest = (props) => {
                 <Col md={{ span: 6, offset: 3 }}>
                     <MDBCard className="my-4">
                         <MDBCardBody>
-                            <form onSubmit={handleSubmit}>
+                            <form onSubmit={handleSubmit} autocomplete="off">
 
                                 <Col md={12} className="my-2">
                                     <p className="h4 text-center py-3">Vacation request form</p>
@@ -263,12 +265,14 @@ const CreateVacationRequest = (props) => {
                                             * Vacation end date
                                           </label>
                                         <DatePicker
+                                            id="endDate"
                                             dateFormat="dd/MM/yyyy"
                                             excludeDates={excludedDays}
                                             minDate={startDate}
                                             maxDate={addDays(startDate, max)}
                                             onSelect={handleEndDateSelect}
                                             selected={endDate}
+                                            disabled={enableEndDate}
                                             required
                                         />
                                     </Col>
