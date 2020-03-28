@@ -55,9 +55,10 @@ const CreateVacationRequest = (props) => {
 
         if (allVacationRequests.length > 0) {
             let tmp = [];
-            let dates;
+            let dates = [];
             allVacationRequests.forEach(req => {
-                return dates = getDates(req.period_start, req.period_end);
+                getDates(req.period_start, req.period_end);
+                dates.push(...getDates(req.period_start, req.period_end))
             })
 
             for (let i = 0; i < dates.length; i++) {
@@ -79,15 +80,20 @@ const CreateVacationRequest = (props) => {
     useEffect(() => {
         if (startDate) {
             let daysUntilNextExcludedDay = getNextExcludedDay();
-            let remainingVacationDays = getRemainingVacationDays();
+            let remainingVacationDays = getRemainingVacationDays() - 1;//- 1 or else it counts from startDate
+
             let next = Math.min(daysUntilNextExcludedDay, maxVacationLength, remainingVacationDays)
+            //console.log("remaining vacation days ", remainingVacationDays)
+            //console.log("max vacation length ", maxVacationLength)
+            //console.log("next excluded day ", daysUntilNextExcludedDay)
+            //console.log("next ", next)
             setMax(next)
         }
 
     }, [startDate, maxVacationLength, excludedDays])
 
     function getRemainingVacationDays() {
-        return (totalVacationDays - vacationDaysSpent) - 1; //- 1 or else it counts from startDate
+        return (totalVacationDays - vacationDaysSpent);
     }
 
     function getNextExcludedDay() {
@@ -140,29 +146,36 @@ const CreateVacationRequest = (props) => {
     }
 
     function handleSubmit() {
-        /*let start_date = getFormattedDate(startDate);
+
+        let start_date = getFormattedDate(startDate);
         let end_date = getFormattedDate(endDate);
-        console.log(title, comment)
+        console.log(start_date, end_date, title, comment)
         createVacationRequest(title, start_date, end_date)
             .then(response => {
                 console.log(response)
-                createCommentForVacationRequest(response, comment)
-                    .then(resp => {
-                        console.log(resp)
-                        alert("Request successfully submitted")
-                        getUserRequestsById(resp.user[0].id).then(resp => {
-                            let req = resp[resp.length - 1];
-                            //hent ut id her
-
-                            props.history.push({
-                                pathname: "/ViewVacationRequest",
-                                state: {
-                                    request: req
-                                }
-                            });
+                if (comment !== "") {
+                    createCommentForVacationRequest(response, comment)
+                        .then(() => {
+                            redirect()
                         })
-                    })
-            })*/
+
+                } else {
+                    redirect()
+                }
+            })
+    }
+
+    function redirect() {
+        alert("Request successfully submitted")
+        getUserRequestsById(props.currentUser.id).then(resp => {
+            let req = resp[resp.length - 1];
+            props.history.push({
+                pathname: "/ViewVacationRequest",
+                state: {
+                    request: req
+                }
+            });
+        })
     }
 
 
@@ -196,6 +209,8 @@ const CreateVacationRequest = (props) => {
             message.textContent = input.validationMessage;
             message.classList.add("invalid")
             return false;
+        } else {
+            return true;
         }
     }
     return (
