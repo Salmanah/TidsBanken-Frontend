@@ -107,8 +107,13 @@ const CreateVacationRequest = (props) => {
         return Math.min.apply(Math, differenceInDays)
     }
 
-    function handleTitleChange(event) {
-        setTitle(event.target.value);
+    function handleTitleChange(e) {
+        let input = document.getElementById(e.target.name);
+        let message = document.getElementById(`message-${e.target.name}`);
+        message.textContent = "";
+        if (validate(input, message)) {
+            setTitle(e.target.value);
+        }
     }
 
     function handleStartDateSelect(date) {
@@ -118,11 +123,23 @@ const CreateVacationRequest = (props) => {
     function handleEndDateSelect(date) {
         setEndDate(date);
     }
-    function handleCommentChange(event) {
-        setComment(event.target.value);
+    function handleCommentChange(e) {
+        let input = document.getElementById(e.target.name);
+        let message = document.getElementById(`message-${e.target.name}`);
+        message.textContent = ""
+
+        if (input.value !== "") {
+            let pattern = patternForHTMLtags()
+            if (pattern.test(input.value)) {
+                message.classList.add("invalid")
+                message.textContent = "Invalid input for comment";
+            } else {
+                setComment(e.target.value);
+            }
+        }
     }
 
-    function onSubmit() {
+    function handleSubmit() {
         /*let start_date = getFormattedDate(startDate);
         let end_date = getFormattedDate(endDate);
         console.log(title, comment)
@@ -164,38 +181,31 @@ const CreateVacationRequest = (props) => {
         return year + "-" + month + "-" + day;
     }
 
-    let logBlur = document.getElementById('logBlur');
+    function patternForHTMLtags() {
+        // double spaces and opening and closing tags
+        return /(  )|<(.|\n)*?>/g;
+    }
 
-    //input.onchange = handleChange;
-    //input.onblur = handleChangeBlur;
+    function patternForTitle() {
+        // uppercase/lowercase a-å, multiple sentences and numbers
+        return "^[a-zA-Z0-9æøåÆØÅ]+([ a-zA-Z0-9æøåÆØÅ]+)*$"
+    }
 
-    let blurCount = 0;
-
-
-
-    function handleChangeBlur(e) {
-
-        if (e.target.value === "") {
-            logBlur.textContent += "empty field"
+    function validate(input, message) {
+        if (!input.checkValidity()) {
+            message.textContent = input.validationMessage;
+            message.classList.add("invalid")
+            return false;
         }
-        else if (e.target.value.length <= 3) {
-            logBlur.textContent += "needs to be more than 3 characters long"
-        }
-        //check pattern
-        //else if(pattern) fix
-        else {
-            logBlur.textContent += "good job"
-
-        }
-
     }
     return (
-        < Container >
+        <Container >
             <Row>
                 <Col md={{ span: 6, offset: 3 }}>
                     <MDBCard className="my-4">
                         <MDBCardBody>
                             <form>
+
                                 <Col md={12} className="my-2">
                                     <p className="h4 text-center py-3">Vacation request form</p>
                                 </Col>
@@ -203,25 +213,29 @@ const CreateVacationRequest = (props) => {
                                     <Col md={12} className="my-2">
                                         <label className="grey-text font-weight-light" >
                                             * Title
-                                      </label>
+                                        </label>
                                         <input
                                             id="title"
+                                            name="title"
                                             type="text"
                                             className="form-control"
-                                            onBlur={(e) => handleChangeBlur(e)}
-                                            onChange={e => handleTitleChange(e)}
-                                            required
-                                        />
-                                        <p></p>
-                                        <small id="logBlur"></small>
+                                            onChange={(e) => handleTitleChange(e)}
+                                            pattern={patternForTitle()}
+                                            minLength="3"
+                                            maxLength="20"
+                                            required />
+
+                                        <small id="message-title" className="p-2"></small>
                                     </Col>
                                 </Row>
-                                {/*<Row className="my-2">
+                                <Row className="my-2">
                                     <Col md={6}>
                                         <label className="grey-text font-weight-light">
                                             * Vacation start date
                                       </label>
                                         <DatePicker
+                                            id="startDate"
+                                            name="startDate"
                                             excludeDates={excludedDays}
                                             minDate={new Date()}
                                             dateFormat="dd/MM/yyyy"
@@ -248,16 +262,20 @@ const CreateVacationRequest = (props) => {
                                 <Row>
                                     <Col md={12} className="my-2">
                                         <label
-                                            htmlFor="defaultFormCardEmailEx"
                                             className="grey-text font-weight-light" >
-                                            * Comments
+                                            Comment
                                           </label>
                                         <br />
                                         <textarea
-                                            onChange={e => handleCommentChange(e)}
+                                            id="comment"
+                                            name="comment"
+                                            cols="5"
                                             rows="3"
-                                            required
+                                            className="form-control"
+                                            maxLength="200"
+                                            onChange={(e) => handleCommentChange(e)}
                                         />
+                                        <small id="message-comment" className="p-2"></small>
                                     </Col>
                                 </Row>
                                 <Row>
@@ -265,11 +283,11 @@ const CreateVacationRequest = (props) => {
                                         <button
                                             type="button"
                                             className="btn btn-primary"
-                                            onClick={e => handleSubmitClick(e)}>
+                                            onClick={e => handleSubmit(e)}>
                                             Submit
                                       </button>
                                     </Col>
-                                </Row>*/}
+                                </Row>
                             </form>
                         </MDBCardBody>
                     </MDBCard>
