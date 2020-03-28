@@ -14,7 +14,6 @@ class ApplicationFrame extends Component {
 
         const username = this.props.parentProps.currentUser.name;
 
-        //const navDropdownTitle = (<span><NotificationsIcon size="sm" /></span>);
         const settingsDropdownTitle = (<span><SettingsIcon /></span>);
         const menuDropdownTitle = (<span><MenuIcon /></span>)
 
@@ -35,12 +34,10 @@ class ApplicationFrame extends Component {
                                 </NavDropdown>
                                 <Notifications currentUser={this.props.parentProps.currentUser}/>
                             </Nav>
-                            {/*<Navbar.Collapse className="justify-content-end">*/}
                             <Navbar.Text> Signed in as: <Link to="/MyProfile">{username}</Link></Navbar.Text>
                             <Nav>
                                 <Nav.Link></Nav.Link><Button variant="outline-info" size="sm" onClick={this.props.parentProps.onLogout}>Logout</Button>
                             </Nav>
-                            {/*</Navbar.Collapse>*/}
                         </Navbar>
                     </div>
                 </div>
@@ -60,10 +57,12 @@ class ApplicationFrame extends Component {
                                     <NavDropdown.Item>
                                         <Nav.Link><Link to="/VacationRequests">My vacation requests</Link></Nav.Link>
                                     </NavDropdown.Item>
+                                    <NavDropdown.Item>
+                                        <Nav.Link><Link to="/AllVacationRequests">All vacation requests</Link></Nav.Link>
+                                    </NavDropdown.Item>
                                 </NavDropdown>
                                 <Notifications currentUser={this.props.parentProps.currentUser}/>
                             </Nav>
-                            {/*<Navbar.Collapse className="justify-content-end">*/}
                             <Navbar.Text> Signed in as: <Link to="/MyProfile">{username}</Link></Navbar.Text>
                             <Nav>
                                 <NavDropdown title={settingsDropdownTitle}>
@@ -76,7 +75,6 @@ class ApplicationFrame extends Component {
                             <Nav>
                                 <Nav.Link></Nav.Link><Button variant="outline-info" size="sm" onClick={this.props.parentProps.onLogout}>Logout</Button>
                             </Nav>
-                            {/*</Navbar.Collapse>*/}
                         </Navbar>
 
                     </div>

@@ -31,11 +31,13 @@ function CalendarView(props) {
     useEffect(() => {
 
         let tmpusers = []
-        props.allUsers.forEach(user => {
-            if (user.id !== props.id) {
-                tmpusers.push({ value: user.id, label: user.name })
-            }
-        });
+        if (props.allUsers) {
+            props.allUsers.forEach(user => {
+                if (user.id !== props.id) {
+                    tmpusers.push({ value: user.id, label: user.name })
+                }
+            });
+        }
         setUsers(tmpusers)
     }, [props.allUsers, props.id])
 
@@ -188,7 +190,7 @@ function CalendarView(props) {
                 <Col>
                     {props.admin ?
                         !checked ?
-                            <Calendar checked={checked} pending={pendingDates} approved={approvedDates} ineligible={ineligibleDates} denied={deniedDates} />
+                            <Calendar checked={checked} history={props.history} pending={pendingDates} approved={approvedDates} ineligible={ineligibleDates} denied={deniedDates} />
                             :
                             <Calendar checked={checked} history={props.history} admin='true' ineligible={ineligibleDates} allSelectedUserVacations={allSelectedVacations} />
                         :
