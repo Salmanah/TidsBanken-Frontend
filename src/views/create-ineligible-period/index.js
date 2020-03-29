@@ -77,9 +77,26 @@ function CreateIneligiblePeriod() {
         setEndDate(date)
     }
 
+    function getFormattedDate(date) {
+
+        let month = date.getMonth() + 1; //January is 0!
+        let day = date.getDate();
+        let year = date.getFullYear();
+
+        if (month < 10)
+            month = "0" + month;
+
+        if (day < 10)
+            day = "0" + day;
+
+        return year + "-" + month + "-" + day;
+    }
+
     function handleSubmit(e) {
         e.preventDefault();
-        createIneligiblePeriod(startDate, endDate)
+        let start_date = getFormattedDate(startDate);
+        let end_date = getFormattedDate(endDate);
+        createIneligiblePeriod(start_date, end_date)
             .then(response => {
                 console.log(response)
                 alert("Ineligible period successfully created")
