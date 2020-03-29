@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import CalendarView from '../calendar-view/index';
 import './main.css';
-import { getCurrentUser, getUserRequestAndApproved, getAllVacationRequestsAsAdmin, getUserRequestsById, getAllIneligiblePeriods } from '../../utils/APIUtils';
+import { getCurrentUser, getUserRequestAndApproved, getAllVacationRequestsAsAdmin, getUserRequestsById, getAllIneligiblePeriods, getMaxVacationDays } from '../../utils/APIUtils';
+import { getNumberOfVacationDaysSpent, getRemainingVacationDays } from '../../utils/common.js'
 
 function Main(props) {
 
@@ -10,10 +11,14 @@ function Main(props) {
     const [vacationRequests, setVacationRequests] = useState();
     const [IneligiblePeriods, setIneligiblePeriods] = useState();
     const [allUsers, setAllUsers] = useState();
+    const [maxVacationLength, setMaxVacationLength] = useState();
+    const [remainingVacationDays, setRemainingVacationDays] = useState();
+    const [totalVacationDays] = useState(25)
 
     useEffect(() => {
         getCurrentUser().then(resp => { setAdmin(resp.admin); setMyId(resp.id) }).catch(err => { console.error(err) })
         getAllIneligiblePeriods().then(resp => { setIneligiblePeriods(resp) }).catch(err => { console.error(err.message) })
+        getMaxVacationDays().then(resp => setMaxVacationLength(resp)).catch(err => console.log(err));
 
     }, [])
 
@@ -69,9 +74,29 @@ function Main(props) {
 
     }, [myId])
 
+
+    useEffect(() => {
+        if (vacationRequests) {
+            let spent = getNumberOfVacationDaysSpent(vacationRequests)
+            let remaining = getRemainingVacationDays(totalVacationDays, spent)
+            setRemainingVacationDays(remaining)
+        }
+
+    }, [vacationRequests, maxVacationLength])
+
     return (
         <>
-            {admin !== null && myId !== null ? <CalendarView history={props.history} requests={vacationRequests} allUsers={allUsers} id={myId} admin={admin} ineligible={IneligiblePeriods} /> : null}
+            {admin !== null && myId !== null ?
+                <CalendarView
+                    history={props.history}
+                    requests={vacationRequests}
+                    allUsers={allUsers}
+                    id={myId}
+                    admin={admin}
+                    ineligible={IneligiblePeriods}
+                    maxVacation={maxVacationLength}
+                    remainingVacationDays={remainingVacationDays}
+                /> : null}
         </>
     )
 }

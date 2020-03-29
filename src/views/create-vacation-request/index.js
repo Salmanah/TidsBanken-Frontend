@@ -6,7 +6,7 @@ import { MDBCard, MDBCardBody } from 'mdbreact';
 import { addDays } from 'date-fns';
 import { createVacationRequest, createCommentForVacationRequest, getUserRequestsById, getAllIneligiblePeriods, getMaxVacationDays } from "../../utils/APIUtils";
 import { Container, Row, Col } from 'react-bootstrap';
-import { getDates, getNumberOfVacationDaysSpent } from '../../utils/common.js'
+import { getDates, getNumberOfVacationDaysSpent, getRemainingVacationDays } from '../../utils/common.js'
 
 const CreateVacationRequest = (props) => {
 
@@ -81,7 +81,8 @@ const CreateVacationRequest = (props) => {
     useEffect(() => {
         if (startDate) {
             let daysUntilNextExcludedDay = getNextExcludedDay();
-            let remainingVacationDays = getRemainingVacationDays() - 1;//- 1 or else it counts from startDate
+            let remainingVacationDays = getRemainingVacationDays(totalVacationDays, vacationDaysSpent)
+            remainingVacationDays = remainingVacationDays - 1; //- 1 or else it counts from startDate
 
             let next = Math.min(daysUntilNextExcludedDay, maxVacationLength, remainingVacationDays)
             //console.log("remaining vacation days ", remainingVacationDays)
@@ -92,10 +93,6 @@ const CreateVacationRequest = (props) => {
         }
 
     }, [startDate, maxVacationLength, excludedDays])
-
-    function getRemainingVacationDays() {
-        return (totalVacationDays - vacationDaysSpent);
-    }
 
     function getNextExcludedDay() {
         let differenceInDays = []

@@ -57,3 +57,7 @@ export function getNumberOfVacationDaysSpent(requests) {
     return length;
 }
 
+export function getRemainingVacationDays(total, spent) {
+    return (total - spent);
+}
+
