@@ -82,7 +82,7 @@ function Main(props) {
             setRemainingVacationDays(remaining)
         }
 
-    }, [vacationRequests, maxVacationLength])
+    }, [vacationRequests, maxVacationLength, totalVacationDays])
 
     return (
         <>

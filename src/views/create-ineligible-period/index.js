@@ -111,7 +111,7 @@ function CreateIneligiblePeriod() {
         <>
             <MDBBtn className="btn" onClick={handleShow}>Create ineligible period</MDBBtn>
             <Modal show={show} onHide={handleClose}>
-                <form onSubmit={handleSubmit} autocomplete="off">
+                <form onSubmit={handleSubmit} autoComplete="off">
                     <Modal.Header closeButton>
                         <Modal.Title>Create ineligible period</Modal.Title>
                     </Modal.Header>
@@ -128,7 +128,6 @@ function CreateIneligiblePeriod() {
                             required
                         />
                         <br /> <br />
-                        <label htmlFor="inEndDate">End date</label>
                         <br />
                         <DatePicker
                             dateFormat="dd/MM/yyyy"

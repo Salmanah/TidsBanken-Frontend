@@ -29,7 +29,7 @@ const CreateVacationRequest = (props) => {
         getAllIneligiblePeriods().then(resp => setAllIneligibles(resp)).catch(err => console.log(err));
         getUserRequestsById(props.currentUser.id).then(resp => setAllVacationRequests(resp)).catch(err => console.log(err));
         getMaxVacationDays().then(resp => setMaxVacationLength(resp)).catch(err => console.log(err));
-    }, [])
+    }, [props.currentUser.id])
 
     useEffect(() => {
 
@@ -92,7 +92,7 @@ const CreateVacationRequest = (props) => {
             setMax(next)
         }
 
-    }, [startDate, maxVacationLength, excludedDays])
+    }, [startDate, maxVacationLength, excludedDays, totalVacationDays, vacationDaysSpent])
 
     function getNextExcludedDay() {
         let differenceInDays = []
@@ -194,7 +194,7 @@ const CreateVacationRequest = (props) => {
 
     function patternForHTMLtags() {
         // double spaces and opening and closing tags
-        return /(  )|<(.|\n)*?>/g;
+        return /( ){2}|<(.|\n)*?>/g;
     }
 
     function patternForTitle() {

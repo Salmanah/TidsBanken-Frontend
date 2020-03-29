@@ -39,7 +39,6 @@ function CalendarView(props) {
             });
         }
         setUsers(tmpusers)
-        console.log(props)
     }, [props.allUsers, props.id])
 
     useEffect(() => {
@@ -150,13 +149,6 @@ function CalendarView(props) {
         });
 
         setAllSelectedVacations(newAllSelectedVacations)
-    }
-
-    const createVacationRequest = () => {
-        return (<Link to="/CreateVacationRequest">
-            <MDBBtn className="btn mr-2">Create vacation request</MDBBtn>
-        </Link>)
-
     }
 
     return (
