@@ -77,7 +77,8 @@ function CreateIneligiblePeriod() {
         setEndDate(date)
     }
 
-    function handleSubmit(event) {
+    function handleSubmit(e) {
+        e.preventDefault();
         createIneligiblePeriod(startDate, endDate)
             .then(response => {
                 console.log(response)
