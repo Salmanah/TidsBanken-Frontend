@@ -39,6 +39,7 @@ function CalendarView(props) {
             });
         }
         setUsers(tmpusers)
+        console.log(props)
     }, [props.allUsers, props.id])
 
     useEffect(() => {
@@ -151,6 +152,13 @@ function CalendarView(props) {
         setAllSelectedVacations(newAllSelectedVacations)
     }
 
+    const createVacationRequest = () => {
+        return (<Link to="/CreateVacationRequest">
+            <MDBBtn className="btn mr-2">Create vacation request</MDBBtn>
+        </Link>)
+
+    }
+
     return (
         <Container className="Calendar-View">
             <Row>
@@ -158,18 +166,17 @@ function CalendarView(props) {
                     <h1>My calendar</h1>
                 </Col>
                 <Col className="my-4 text-right my-auto">
-                    {props.admin ?
-                        (<>
-                            <Link to="/CreateVacationRequest">
-                                <MDBBtn className="btn mr-2">Create vacation request</MDBBtn>
-                            </Link>
-                            <CreateIneligiblePeriod />
-                        </>)
-                        :
-                        (<Link to="/CreateVacationRequest">
+
+                    {props.remainingVacationDays !== 0 ?
+                        <Link to="/CreateVacationRequest">
                             <MDBBtn className="btn mr-2">Create vacation request</MDBBtn>
-                        </Link>)
+                        </Link>
+                        :
+                        <MDBBtn className="btn mr-2" disabled>Create vacation request</MDBBtn>
                     }
+
+                    {props.admin ? <CreateIneligiblePeriod /> : null}
+
                 </Col>
             </Row>
 
