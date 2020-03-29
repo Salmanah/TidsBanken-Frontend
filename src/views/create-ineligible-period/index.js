@@ -16,6 +16,8 @@ function CreateIneligiblePeriod() {
     const [allIneligibles, setAllIneligibles] = useState([]);
     const [ineligible, setIneligible] = useState([])
     const [max, setMax] = useState()
+    const [enableEndDate, setEnableEndDate] = useState(true);
+
 
     useEffect(() => {
         getAllIneligiblePeriods().then(resp => setAllIneligibles(resp)).catch(err => console.log(err));
@@ -68,14 +70,33 @@ function CreateIneligiblePeriod() {
 
     function handleStartDateSelect(date) {
         setStartDate(date)
+        setEnableEndDate(false);
     }
 
     function handleEndDateSelect(date) {
         setEndDate(date)
     }
 
-    function handleSubmit(event) {
-        createIneligiblePeriod(startDate, endDate)
+    function getFormattedDate(date) {
+
+        let month = date.getMonth() + 1; //January is 0!
+        let day = date.getDate();
+        let year = date.getFullYear();
+
+        if (month < 10)
+            month = "0" + month;
+
+        if (day < 10)
+            day = "0" + day;
+
+        return year + "-" + month + "-" + day;
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        let start_date = getFormattedDate(startDate);
+        let end_date = getFormattedDate(endDate);
+        createIneligiblePeriod(start_date, end_date)
             .then(response => {
                 console.log(response)
                 alert("Ineligible period successfully created")
@@ -90,41 +111,46 @@ function CreateIneligiblePeriod() {
         <>
             <MDBBtn className="btn" onClick={handleShow}>Create ineligible period</MDBBtn>
             <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Create ineligible period</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <label htmlFor="inStartDate">Start date</label>
-                    <br />
-                    <DatePicker
-                        excludeDates={ineligible}
-                        minDate={new Date()}
-                        dateFormat="dd/MM/yyyy"
-                        onSelect={handleStartDateSelect}
-                        selected={startDate}
-                        required
-                    />
-                    <br /> <br />
-                    <label htmlFor="inEndDate">End date</label>
-                    <br />
-                    <DatePicker
-                        dateFormat="dd/MM/yyyy"
-                        excludeDates={ineligible}
-                        minDate={startDate}
-                        maxDate={addDays(startDate, max)}
-                        onSelect={handleEndDateSelect}
-                        selected={endDate}
-                        required
-                    />
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
+                <form onSubmit={handleSubmit} autocomplete="off">
+                    <Modal.Header closeButton>
+                        <Modal.Title>Create ineligible period</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+
+                        <label htmlFor="inStartDate">Start date</label>
+                        <br />
+                        <DatePicker
+                            excludeDates={ineligible}
+                            minDate={new Date()}
+                            dateFormat="dd/MM/yyyy"
+                            onSelect={handleStartDateSelect}
+                            selected={startDate}
+                            required
+                        />
+                        <br /> <br />
+                        <label htmlFor="inEndDate">End date</label>
+                        <br />
+                        <DatePicker
+                            dateFormat="dd/MM/yyyy"
+                            excludeDates={ineligible}
+                            minDate={startDate}
+                            maxDate={addDays(startDate, max)}
+                            onSelect={handleEndDateSelect}
+                            selected={endDate}
+                            disabled={enableEndDate}
+                            required
+                        />
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClose}>
+                            Close
                         </Button>
-                    <Button variant="primary" onClick={e => handleSubmit(e)}>
-                        Create
-                        </Button>
-                </Modal.Footer>
+                        <input
+                            type="submit"
+                            className="btn btn-primary" >
+                        </input>
+                    </Modal.Footer>
+                </form>
             </Modal>
         </>
     )
