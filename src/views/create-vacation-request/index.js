@@ -140,6 +140,8 @@ const CreateVacationRequest = (props) => {
             } else {
                 setComment(e.target.value);
             }
+        } else {
+            setComment(e.target.value);
         }
     }
 
@@ -150,19 +152,14 @@ const CreateVacationRequest = (props) => {
         let end_date = getFormattedDate(endDate);
         createVacationRequest(title, start_date, end_date)
             .then(resp => {
-                if (comment !== "") {
-                    createCommentForVacationRequest(resp, comment)
-                        .then(resp => {
-                            redirect()
-                        })
-
-                } else {
-                    redirect()
-                }
+                createCommentForVacationRequest(resp, comment)
+                    .then(() => {
+                        redirect()
+                    })
             })
     }
 
-    function redirect(resp) {
+    function redirect() {
         alert("Request successfully submitted")
         console.log("redirecting after submitting request")
         getUserRequestsById(props.currentUser.id).then(resp => {

@@ -42,23 +42,23 @@ const ViewVacationRequest = (props) => {
         setOpenConfirmDelete(false);
     }
 
-    function handleDeleteRequest(){
-        if(props.currentUser.admin){
+    function handleDeleteRequest() {
+        if (props.currentUser.admin) {
             console.log("admin wants to delete request")
             deleteVacationRequestAdmin(vacationRequest.request_id)
-            .then( resp => {
-            }).catch(err=>{console.error(err)})
+                .then(resp => {
+                }).catch(err => { console.error(err) })
         } else {
             console.log("user wants to delete request")
             deleteVacationRequest(vacationRequest.request_id)
-            .catch(err=>{console.error(err)})
+                .catch(err => { console.error(err) })
         }
         setOpenConfirmDelete(false);
         alert("The request has been deleted")
         props.history.push("/")
 
 
-        
+
     }
 
     function handleViewOwnerProfile() {
@@ -68,154 +68,154 @@ const ViewVacationRequest = (props) => {
         })
     }
 
-    if (status === "Pending"){
-        return(<Container>
+    if (status === "Pending") {
+        return (<Container>
             <Row>
-            <Col md={{ span: 8, offset: 2 }}>
-                <div>
-            <h1>Vacation request</h1>
-            {props.currentUser.admin && !(props.currentUser.id === vacationRequest.owner[0].id ) ? (
-                <Container>
-                    <Row>
-                        <Col>
-                            <Button variant="outlined" color="primary" size="large" onClick={e => handleChangeStatus(e, "Approved")}>Approve</Button>
-                        </Col>
-                        <Col>
-                            <Button variant="outlined" color="secondary" size="large" onClick={e => handleChangeStatus(e, "Denied")}>Deny</Button>
-                        </Col>
-                        <Col>
-                            <Button color="secondary" size="large" onClick={handleOpen}>Delete</Button>
-                            <Modal show={openConfirmDelete} onHide={handleClose}>
-                                <Modal.Header>
-                                    <Modal.Title>Warning</Modal.Title>
-                                </Modal.Header>
-                                <Modal.Body>Are you sure you want to delete this request?</Modal.Body>
-                                <Modal.Footer>
-                                    <Button variant="secondary" onClick={handleDeleteRequest}>
-                                        Yes
+                <Col md={{ span: 8, offset: 2 }}>
+                    <div>
+                        <h1>Vacation request</h1>
+                        {props.currentUser.admin && !(props.currentUser.id === vacationRequest.owner[0].id) ? (
+                            <Container>
+                                <Row>
+                                    <Col>
+                                        <Button variant="outlined" color="primary" size="large" onClick={e => handleChangeStatus(e, "Approved")}>Approve</Button>
+                                    </Col>
+                                    <Col>
+                                        <Button variant="outlined" color="secondary" size="large" onClick={e => handleChangeStatus(e, "Denied")}>Deny</Button>
+                                    </Col>
+                                    <Col>
+                                        <Button color="secondary" size="large" onClick={handleOpen}>Delete</Button>
+                                        <Modal show={openConfirmDelete} onHide={handleClose}>
+                                            <Modal.Header>
+                                                <Modal.Title>Warning</Modal.Title>
+                                            </Modal.Header>
+                                            <Modal.Body>Are you sure you want to delete this request?</Modal.Body>
+                                            <Modal.Footer>
+                                                <Button variant="secondary" onClick={handleDeleteRequest}>
+                                                    Yes
                                 </Button>
-                                    <Button variant="primary" onClick={handleClose}>
-                                        No
+                                                <Button variant="primary" onClick={handleClose}>
+                                                    No
                                 </Button>
-                                </Modal.Footer>
-                            </Modal>
-                        </Col>
-                    </Row>
-                </Container>
-            )
-                : (
-                    <div><Button  color="secondary" size="large" onClick={handleOpen}>Delete</Button>
-                    <Modal show={openConfirmDelete} onHide={handleClose}>
-                        <Modal.Header>
-                        <Modal.Title>Warning</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>Are you sure you want to delete this request?</Modal.Body>
-                        <Modal.Footer>
-                        <Button variant="secondary" onClick={handleDeleteRequest}>
-                            Yes
-                        </Button>
-                        <Button variant="primary" onClick={handleClose}>
-                            No
-                        </Button>
-                        </Modal.Footer>
-                    </Modal></div>
-                )}
-
-            <List>
-                <ListItem>
-                    <ListItemText>Title: {vacationRequest.title}</ListItemText>
-                </ListItem>
-                <Divider />
-                <ListItem>
-                    <ListItemText>Owner: {vacationRequest.owner[0].name}</ListItemText>
-                    {props.currentUser.admin ? 
-                    <Button onClick={handleViewOwnerProfile}>View profile</Button>
-                    : <></>}
-                </ListItem>
-                <Divider />
-                <ListItem>
-                    <ListItemText>Period: {vacationRequest.period_start} to {vacationRequest.period_end}</ListItemText>
-                </ListItem>
-                <Divider />
-                <ListItem>
-                    <ListItemText> Status: {status}</ListItemText>
-                </ListItem>
-                <Divider />
-                { //har ikke testet om denne faktisk funker hvis man ikke er admin eller owner
-                    props.currentUser.admin || props.currentUser.id === vacationRequest.owner[0].id ? (
-                        (
-                            <div>
-                                <ListItem button onClick={e => handleViewComments(e)} >
-                                    <ListItemText>Comments</ListItemText>
-                                    {commentRevealed ? <ExpandLess /> : <ExpandMore />}
-                                </ListItem>
-                                <Collapse in={commentRevealed} timeout="auto" unmountOnExit>
-                                    <CommentList parentProps={props} />
-                                </Collapse>
-                            </div>
+                                            </Modal.Footer>
+                                        </Modal>
+                                    </Col>
+                                </Row>
+                            </Container>
                         )
-                    ) : (
-                            <div>
-                            </div>)
-                }
+                            : (
+                                <div><Button color="secondary" size="large" onClick={handleOpen}>Delete</Button>
+                                    <Modal show={openConfirmDelete} onHide={handleClose}>
+                                        <Modal.Header>
+                                            <Modal.Title>Warning</Modal.Title>
+                                        </Modal.Header>
+                                        <Modal.Body>Are you sure you want to delete this request?</Modal.Body>
+                                        <Modal.Footer>
+                                            <Button variant="secondary" onClick={handleDeleteRequest}>
+                                                Yes
+                        </Button>
+                                            <Button variant="primary" onClick={handleClose}>
+                                                No
+                        </Button>
+                                        </Modal.Footer>
+                                    </Modal></div>
+                            )}
 
-            </List>
+                        <List>
+                            <ListItem>
+                                <ListItemText>Title: {vacationRequest.title}</ListItemText>
+                            </ListItem>
+                            <Divider />
+                            <ListItem>
+                                <ListItemText>Owner: {vacationRequest.owner[0].name}</ListItemText>
+                                {props.currentUser.admin ?
+                                    <Button onClick={handleViewOwnerProfile}>View profile</Button>
+                                    : <></>}
+                            </ListItem>
+                            <Divider />
+                            <ListItem>
+                                <ListItemText>Period: {vacationRequest.period_start} to {vacationRequest.period_end}</ListItemText>
+                            </ListItem>
+                            <Divider />
+                            <ListItem>
+                                <ListItemText> Status: {status}</ListItemText>
+                            </ListItem>
+                            <Divider />
+                            { //har ikke testet om denne faktisk funker hvis man ikke er admin eller owner
+                                props.currentUser.admin || props.currentUser.id === vacationRequest.owner[0].id ? (
+                                    (
+                                        <div>
+                                            <ListItem button onClick={e => handleViewComments(e)} >
+                                                <ListItemText>Comments</ListItemText>
+                                                {commentRevealed ? <ExpandLess /> : <ExpandMore />}
+                                            </ListItem>
+                                            <Collapse in={commentRevealed} timeout="auto" unmountOnExit>
+                                                <CommentList parentProps={props} />
+                                            </Collapse>
+                                        </div>
+                                    )
+                                ) : (
+                                        <div>
+                                        </div>)
+                            }
 
-        </div>
-            </Col>
+                        </List>
+
+                    </div>
+                </Col>
             </Row>
         </Container>)
     } else {
         return (
             <Container>
                 <Row>
-                <Col md={{ span: 8, offset: 2 }}>
-                    <div>
-                    <h1>Vacation request</h1>
-                <List>
-                <ListItem>
-                    <ListItemText>Title: {vacationRequest.title}</ListItemText>
-                </ListItem>
-                <Divider />
-                <ListItem>
-                    <ListItemText>Owner: {vacationRequest.owner[0].name}</ListItemText>
-                    {props.currentUser.admin ? 
-                    <Button onClick={handleViewOwnerProfile}>View profile</Button>
-                    : <></>}
-                </ListItem>
-                <Divider />
-                <ListItem>
-                    <ListItemText>Period: {vacationRequest.period_start} to {vacationRequest.period_end}</ListItemText>
-                </ListItem>
-                <Divider />
-                <ListItem>
-                    <ListItemText> Status: {status}</ListItemText>
-                </ListItem>
-                <Divider />
-                { //har ikke testet om denne faktisk funker hvis man ikke er admin eller owner
-                    props.currentUser.admin || props.currentUser.id === vacationRequest.owner[0].id ? (
-                        (
-                            <div>
-                                <ListItem button onClick={e => handleViewComments(e)} >
-                                    <ListItemText>Comments</ListItemText>
-                                    {commentRevealed ? <ExpandLess /> : <ExpandMore />}
+                    <Col md={{ span: 8, offset: 2 }}>
+                        <div>
+                            <h1>Vacation request</h1>
+                            <List>
+                                <ListItem>
+                                    <ListItemText>Title: {vacationRequest.title}</ListItemText>
                                 </ListItem>
-                                <Collapse in={commentRevealed} timeout="auto" unmountOnExit>
-                                    <CommentList parentProps={props} />
-                                </Collapse>
-                            </div>
-                        )
-                    ) : (
-                            <div>
-                            </div>)
-                }
+                                <Divider />
+                                <ListItem>
+                                    <ListItemText>Owner: {vacationRequest.owner[0].name}</ListItemText>
+                                    {props.currentUser.admin ?
+                                        <Button onClick={handleViewOwnerProfile}>View profile</Button>
+                                        : <></>}
+                                </ListItem>
+                                <Divider />
+                                <ListItem>
+                                    <ListItemText>Period: {vacationRequest.period_start} to {vacationRequest.period_end}</ListItemText>
+                                </ListItem>
+                                <Divider />
+                                <ListItem>
+                                    <ListItemText> Status: {status}</ListItemText>
+                                </ListItem>
+                                <Divider />
+                                { //har ikke testet om denne faktisk funker hvis man ikke er admin eller owner
+                                    props.currentUser.admin || props.currentUser.id === vacationRequest.owner[0].id ? (
+                                        (
+                                            <div>
+                                                <ListItem button onClick={e => handleViewComments(e)} >
+                                                    <ListItemText>Comments</ListItemText>
+                                                    {commentRevealed ? <ExpandLess /> : <ExpandMore />}
+                                                </ListItem>
+                                                <Collapse in={commentRevealed} timeout="auto" unmountOnExit>
+                                                    <CommentList parentProps={props} />
+                                                </Collapse>
+                                            </div>
+                                        )
+                                    ) : (
+                                            <div>
+                                            </div>)
+                                }
 
-            </List>
-            </div>
+                            </List>
+                        </div>
                     </Col>
                 </Row>
             </Container>
-            
+
         )
     }
 }
