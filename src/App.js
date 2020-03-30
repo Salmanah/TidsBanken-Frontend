@@ -10,7 +10,6 @@ import ViewVacationRequest from './components/view-vacation-request';
 import ViewRequestHistory from './components/vacation-request-history/index';
 import CreateIneligiblePeriod from './views/create-ineligible-period/index';
 
-import ApplicationSettings from './views/application-settings/index';
 import VacationRequests from './views/vacation-requests';
 
 import './App.css';
@@ -105,7 +104,6 @@ class App extends Component {
               <PrivateRoute path="/ViewVacationRequest" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ViewVacationRequest} />
               <PrivateRoute path="/ViewRequestHistory" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ViewRequestHistory} />
               <PrivateRoute path="/CreateIneligiblePeriod" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={CreateIneligiblePeriod} />
-              <PrivateRoute path="/ApplicationSettings" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ApplicationSettings} />
               <PrivateRoute path="/VacationRequests" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationRequests} />
               {/** <PrivateRoute path="/UserProfile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={UserProfile} /> ->*/} 
               <PrivateRoute path="/UserProfile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={UserProfile} />
@@ -142,7 +140,6 @@ class App extends Component {
                 <PrivateRoute path="/ViewVacationRequest" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ViewVacationRequest} />
                 <PrivateRoute path="/ViewRequestHistory" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ViewRequestHistory} />
                 <PrivateRoute path="/CreateIneligiblePeriod" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={CreateIneligiblePeriod} />
-                <PrivateRoute path="/ApplicationSettings" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ApplicationSettings} />
                 <PrivateRoute path="/VacationRequests" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationRequests} />
                 {/** <PrivateRoute path="/UserProfile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={UserProfile} /> ->*/} 
                 <PrivateRoute path="/UserProfile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={UserProfile} />
