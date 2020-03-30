@@ -7,7 +7,7 @@ const RemainingVacationDays = (props) => {
     return (
         <>
             <Row className="py-4">
-                <Col md={{ span: 5, offset: 7 }} className="p-2">
+                <Col md={{ span: 10, offset: 2 }} className="p-2">
                     <h5 className="my-0">
                         <span>You have </span>
                         <span className="circled px-2 py-1">{props.remaining}</span>
