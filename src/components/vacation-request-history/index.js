@@ -15,6 +15,9 @@ const VacationRequestHistory = (props) => {
     const [totalVacationDays] = useState(25);
     const [remainingVacationDays, setRemainingVacationDays] = useState(25);
 
+    console.log("props.location.state in vacationRequestHistory")
+    console.log(props.location.state)
+
     useEffect(() => {
         getUserRequestsById(userId)
             .then(resp => {
@@ -43,6 +46,7 @@ const VacationRequestHistory = (props) => {
             <Container>
                 <Row>
                     <Col md={{ span: 8, offset: 2 }}>
+                        <h1>Vacation request history</h1>
                         <div>
                             <List>
                                 <Divider />
@@ -51,9 +55,6 @@ const VacationRequestHistory = (props) => {
                                 </ListItem>
                                 <ListItem>
                                     <ListItemText>ID : {props.location.state.user.id}</ListItemText>
-                                </ListItem>
-                                <ListItem>
-                                    <ListItemText>E-mail: {props.location.state.user.email}</ListItemText>
                                 </ListItem>
                                 <Divider />
                                 <ListItem className="historyInfo">
@@ -78,16 +79,33 @@ const VacationRequestHistory = (props) => {
         )
     } else {
         return (
-            <List>
-                {requests.map((element, index) =>
-                    element.status[0].status === "Approved" ?
-
-                        <ListItem key={element.request_id}>{element.title} {element.period_start} - {element.period_end} {element.status[0].status}</ListItem>
-                        :
-                        null
-
-                )}
-            </List >
+            <Container>
+                <Row>
+                    <Col md={{ span: 8, offset: 2 }}>
+                    <h1>Vacation request history</h1>
+                    <List>
+                        <Divider />
+                        <ListItem>
+                            <ListItemText>{props.location.state.user.name}</ListItemText>
+                        </ListItem>
+                        <Divider />
+                    </List>
+                    {loading ? (<Spinner animation="border" />) : (
+                        <List>
+                        {requests.map((element, index) =>
+                            element.status[0].status === "Approved" ?
+                                <HistoryListItem key={element.request_id} element={element} parentProps={props} />
+                                //<ListItem key={element.request_id}>{element.title} {element.period_start} - {element.period_end} {element.status[0].status}</ListItem>
+                                :
+                                null
+                        )}
+                    </List >
+                    )}
+                    
+                    </Col>
+                </Row>
+            </Container>
+            
         )
     }
 
