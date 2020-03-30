@@ -154,19 +154,24 @@ const CreateVacationRequest = (props) => {
                 if (comment !== "") {
                     createCommentForVacationRequest(resp, comment)
                         .then(resp => {
-                            redirect(resp)
+                            redirect()
                         })
 
                 } else {
-                    redirect(resp)
+                    redirect()
                 }
             })
     }
 
-    function redirect() {
+    function redirect(resp) {
         alert("Request successfully submitted")
+        console.log("redirecting after submitting request")
         getUserRequestsById(props.currentUser.id).then(resp => {
+            console.log("getUserRequestsById resp")
+            console.log(resp)
             let req = resp[resp.length - 1];
+            console.log("siste elementet til resp over (som vi redirecter til):")
+            console.log(req)
             props.history.push({
                 pathname: "/ViewVacationRequest",
                 state: {

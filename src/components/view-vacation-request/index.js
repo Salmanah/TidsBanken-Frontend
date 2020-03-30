@@ -10,12 +10,15 @@ import CommentList from '../../components/comment-list/index';
 
 const ViewVacationRequest = (props) => {
 
+    console.log("props i viewVacationRequest")
     console.log(props)
 
     const [vacationRequest, setVacationRequest] = useState(props.location.state.request);
     const [status, setStatus] = useState(vacationRequest.status[0].status);
     const [commentRevealed, setCommentRevealed] = useState(false);
 
+    console.log("Vacation Request, props.location.state.request:")
+    console.log(props.location.state.request)
     console.log(vacationRequest)
 
 
