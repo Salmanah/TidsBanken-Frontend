@@ -93,15 +93,13 @@ const VacationRequests = (props) => {
 
     }, [radioValue])
 
-
-
-
-
     return (
         <Container>
-            <h1>My vacation requests</h1>
             <Row>
-                <Col>
+                <Col md={6}>
+                    <h1>My vacation requests</h1>
+                </Col>
+                <Col md={6}>
                     <RemainingVacationDays spent={spentVacationDays} total={totalVacationDays} remaining={remainingVacationDays} />
                 </Col>
             </Row>
