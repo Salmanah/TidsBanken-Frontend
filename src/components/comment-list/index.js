@@ -83,7 +83,7 @@ const CommentList = (props) => {
                             <Modal.Title>Write comment</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                            <Form.Group controlId="exampleForm.ControlTextArea1">
+                            <Form.Group>
                                 <Form.Control id="comment" name="comment" onChange={e => handleInputChange(e)} as="textarea" rows="3" required />
                             </Form.Group>
 
@@ -96,7 +96,7 @@ const CommentList = (props) => {
             </ListItem>
             {commentList.slice(0).reverse().map((c, index) => {
                 return (
-                    c.message !== "" ? <Comment comment={c} /> : null
+                    c.message !== "" ? <Comment key={c.id} comment={c} /> : null
                 )
 
             })}
