@@ -1,31 +1,30 @@
 import React, {useState, useEffect} from 'react';
-import {Container, Row, Col} from 'react-bootstrap';
 import RequestListItem from '../../components/request-list-item/index';
-import {getAllVacationRequestsAsAdmin} from '../../utils/APIUtils';
-import {FormControlLabel, FormControl, Radio, RadioGroup, FormLabel} from '@material-ui/core';
+import { getAllVacationRequestsAsAdmin } from '../../utils/APIUtils';
+import { FormControlLabel, FormControl, Radio, RadioGroup, FormLabel } from '@material-ui/core';
+import { Container, Row, Col, Spinner } from 'react-bootstrap';
 
+//Admin view that fetch and lists all vacation requests registered in the database
+//Admin can filter the result by changing value on the radio buttons from "show all" to a desired vacation status
+//Each list item is rendered as a RequestListItem component 
 const AllVacationRequests = (props) => {
 
-    console.log("props i all vacation request")
-    console.log(props)
-
     const [requests, setRequests] = useState([]);
-    const [radioValue, setRadioValue] = React.useState('showAll');
-    const [filteredRequests, setFilteredRequests] = useState([])
+    const [radioValue, setRadioValue] = useState('showAll');
+    const [filteredRequests, setFilteredRequests] = useState([]);
+    const [loading, setLoading] = useState(true)
 
-
-
+    //fetches all vacation request of all users from the backend
     useEffect(()=>{
         getAllVacationRequestsAsAdmin()
         .then(resp => {
-            console.log(resp)
             setRequests(resp);
             setFilteredRequests(resp);
-            
+            setLoading(false);
         }).catch(err => {console.error(err)});
     },[])
 
-
+    //updates radioValue when the radio buttons are interacted with in front end
     function handleChange(event){
         if (event.target.value === "approved"){
             setRadioValue("approved")
@@ -41,14 +40,12 @@ const AllVacationRequests = (props) => {
         }
     }
 
+    //Listens for change in radioValue and updates the filtered request list accordingly
     useEffect(()=>{
-
         if (radioValue === "approved"){
-
             let tempRequests = requests.filter(e=>{
                 return e.status[0].status === "Approved"
             })
-
             setFilteredRequests(tempRequests)
         } 
         else if (radioValue === "pending"){
@@ -66,7 +63,6 @@ const AllVacationRequests = (props) => {
         else {
             setFilteredRequests(requests)
         }
-
     }, [radioValue])
 
 
@@ -77,7 +73,6 @@ const AllVacationRequests = (props) => {
             <h1>All vacation requests</h1>
                 </Col>
             </Row>
-            
             <Row>
                 <Col  md={{ span: 8, offset: 2 }}>
                 <FormControl>
@@ -92,7 +87,9 @@ const AllVacationRequests = (props) => {
                 </FormControl>
                 </Col>
             </Row>
-            <Row>
+            {loading ?   <Row><Col md={{ span: 8, offset: 5 }}><Spinner animation="border"/></Col></Row>
+            : (
+                <Row>
                 <Col  md={{ span: 8, offset: 2 }}>
                     {filteredRequests.slice(0).reverse().map(element => {
                         return(
@@ -102,6 +99,8 @@ const AllVacationRequests = (props) => {
 
                 </Col>
             </Row>
+            )}
+            
         </Container>
     )
 }
