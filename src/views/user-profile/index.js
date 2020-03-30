@@ -1,19 +1,18 @@
-import React, { Component, useEffect, useState } from "react";
-import EditIcon from '@material-ui/icons/Edit';
-//import EditRoundedIcon from '@material-ui/icons/EditRounded';
-import { Button, Container, Col, Row } from 'react-bootstrap';
-import { List, ListItem, ListItemIcon, ListItemText, IconButton, TextField } from '@material-ui/core';
+import React, { useEffect, useState } from "react";
+import { Container, Col, Row } from 'react-bootstrap';
+import { List, ListItem, ListItemText, Button, ListItemIcon } from '@material-ui/core';
+import { getOtherUserAsAdmin } from "../../utils/APIUtils";
 import PersonIcon from '@material-ui/icons/Person';
 import MailIcon from '@material-ui/icons/Mail';
-import { getCurrentUser, getOtherUserAsAdmin } from "../../utils/APIUtils";
-//import CancelIcon from '@material-ui/icons/Cancel';
-import CloseIcon from '@material-ui/icons/Close';
-import CheckIcon from '@material-ui/icons/Check';
+
 
 const UserProfile = (props) => {
 
     const [userId, setUserId] = useState(props.location.userId);
     const [user, setUser] = useState(Object);
+
+
+    console.log(props)
 
     useEffect(()=>{
 
@@ -26,19 +25,46 @@ const UserProfile = (props) => {
     },[])
 
 
+    function handleViewRequests(){
+        props.history.push({
+            pathname : "/VacationRequests",
+            state : {
+                user : user
+            }
+        })
+    }
+
+
     return(
         <Container>
-
             <Row>
-                <Col sm={3.5}>
-                    <img src={user.imageUrl} width="300" alt="Profile picture" />
+                <Col md={{ span: 8, offset: 2 }}>
+                <h1>User profile</h1>
                 </Col>
-                <Col>
-                    <List>
-                        <ListItem><ListItemText>Name: {user.name}</ListItemText></ListItem>
-                        <ListItem><ListItemText>Email: {user.email}</ListItemText></ListItem>
-                    </List>
+            </Row>
+            <Row >
+                <Col md={{ span: 8, offset: 2 }}>
+                    <div className="profileContent">
+                    <Row>
+                        <Col>
+                            <img src={user.imageUrl} width="300" alt="Profile picture" />
+                        </Col>
+                        <Col>
+                        <div className="listProfile">
+                            <List>
+                                <ListItem><ListItemIcon><PersonIcon/></ListItemIcon><ListItemText> Name: {user.name}</ListItemText></ListItem>
+                                <ListItem><ListItemIcon><MailIcon/></ListItemIcon><ListItemText>Email: {user.email}</ListItemText></ListItem>
+                                {user.admin ? (<ListItem><ListItemText><div className="profileRole">Admin</div></ListItemText></ListItem>) : null}
+                                {props.currentUser.admin ? ( <ListItem><Button onClick={handleViewRequests}>View requests</Button></ListItem> ) : null}
+                                
+                            </List>
+                        </div>
+                            
+                        </Col>
+                    </Row>
+                    </div>
                 </Col>
+                
             </Row>
 
         </Container>

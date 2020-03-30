@@ -3,6 +3,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Main from "./views/main/";
 import 'mdbreact/dist/css/mdb.css'
+import {Container, Row, Col, Button } from 'react-bootstrap';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import CreateVacationRequest from './views/create-vacation-request/index';
@@ -159,7 +160,6 @@ class App extends Component {
       } else {
         return (
           <div className="app">
-          
           <Router>
             <div className="app-body">
               <Switch>
@@ -169,12 +169,15 @@ class App extends Component {
                 (
                   <div>
                     <Route exact path="/" component={Standby}></Route>
-                  <button onClick={e => {console.log("click"); this.setState({goToLogin:true})}}>Go to login page</button>
+                    <Container>
+                      <Row>
+                        <Col>
+                          <Button  onClick={e => {console.log("click"); this.setState({goToLogin:true})}}> Go to login page </Button>
+                        </Col>
+                      </Row>
+                    </Container>
                   </div>
-                  
-
                 )}
-                
               </Switch>
             </div>
           </Router>
