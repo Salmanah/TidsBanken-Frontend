@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { List, ListItemText, ListItem, Divider } from '@material-ui/core';
-import { getUserRequestsById } from "../../utils/APIUtils";
+import { getUserRequestsById, getMaxVacationDays } from "../../utils/APIUtils";
 import { getNumberOfVacationDaysSpent } from "../../utils/common";
 import { Spinner, Container, Row, Col } from 'react-bootstrap';
 import HistoryListItem from '../../components/history-list-item/index';
@@ -12,7 +12,7 @@ const VacationRequestHistory = (props) => {
     const [requests, setRequests] = useState([]);
     const [loading, setLoading] = useState(true);
     const [spentVacationDays, setSpentVacationDays] = useState([]);
-    const [totalVacationDays] = useState(25);
+    const [totalVacationDays, setTotalVacationDays] = useState();
     const [remainingVacationDays, setRemainingVacationDays] = useState(25);
 
     console.log("props.location.state in vacationRequestHistory")
@@ -26,6 +26,8 @@ const VacationRequestHistory = (props) => {
             })
             .catch(error => { console.error('Error:', error) })
 
+        getMaxVacationDays().then(resp => setTotalVacationDays(resp)).catch(err => console.log(err))
+
     }, [])
 
     useEffect(() => {
@@ -37,7 +39,7 @@ const VacationRequestHistory = (props) => {
 
         setRemainingVacationDays(totalVacationDays - spentVacationDays)
 
-    }, [spentVacationDays])
+    }, [spentVacationDays, totalVacationDays])
 
 
 
@@ -82,30 +84,30 @@ const VacationRequestHistory = (props) => {
             <Container>
                 <Row>
                     <Col md={{ span: 8, offset: 2 }}>
-                    <h1>Vacation request history</h1>
-                    <List>
-                        <Divider />
-                        <ListItem>
-                            <ListItemText>{props.location.state.user.name}</ListItemText>
-                        </ListItem>
-                        <Divider />
-                    </List>
-                    {loading ? (<Spinner animation="border" />) : (
+                        <h1>Vacation request history</h1>
                         <List>
-                        {requests.map((element, index) =>
-                            element.status[0].status === "Approved" ?
-                                <HistoryListItem key={element.request_id} element={element} parentProps={props} />
-                                //<ListItem key={element.request_id}>{element.title} {element.period_start} - {element.period_end} {element.status[0].status}</ListItem>
-                                :
-                                null
+                            <Divider />
+                            <ListItem>
+                                <ListItemText>{props.location.state.user.name}</ListItemText>
+                            </ListItem>
+                            <Divider />
+                        </List>
+                        {loading ? (<Spinner animation="border" />) : (
+                            <List>
+                                {requests.map((element, index) =>
+                                    element.status[0].status === "Approved" ?
+                                        <HistoryListItem key={element.request_id} element={element} parentProps={props} />
+                                        //<ListItem key={element.request_id}>{element.title} {element.period_start} - {element.period_end} {element.status[0].status}</ListItem>
+                                        :
+                                        null
+                                )}
+                            </List >
                         )}
-                    </List >
-                    )}
-                    
+
                     </Col>
                 </Row>
             </Container>
-            
+
         )
     }
 
