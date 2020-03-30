@@ -11,7 +11,6 @@ import { Link } from 'react-router-dom';
 import CreateIneligiblePeriod from '../../views/create-ineligible-period/index';
 import { getUserRequestsById } from '../../utils/APIUtils';
 
-
 function CalendarView(props) {
 
     const [checked, setChecked] = React.useState(false);
@@ -95,14 +94,13 @@ function CalendarView(props) {
             });
             setAllApprovedVacations(approved)
             setAllSelectedVacations(all);
-
         }
+
     }, [allVacations, props.admin])
 
     useEffect(() => {
 
     }, [allApprovedVacations, allSelectedVacations])
-
 
     const handleChange = selectedOption => {
         let alreadySelected = selectedOptions.includes(selectedOption);
@@ -159,7 +157,7 @@ function CalendarView(props) {
                 </Col>
                 <Col className="my-4 text-right my-auto">
 
-                    {props.remainingVacationDays !== 0 ?
+                    {props.remainingVacationDays > 0 ?
                         <Link to="/CreateVacationRequest">
                             <MDBBtn className="btn mr-2">Create vacation request</MDBBtn>
                         </Link>
@@ -196,7 +194,8 @@ function CalendarView(props) {
                         !checked ?
                             <Calendar checked={checked} history={props.history} pending={pendingDates} approved={approvedDates} ineligible={ineligibleDates} denied={deniedDates} />
                             :
-                            <Calendar checked={checked} history={props.history} pending={null} allSelectedUserVacations={allApprovedVacations} ineligible={ineligibleDates} />}
+                            <Calendar checked={checked} history={props.history} pending={null} allSelectedUserVacations={allApprovedVacations} ineligible={ineligibleDates} />
+                    }
                 </Col>
             </Row>
             <Row className="mb-5">
