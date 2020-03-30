@@ -79,9 +79,12 @@ function Main(props) {
             let spent = getNumberOfVacationDaysSpent(vacationRequests)
             let remaining = getRemainingVacationDays(totalVacationDays, spent)
             setRemainingVacationDays(remaining)
+            console.log(remainingVacationDays)
         }
 
     }, [vacationRequests, totalVacationDays])
+
+    useEffect(() => { }, [remainingVacationDays])
 
     return (
         <>
