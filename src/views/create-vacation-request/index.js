@@ -10,7 +10,6 @@ import { getDates, getNumberOfVacationDaysSpent, getRemainingVacationDays } from
 
 const CreateVacationRequest = (props) => {
 
-    const [maxVacationLength, setMaxVacationLength] = useState();
     const [comment, setComment] = useState("");
     const [title, setTitle] = useState("");
     const [startDate, setStartDate] = useState();
@@ -18,7 +17,7 @@ const CreateVacationRequest = (props) => {
     const [allIneligibles, setAllIneligibles] = useState([]);
     const [ineligible, setIneligible] = useState([])
     const [request, setRequest] = useState([]);
-    const [totalVacationDays] = useState(25)
+    const [totalVacationDays, setTotalVacationDays] = useState()
     const [vacationDaysSpent, setVacationDaysSpent] = useState();
     const [allVacationRequests, setAllVacationRequests] = useState([]);
     const [excludedDays, setExcludedDays] = useState([]);
@@ -28,7 +27,7 @@ const CreateVacationRequest = (props) => {
     useEffect(() => {
         getAllIneligiblePeriods().then(resp => setAllIneligibles(resp)).catch(err => console.log(err));
         getUserRequestsById(props.currentUser.id).then(resp => setAllVacationRequests(resp)).catch(err => console.log(err));
-        getMaxVacationDays().then(resp => setMaxVacationLength(resp)).catch(err => console.log(err));
+        getMaxVacationDays().then(resp => setTotalVacationDays(resp)).catch(err => console.log(err));
     }, [props.currentUser.id])
 
     useEffect(() => {
@@ -81,10 +80,10 @@ const CreateVacationRequest = (props) => {
     useEffect(() => {
         if (startDate) {
             let daysUntilNextExcludedDay = getNextExcludedDay();
-            let remainingVacationDays = getRemainingVacationDays(totalVacationDays, vacationDaysSpent)
+            let remainingVacationDays = totalVacationDays - vacationDaysSpent
             remainingVacationDays = remainingVacationDays - 1; //- 1 or else it counts from startDate
 
-            let next = Math.min(daysUntilNextExcludedDay, maxVacationLength, remainingVacationDays)
+            let next = Math.min(daysUntilNextExcludedDay, totalVacationDays, remainingVacationDays)
             //console.log("remaining vacation days ", remainingVacationDays)
             //console.log("max vacation length ", maxVacationLength)
             //console.log("next excluded day ", daysUntilNextExcludedDay)
@@ -92,7 +91,7 @@ const CreateVacationRequest = (props) => {
             setMax(next)
         }
 
-    }, [startDate, maxVacationLength, excludedDays, totalVacationDays, vacationDaysSpent])
+    }, [startDate, excludedDays, totalVacationDays, vacationDaysSpent])
 
     function getNextExcludedDay() {
         let differenceInDays = []

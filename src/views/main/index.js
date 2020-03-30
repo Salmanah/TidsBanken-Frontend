@@ -11,14 +11,13 @@ function Main(props) {
     const [vacationRequests, setVacationRequests] = useState();
     const [IneligiblePeriods, setIneligiblePeriods] = useState();
     const [allUsers, setAllUsers] = useState();
-    const [maxVacationLength, setMaxVacationLength] = useState();
     const [remainingVacationDays, setRemainingVacationDays] = useState();
-    const [totalVacationDays] = useState(25)
+    const [totalVacationDays, setTotalVacationDays] = useState()
 
     useEffect(() => {
         getCurrentUser().then(resp => { setAdmin(resp.admin); setMyId(resp.id) }).catch(err => { console.error(err) })
         getAllIneligiblePeriods().then(resp => { setIneligiblePeriods(resp) }).catch(err => { console.error(err.message) })
-        getMaxVacationDays().then(resp => setMaxVacationLength(resp)).catch(err => console.log(err));
+        getMaxVacationDays().then(resp => setTotalVacationDays(resp)).catch(err => console.log(err));
 
     }, [])
 
@@ -82,7 +81,7 @@ function Main(props) {
             setRemainingVacationDays(remaining)
         }
 
-    }, [vacationRequests, maxVacationLength, totalVacationDays])
+    }, [vacationRequests, totalVacationDays])
 
     return (
         <>
@@ -94,7 +93,6 @@ function Main(props) {
                     id={myId}
                     admin={admin}
                     ineligible={IneligiblePeriods}
-                    maxVacation={maxVacationLength}
                     remainingVacationDays={remainingVacationDays}
                 /> : null}
         </>
