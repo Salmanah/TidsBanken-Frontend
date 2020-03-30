@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
-import { addDays } from 'date-fns';
+import { addDays, parseISO } from 'date-fns';
 import { Modal, Button } from 'react-bootstrap';
 import { MDBBtn } from "mdbreact";
 import { createIneligiblePeriod, getAllIneligiblePeriods, } from '../../utils/APIUtils';
@@ -133,7 +133,7 @@ function CreateIneligiblePeriod() {
                             dateFormat="dd/MM/yyyy"
                             excludeDates={ineligible}
                             minDate={startDate}
-                            maxDate={addDays(startDate, max)}
+                            maxDate={addDays(parseISO(startDate), max)}
                             onSelect={handleEndDateSelect}
                             selected={endDate}
                             disabled={enableEndDate}
