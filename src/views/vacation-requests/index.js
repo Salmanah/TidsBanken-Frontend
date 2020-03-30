@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import './vacationRequests.css';
-import { Radio, RadioGroup, List, CircularProgress, FormGroup, FormControl, FormLabel, FormControlLabel, Checkbox } from '@material-ui/core';
+import { Radio, RadioGroup, FormControl, FormLabel, FormControlLabel } from '@material-ui/core';
 import RequestListItem from '../../components/request-list-item/index';
-import { getUserRequestsById } from '../../utils/APIUtils';
+import { getUserRequestsById, getMaxVacationDays } from '../../utils/APIUtils';
 import { getNumberOfVacationDaysSpent } from '../../utils/common';
-import ToggleBox from '../../components/toggle-box/index';
 import RemainingVacationDays from '../../components/remaining-vacation-days/index';
 import { Container, Col, Row } from 'react-bootstrap';
 
@@ -14,8 +13,8 @@ const VacationRequests = (props) => {
     const [requests, setRequests] = useState([]);
     const [filteredRequests, setFilteredRequests] = useState([])
     const [spentVacationDays, setSpentVacationDays] = useState([]);
-    const [totalVacationDays] = useState(25);
-    const [remainingVacationDays, setRemainingVacationDays] = useState(25);
+    const [totalVacationDays, setTotalVacationDays] = useState();
+    const [remainingVacationDays, setRemainingVacationDays] = useState()
     const status = ["Pending", "Approved", "Denied"]
     const [changed, setChanged] = useState(false);
     const [radioValue, setRadioValue] = React.useState('showAll');
@@ -28,6 +27,8 @@ const VacationRequests = (props) => {
                 setFilteredRequests(resp)
                 setLoading(false);
             }).catch(err => console.error(err))
+
+        getMaxVacationDays().then(resp => setTotalVacationDays(resp)).catch(err => console.log(err))
     }, [props.currentUser.id])
 
 
@@ -43,49 +44,49 @@ const VacationRequests = (props) => {
 
         setRemainingVacationDays(totalVacationDays - spentVacationDays)
 
-    }, [spentVacationDays])
+    }, [spentVacationDays, totalVacationDays])
 
 
 
-    function handleChange(event){
-        if (event.target.value === "approved"){
+    function handleChange(event) {
+        if (event.target.value === "approved") {
             setRadioValue("approved")
-        } 
-        else if (event.target.value === "pending"){
+        }
+        else if (event.target.value === "pending") {
             setRadioValue("pending")
         }
-        else if (event.target.value === "denied"){
+        else if (event.target.value === "denied") {
             setRadioValue("denied")
         }
-        else{
+        else {
             setRadioValue("showAll")
         }
     }
 
-    
 
-    useEffect(()=>{
 
-        if (radioValue === "approved"){
+    useEffect(() => {
 
-            let tempRequests = requests.filter(e=>{
+        if (radioValue === "approved") {
+
+            let tempRequests = requests.filter(e => {
                 return e.status[0].status === "Approved"
             })
 
             setFilteredRequests(tempRequests)
-        } 
-        else if (radioValue === "pending"){
-            let tempRequests = requests.filter(e=>{
+        }
+        else if (radioValue === "pending") {
+            let tempRequests = requests.filter(e => {
                 return e.status[0].status === "Pending"
             })
             setFilteredRequests(tempRequests)
         }
         else if (radioValue === "denied") {
-            let tempRequests = requests.filter(e=>{
+            let tempRequests = requests.filter(e => {
                 return e.status[0].status === "Denied"
             })
             setFilteredRequests(tempRequests)
-        } 
+        }
         else {
             setFilteredRequests(requests)
         }
@@ -106,16 +107,16 @@ const VacationRequests = (props) => {
             </Row>
             <Row>
                 <Col>
-                <FormControl>
-                    <FormLabel>
-                        <RadioGroup row  aria-label="status" name="status" value={radioValue} onChange={e => handleChange(e)}>
-                        <FormControlLabel control={<Radio value="showAll"/> }label="Show all"/>
-                        <FormControlLabel control={<Radio  value="approved" />}label="Approved"/>
-                        <FormControlLabel control={<Radio  value="pending" />}label="Pending"/>
-                        <FormControlLabel control={<Radio  value="denied" />}label="Denied"/>
-                        </RadioGroup>
-                    </FormLabel>
-                </FormControl>
+                    <FormControl>
+                        <FormLabel>
+                            <RadioGroup row aria-label="status" name="status" value={radioValue} onChange={e => handleChange(e)}>
+                                <FormControlLabel control={<Radio value="showAll" />} label="Show all" />
+                                <FormControlLabel control={<Radio value="approved" />} label="Approved" />
+                                <FormControlLabel control={<Radio value="pending" />} label="Pending" />
+                                <FormControlLabel control={<Radio value="denied" />} label="Denied" />
+                            </RadioGroup>
+                        </FormLabel>
+                    </FormControl>
                 </Col>
             </Row>
             <Row>
