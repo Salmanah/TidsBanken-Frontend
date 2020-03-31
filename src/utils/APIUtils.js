@@ -70,26 +70,12 @@ export function createVacationRequest(requestTitle, requestPeriodStart, requestP
     method: 'POST',
     body: JSON.stringify({
       request_id: -1,
-      //title: "First Request",
-      //period_start: "12122020",
-      //period_end: "14122020",
       title: requestTitle,
       period_start: requestPeriodStart,
       period_end: requestPeriodEnd
     }),
   });
 }
-
-/*export function deleteVacationRequest(id) {
-  if (!localStorage.getItem(ACCESS_TOKEN)) {
-    return Promise.reject("No access token set.");
-  }
-  console.log("SENDING POST REQUEST TO BACKEND ", API_BASE_URL + `/admin/request/${id}`)
-  return request({
-    url: API_BASE_URL + `/admin/request/${id}`,
-    method: 'PATCH'
-  });
-}*/
 
 export function deleteVacationRequestAdmin(id) {
   if (!localStorage.getItem(ACCESS_TOKEN)) {
@@ -216,32 +202,6 @@ export function getVacationRequestByIDasAdmin(id) {
     method: "GET"
   });
 }
-
-/*
-
-export function getVacationRequestCommentByIDasAdmin(r_id, c_id) {
-  if (!localStorage.getItem(ACCESS_TOKEN)) {
-    return Promise.reject("No access token set.");
-  }
-  console.log("SENDING REQUEST TO BACKEND ", API_BASE_URL + `/admin/request/${r_id}/comment/${c_id}`);
-  return request({
-    url: API_BASE_URL + `/admin/request/${r_id}/comment/${c_id}`,
-    method: "GET"
-  });
-}
-
-
-export function getVacationRequestCommentByID(r_id, c_id) {
-  if (!localStorage.getItem(ACCESS_TOKEN)) {
-    return Promise.reject("No access token set.");
-  }
-  console.log("SENDING REQUEST TO BACKEND ", API_BASE_URL + `/request/${r_id}/comment/${c_id}`);
-  return request({
-    url: API_BASE_URL + `/request/${r_id}/comment/${c_id}`,
-    method: "GET"
-  });
-}
-*/
 
 export function createCommentForVacationRequestAsAdmin(id, message) {
   if (!localStorage.getItem(ACCESS_TOKEN)) {

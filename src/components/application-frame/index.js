@@ -6,6 +6,12 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import MenuIcon from '@material-ui/icons/Menu';
 import Notifications from '../../components/notifications/index';
 
+
+//Navigation bar that renders differently depending on if currentUser is admin or not
+//For users: Contains home-button, menu-button to navigate to own requests, notifications dropdown list, 
+//link to user profile and logout button
+//For admin: Contains home-button, menu-button to navigate to own and other users requests, notifications 
+//dropdown list, settings menu, admin indicator and logout button
 class ApplicationFrame extends Component {
 
     render() {
