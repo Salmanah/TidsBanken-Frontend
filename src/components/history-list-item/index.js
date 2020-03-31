@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {ListItem, Collapse, ListItemText, ListItemIcon, Button, Divider} from '@material-ui/core';
-import {ExpandLess, ExpandMore} from '@material-ui/icons';
-import WifiIcon from '@material-ui/icons/Wifi';
 import './historyListItem.css';
 
+//Displays a request item together with css styled color indcated status. The list item can contain 
+//a button that redirects to /ViewVacationRequest
 const HistoryListItem = (props) => {
 
     function handleMoreInfoClick(event, currentRequest){
@@ -16,10 +16,7 @@ const HistoryListItem = (props) => {
     }
 
     const [status, setStatus] = useState(props.element.status[0].status);
-
-
-
-
+  
     return(
         <div>
             <ListItem>
@@ -38,7 +35,6 @@ const HistoryListItem = (props) => {
                 )
                 }
                 </ListItemText>
-                
                 <Button edge="end" onClick={e => handleMoreInfoClick(e, props.element)}>More info</Button>
             </ListItem>
             <Divider/>
