@@ -4,6 +4,7 @@ import {Row, Col} from 'react-bootstrap';
 import { Colorize } from '@material-ui/icons';
 import './comment.css';
 
+//Component that displays the comment passed through the props
 const Comment = (props) => {
 
     return(
