@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { List, ListItem, ListItemText } from '@material-ui/core';
 import Comment from '../../components/comment/index';
 import { Modal, Button, Form } from 'react-bootstrap';
-import { getAllCommentsByVacationRequestIDAsAdmin, getAllCommentsByVacationRequestID, createCommentForVacationRequest, getVacationRequestByID, createCommentForVacationRequestAsAdmin, getVacationRequestByIDasAdmin } from "../../utils/APIUtils";
-
-
+import { getAllCommentsByVacationRequestIDAsAdmin, getAllCommentsByVacationRequestID, createCommentForVacationRequest, createCommentForVacationRequestAsAdmin } from "../../utils/APIUtils";
+ 
+//This component contains a button for adding comments to a apecific requests (given through props) and also fetches all comments 
+//belonging to the specific request and renders each list element using the Commment component
 const CommentList = (props) => {
-
 
     const [vacationRequest] = useState(props.parentProps.location.state.request);
     const [writeComment, setWriteComment] = useState(false);
@@ -17,28 +17,27 @@ const CommentList = (props) => {
     const handleCloseWriteComment = () => setWriteComment(false);
     const [commentList, setCommentList] = useState([]);
 
+    //listens for change in the add comment input field and validates this change. Comment is updated if the input is validated.
     function handleInputChange(e) {
         let input = document.getElementById(e.target.name);
-
         let pattern = patternForHTMLtags()
         if (pattern.test(input.value) || input.value === "") {
             setDisabled(true)
-
         } else {
             setComment(e.target.value);
             setDisabled(false)
         }
     }
 
+    //validation function
     function patternForHTMLtags() {
         // double spaces and opening and closing tags
         return /( ){2}|<(.|\n)*?>/g;
     }
 
-
-
     const [response, setResponse] = useState(null);
 
+    //Executes when the send comment button is pushed, and creates a comment in the database
     function handleAddComment(e) {
         e.preventDefault()
 
@@ -56,6 +55,7 @@ const CommentList = (props) => {
         setWriteComment(false);
     }
 
+    //runs after a comment have been successfully created in the database, and fetches all comments corresponding to the current request
     useEffect(() => {
         if (props.parentProps.currentUser.admin) {
             getAllCommentsByVacationRequestIDAsAdmin(vacationRequest.request_id)
