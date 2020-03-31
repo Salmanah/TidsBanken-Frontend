@@ -18,7 +18,6 @@ const NotificationsView = (props) => {
     useEffect(()=>{
         getCurrentUser()
         .then(resp => {
-            console.log(resp)
             setCurrentUser(resp);
         }).catch(err => {console.error(err)});
     }, [])
@@ -81,7 +80,6 @@ const NotificationsView = (props) => {
     //Listens to change in vacationRequest and redirects to /ViewVacationRequest with vacationRequest as prop
     useEffect(()=>{
         if (vacationRequest != null){
-            console.log(props)
             props.history.push({
                 pathname: "/ViewVacationRequest",
                 state: {

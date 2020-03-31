@@ -6,6 +6,9 @@ import { Spinner, Container, Row, Col } from 'react-bootstrap';
 import HistoryListItem from '../../components/history-list-item/index';
 import './vacationRequestHistory.css';
 
+
+//Displays all requests belonging to a user. If the one viewing the list is not admin or owner, 
+//only approved requests are displayed.
 const VacationRequestHistory = (props) => {
 
     const userId = props.location.state.user.id;
@@ -15,8 +18,6 @@ const VacationRequestHistory = (props) => {
     const [totalVacationDays, setTotalVacationDays] = useState();
     const [remainingVacationDays, setRemainingVacationDays] = useState(25);
 
-    console.log("props.location.state in vacationRequestHistory")
-    console.log(props.location.state)
 
     useEffect(() => {
         getUserRequestsById(userId)
@@ -25,9 +26,7 @@ const VacationRequestHistory = (props) => {
                 setLoading(false);
             })
             .catch(error => { console.error('Error:', error) })
-
         getMaxVacationDays().then(resp => setTotalVacationDays(resp)).catch(err => console.log(err))
-
     }, [])
 
     useEffect(() => {
@@ -36,9 +35,7 @@ const VacationRequestHistory = (props) => {
     }, [requests])
 
     useEffect(() => {
-
         setRemainingVacationDays(totalVacationDays - spentVacationDays)
-
     }, [spentVacationDays, totalVacationDays])
 
 
