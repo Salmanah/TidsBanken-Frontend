@@ -23,6 +23,7 @@ const CreateVacationRequest = (props) => {
     const [excludedDays, setExcludedDays] = useState([]);
     const [enableEndDate, setEnableEndDate] = useState(true);
     const [max, setMax] = useState()
+    const [valid, setValid] = useState(false)
 
     useEffect(() => {
         getAllIneligiblePeriods().then(resp => setAllIneligibles(resp)).catch(err => console.log(err));
@@ -116,6 +117,7 @@ const CreateVacationRequest = (props) => {
         message.textContent = "";
         if (validate(input, message)) {
             setTitle(e.target.value);
+            setValid(true)
         }
     }
 
@@ -137,26 +139,31 @@ const CreateVacationRequest = (props) => {
             if (pattern.test(input.value)) {
                 message.classList.add("invalid")
                 message.textContent = "Invalid input for comment";
+                setValid(false)
             } else {
+                setValid(true)
                 setComment(e.target.value);
             }
         } else {
+            setValid(true)
             setComment(e.target.value);
         }
     }
 
     function handleSubmit(e) {
         e.preventDefault();
+        if (valid) {
 
-        let start_date = getFormattedDate(startDate);
-        let end_date = getFormattedDate(endDate);
-        createVacationRequest(title, start_date, end_date)
-            .then(resp => {
-                createCommentForVacationRequest(resp, comment)
-                    .then(() => {
-                        redirect()
-                    })
-            })
+            let start_date = getFormattedDate(startDate);
+            let end_date = getFormattedDate(endDate);
+            createVacationRequest(title, start_date, end_date)
+                .then(resp => {
+                    createCommentForVacationRequest(resp, comment)
+                        .then(() => {
+                            redirect()
+                        })
+                })
+        }
     }
 
     function redirect() {
