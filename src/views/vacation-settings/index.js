@@ -3,6 +3,7 @@ import './vacationSettings.css';
 import { Input, Button, ListItem, ListItemText, List, Collapse } from '@material-ui/core';
 import { Container, Row, Col } from 'react-bootstrap';
 import { ExpandMore, ExpandLess } from '@material-ui/icons';
+import { printDate } from '../../utils/common';
 import { getAllIneligiblePeriods, deleteIneligiblePeriod, getMaxVacationDays, setMaxVacationDays } from '../../utils/APIUtils';
 
 function VacationSettings() {
@@ -83,7 +84,7 @@ function VacationSettings() {
                                                 <List>
                                                     <ListItem className="pt-0">
                                                         <ListItemText>
-                                                            Period: <em>{element.period_start} - {element.period_end} </em>
+                                                            Period: <em>{printDate(element.period_start)} - {printDate(element.period_end)} </em>
                                                         </ListItemText>
 
                                                         <ListItemText>
