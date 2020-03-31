@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import './vacationRequests.css';
-import { Radio, RadioGroup, FormControl, FormLabel, FormControlLabel } from '@material-ui/core';
+import { Radio, RadioGroup, FormControl, FormLabel, FormControlLabel, ListItemText } from '@material-ui/core';
 import RequestListItem from '../../components/request-list-item/index';
 import { getUserRequestsById, getMaxVacationDays } from '../../utils/APIUtils';
 import { getNumberOfVacationDaysSpent } from '../../utils/common';
@@ -19,6 +19,7 @@ const VacationRequests = (props) => {
     const [totalVacationDays, setTotalVacationDays] = useState();
     const [remainingVacationDays, setRemainingVacationDays] = useState()
     const [radioValue, setRadioValue] = useState('showAll');
+    const [gotResponse, setGotResponse] = useState(false);
 
     //fetches all vacation requests created by the user specified by currentUser.id 
     useEffect(() => {
@@ -27,9 +28,21 @@ const VacationRequests = (props) => {
                 setRequests(resp);
                 setFilteredRequests(resp)
                 setLoading(false);
-            }).catch(err => console.error(err))
+            }).catch(err => {
+                console.error(err);
+                setLoading(false)})
         getMaxVacationDays().then(resp => setTotalVacationDays(resp)).catch(err => console.log(err))
     }, [props.currentUser.id])
+
+
+    useEffect(()=>{
+        if (requests.length === 0){
+            console.log("request list is empty")
+            setGotResponse(false);
+        } else {
+            setGotResponse(true);
+        }
+    },[requests])
 
 
     //when the request have been fetched, this useEffect gets and sets the number of vacation days spent 
@@ -86,6 +99,10 @@ const VacationRequests = (props) => {
         }
     }, [radioValue])
 
+    console.log("got resp")
+    console.log(gotResponse)
+
+
     return (
         <Container>
             <Row>
@@ -99,22 +116,25 @@ const VacationRequests = (props) => {
                     <RemainingVacationDays spent={spentVacationDays} total={totalVacationDays} remaining={remainingVacationDays} />
                 </Col>
             </Row>
-            <Row>
+            
+            {gotResponse ? (
+                <>
+                <Row>
+                    <Col md={{ span: 8, offset: 2 }}>
+                        <FormControl>
+                            <FormLabel>
+                                <RadioGroup row aria-label="status" name="status" value={radioValue} onChange={e => handleChange(e)}>
+                                    <FormControlLabel control={<Radio value="showAll" />} label="Show all" />
+                                    <FormControlLabel control={<Radio value="approved" />} label="Approved" />
+                                    <FormControlLabel control={<Radio value="pending" />} label="Pending" />
+                                    <FormControlLabel control={<Radio value="denied" />} label="Denied" />
+                                </RadioGroup>
+                            </FormLabel>
+                        </FormControl>
+                    </Col>
+                </Row>
+                <Row>
                 <Col md={{ span: 8, offset: 2 }}>
-                    <FormControl>
-                        <FormLabel>
-                            <RadioGroup row aria-label="status" name="status" value={radioValue} onChange={e => handleChange(e)}>
-                                <FormControlLabel control={<Radio value="showAll" />} label="Show all" />
-                                <FormControlLabel control={<Radio value="approved" />} label="Approved" />
-                                <FormControlLabel control={<Radio value="pending" />} label="Pending" />
-                                <FormControlLabel control={<Radio value="denied" />} label="Denied" />
-                            </RadioGroup>
-                        </FormLabel>
-                    </FormControl>
-                </Col>
-            </Row>
-            <Row>
-                <Col>
                     {filteredRequests.map((request) => {
                         return (
                             <RequestListItem request={request} parentProps={props} />
@@ -122,6 +142,31 @@ const VacationRequests = (props) => {
                     })}
                 </Col>
             </Row>
+            </>
+            ): (
+                <>
+                <Row>
+                    <Col md={{ span: 8, offset: 2 }}>
+                        <FormControl>
+                            <FormLabel>
+                                <RadioGroup row aria-label="status" name="status" value={radioValue} onChange={e => handleChange(e)}>
+                                    <FormControlLabel disabled control={<Radio value="showAll" />} label="Show all" />
+                                    <FormControlLabel disabled control={<Radio value="approved" />} label="Approved" />
+                                    <FormControlLabel disabled control={<Radio value="pending" />} label="Pending" />
+                                    <FormControlLabel disabled control={<Radio value="denied" />} label="Denied" />
+                                </RadioGroup>
+                            </FormLabel>
+                        </FormControl>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md={{ span: 8, offset: 2 }}>
+                        <ListItemText>You have no requests yet ..</ListItemText>
+                    </Col>
+                </Row>
+                </>
+            )}
+            
         </Container>
     )
 }
