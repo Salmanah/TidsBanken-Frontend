@@ -7,13 +7,17 @@ import {editUser} from '../../utils/APIUtils';
 import './userListItem.css';
 
 
+//Displays information about specific user given in the props. Contains toggle button for admin to verify/un-verify users.
+//When the "reveal more" icon button button is pushed, details about the user is revealed together with buttons for 
+//viewing user profile, viewing request and to make this user admin. If the user is already admin, the admin can make this other
+//admin not admin (does not have access to make own rights not include admin)
 const UserListItem = (props) => {
 
-    const [currentUserId, setCurrentUserId] = useState(props.parentProps.currentUser.id)
-
-
+    const [currentUserId, setCurrentUserId] = useState(props.parentProps.currentUser.id);
     const [open, setOpen] = useState(false);
-    const [user, setUser] = useState(props.user)
+    const [user, setUser] = useState(props.user); //other user in system
+    const [verified, setVerified] = useState(user.emailVerified);
+    const [admin, setAdmin] = useState(user.admin);
 
     function handleViewProfile(){
         props.parentProps.history.push({
@@ -21,8 +25,8 @@ const UserListItem = (props) => {
             userId : user.id,
         })
     }
-
-    function viewRequestsClick(){
+ 
+    function handleViewRequest(){
         props.parentProps.history.push({
             pathname : "/VacationRequestHistory",
             state : {
@@ -30,8 +34,6 @@ const UserListItem = (props) => {
             }
         })
     }
-
-    const [verified, setVerified] = useState(user.emailVerified);
 
     function handleVerifyUser(){
         editUser(user.id, user.name, user.admin, true)
@@ -46,8 +48,6 @@ const UserListItem = (props) => {
             setVerified(false)
         }).catch(err => console.error(err));
     }
-
-    const [admin, setAdmin] = useState(user.admin);
 
     function handleMakeUser(){
         editUser(user.id, user.name, false, user.emailVerified)
@@ -90,7 +90,7 @@ const UserListItem = (props) => {
                 <ListItem className="itemContent">
                         <ListItemText>
                             <Button onClick={handleViewProfile}>View profile</Button>
-                            <Button onClick={viewRequestsClick}>View requests</Button>
+                            <Button onClick={handleViewRequest}>View requests</Button>
                             {admin ? 
                             <Button color="secondary" onClick={handleMakeUser}>Make user</Button>
                             : <Button color="secondary" onClick={handleMakeAdmin}>Make admin</Button>}

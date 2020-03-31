@@ -3,7 +3,9 @@ import { ListItem, ListItemText, List, Collapse, Button } from '@material-ui/cor
 import { ExpandMore, ExpandLess } from '@material-ui/icons';
 import './request-list-item.css';
 
-
+//Displays a clickable list item with request name and color indicated status. When clicked a dropdown
+//menu appears with more information about the request. The information displayed depends on if the
+//user is admin or normal user. The dropdown menu also contains a buttons that redirects to /ViewVacationRequest.
 const RequestListItem = (props) => {
 
     const [open, setOpen] = useState(false);
@@ -12,7 +14,7 @@ const RequestListItem = (props) => {
     function handleMoreInfoClick(){
         setOpen(!open);
     }
-
+ 
     function handleViewRequest(currentRequest){
         props.parentProps.history.push({
             pathname : "/ViewVacationRequest",
