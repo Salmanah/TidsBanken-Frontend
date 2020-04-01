@@ -9,7 +9,7 @@ import { getAllIneligiblePeriods, deleteIneligiblePeriod, getMaxVacationDays, se
 function VacationSettings() {
 
     const [openIneligible, setOpenIneligible] = useState(false);
-    const [ineligiblePeriods, setIneligiblePeriods] = useState();
+    const [ineligiblePeriods, setIneligiblePeriods] = useState([]);
     const [maxVacation, setMaxVacation] = useState(0);
 
     useEffect(() => {
@@ -22,7 +22,7 @@ function VacationSettings() {
     function handleDeleteIneligible(id) {
         deleteIneligiblePeriod(id).then(resp => { console.log(resp) }).catch(err => { console.error(err.message) })
 
-        let newIneligiblePeriods = ineligiblePeriods.forEach(ip => ip.ip_id !== id)
+        let newIneligiblePeriods = ineligiblePeriods.filter(ip => ip.ip_id !== id)
 
         setIneligiblePeriods(newIneligiblePeriods)
     }
@@ -60,7 +60,6 @@ function VacationSettings() {
                                         <Input key={`${Math.floor((Math.random() * 1000))}-min`} id="max-vacation-number" type="number" defaultValue={maxVacation}></Input>
                                         <Button color="primary" onClick={() => handleSaveMaxVacation()}>save</Button>
                                     </ListItemText>
-
                                 </ListItem>
                             </List>
                         </Col>
@@ -78,7 +77,7 @@ function VacationSettings() {
                         <Col md={12}>
                             <Collapse in={openIneligible}>
                                 <List>
-                                    {ineligiblePeriods ?
+                                    {ineligiblePeriods.length > 0 ?
                                         ineligiblePeriods.map((element) => {
                                             return (
                                                 <List>
@@ -93,7 +92,7 @@ function VacationSettings() {
 
                                                         <Button color="secondary" onClick={() => handleDeleteIneligible(element.ip_id)}>
                                                             delete
-                                                </Button>
+                                                        </Button>
                                                     </ListItem>
                                                 </List>
                                             )
