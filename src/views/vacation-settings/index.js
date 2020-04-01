@@ -15,14 +15,21 @@ function VacationSettings() {
     const [showConfirm, setShowConfirm] = useState(false);
 
     useEffect(() => {
-        getAllIneligiblePeriods().then(resp => { setIneligiblePeriods(resp) }).catch(err => { console.error(err.message) })
-        getMaxVacationDays().then(resp => { setMaxVacation(resp); setNewMaxVacation(resp) }).catch(err => { console.error(err.message) })
+        getAllIneligiblePeriods()
+            .then(resp => { setIneligiblePeriods(resp) })
+            .catch(err => { console.error(err.message) })
+
+        getMaxVacationDays()
+            .then(resp => { setMaxVacation(resp); setNewMaxVacation(resp) })
+            .catch(err => { console.error(err.message) })
     }, [])
 
-    useEffect(() => { }, [ineligiblePeriods, maxVacation])
+    useEffect(() => { console.log(maxVacation) }, [ineligiblePeriods, maxVacation])
 
     function handleDeleteIneligible(id) {
-        deleteIneligiblePeriod(id).then(resp => { console.log(resp) }).catch(err => { console.error(err.message) })
+        deleteIneligiblePeriod(id)
+            .then(resp => { console.log(resp) })
+            .catch(err => { console.error(err.message) })
 
         let newIneligiblePeriods = ineligiblePeriods.filter(ip => ip.ip_id !== id)
 
@@ -34,17 +41,18 @@ function VacationSettings() {
             setShowConfirm(false);
         }
 
-        if (newMaxVacation !== "") {
-            console.log(newMaxVacation)
+        setMaxVacationDays(newMaxVacation)
+            .then(resp => {
+                setMaxVacation(resp)
+                alert("Success: you have set a new max for max vacation days")
+            })
+            .catch(err => console.log(err))
 
-            setMaxVacationDays(newMaxVacation)
-                .then(resp => {
-                    console.log(resp);
-                    setMaxVacation(newMaxVacation)
-                    alert("Success: you have set a new max for max vacation days")
-                })
-                .catch(err => { console.error(err.message) })
-        }
+
+
+
+
+
     }
 
     function checkMax() {
