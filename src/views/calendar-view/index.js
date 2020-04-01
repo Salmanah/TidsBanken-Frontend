@@ -9,7 +9,7 @@ import './calendar-view.css';
 import { MDBBtn, MDBContainer } from "mdbreact";
 import { Link } from 'react-router-dom';
 import CreateIneligiblePeriod from '../../views/create-ineligible-period/index';
-import { getUserRequestsById } from '../../utils/APIUtils';
+import { getUserRequestsById, createIneligiblePeriod } from '../../utils/APIUtils';
 
 function CalendarView(props) {
 
@@ -121,6 +121,11 @@ function CalendarView(props) {
         }).catch(err => { console.error(err) })
     }
 
+    function createIneligiblePeriod(start, end) {
+        let obj = { start: start, end: end }
+        setIneligibleDates([...ineligibleDates, obj])
+    }
+
     let selectedPeopleBadges = selectedOptions.map((user) => {
         return <CalendarBadge key={user.value} name={user.label} delete={() => handleDelete(user.value)} />
     });
@@ -166,7 +171,7 @@ function CalendarView(props) {
                         <MDBBtn className="btn mr-2" disabled>Create vacation request</MDBBtn>
                     }
 
-                    {props.admin ? <CreateIneligiblePeriod /> : null}
+                    {props.admin ? <CreateIneligiblePeriod allIneligibles={ineligibleDates} handleCreateIneligible={createIneligiblePeriod} /> : null}
 
                 </Col>
             </Row>

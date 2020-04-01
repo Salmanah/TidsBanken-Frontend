@@ -39,7 +39,6 @@ function Main(props) {
         } else {
             // gets only approved vacation requests
             getUserRequestAndApproved().then(resp => {
-                console.log(resp)
 
                 resp.forEach(req => {
                     let user = { id: req.owner[0].id, name: req.owner[0].name }
