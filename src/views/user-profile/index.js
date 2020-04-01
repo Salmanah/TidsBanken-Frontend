@@ -8,14 +8,11 @@ import MailIcon from '@material-ui/icons/Mail';
 
 const UserProfile = (props) => {
 
+
     const [userId, setUserId] = useState(props.location.userId);
     const [user, setUser] = useState(Object);
 
-
-    console.log(props)
-
     useEffect(()=>{
-
         getOtherUserAsAdmin(userId)
         .then(resp => {
             console.log(resp)
@@ -27,7 +24,7 @@ const UserProfile = (props) => {
 
     function handleViewRequests(){
         props.history.push({
-            pathname : "/VacationRequests",
+            pathname : "/VacationRequestHistory",
             state : {
                 user : user
             }

@@ -11,6 +11,7 @@ import './vacationRequestHistory.css';
 //only approved requests are displayed.
 const VacationRequestHistory = (props) => {
 
+
     const userId = props.location.state.user.id;
     const [requests, setRequests] = useState([]);
     const [loading, setLoading] = useState(true);
