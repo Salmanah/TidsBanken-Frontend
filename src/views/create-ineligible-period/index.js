@@ -94,6 +94,9 @@ function CreateIneligiblePeriod(props) {
                 alert("Ineligible period successfully created")
                 setShow(false)
                 props.handleCreateIneligible(start_date, end_date);
+                setStartDate('');
+                setEndDate('')
+
             })
     }
 
