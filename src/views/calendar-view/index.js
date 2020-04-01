@@ -79,6 +79,7 @@ function CalendarView(props) {
     useEffect(() => {
 
         if (allVacations.length > 0) {
+
             let approved = [];
             let all = [];
 
