@@ -95,6 +95,7 @@ function CalendarView(props) {
             });
             setAllApprovedVacations(approved)
             setAllSelectedVacations(all);
+            console.log("CALENDAR-VIEW: all vacations :", allVacations)
         }
 
     }, [allVacations, props.admin])
@@ -136,6 +137,14 @@ function CalendarView(props) {
 
     const handleDelete = id => {
 
+        let newAllVacations = allVacations.filter(vac => {
+            for (let i = 0; i < vac.length; i++) {
+                return vac[i].owner[0].id !== id
+            }
+        })
+
+        setAllVacations(newAllVacations)
+
         let newSelectedOptions = selectedOptions.filter(e =>
             e.value !== id
         );
@@ -151,8 +160,8 @@ function CalendarView(props) {
 
             return user.owner[0].id !== id
         });
-
         setAllSelectedVacations(newAllSelectedVacations)
+
     }
 
     return (
