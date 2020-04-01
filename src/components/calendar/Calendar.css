@@ -158,21 +158,6 @@
     background: linear-gradient(0deg, rgb(181, 179, 179) 0%, #cccccc, #d7d7d7 100%);
   }
 
-  .tail-datetime-calendar .calendar-date table tbody tr > *.approved {
-    background-color: #63d063;
-    background: linear-gradient(0deg, rgb(174, 224, 174) 0%, #60c26085, #bbe5bbb8 100%);
-  }
-
-  .tail-datetime-calendar .calendar-date table tbody tr > *.pending {
-    background-color: #ffb90796;
-    background: linear-gradient(0deg, rgba(254, 254, 127, 0.84) 0%, #fafa788c, #fefec3 100%);
-}
-
-.tail-datetime-calendar .calendar-date table tbody tr > *.denied {
-  background-color: #e57373;
-  background: linear-gradient(0deg, #E57373 0%, #E57373, #EF9A9A 100%);
-}
-
   .tail-datetime-calendar .calendar-date table tbody tr > *.ordinary {
     background-color: white !important;
     color: black !important;
@@ -373,6 +358,30 @@ button.calendar-redirect{
   border: none;
   padding-left: 0px;
   padding-top: 5px;
+}
+
+button.calendar-redirect.pending{
+  background-color: #ffb90796;
+  background:linear-gradient(0deg, rgb(254, 254, 127) 0%, #fafa78, #fefec3 100%);
+  padding:5px;
+  width: 100%;
+  line-height: 15px;
+}
+
+button.calendar-redirect.denied{
+  background-color: #e57373;
+  background: linear-gradient(0deg, #E57373 0%, #E57373, #EF9A9A 100%);
+  padding:5px;
+  width: 100%;
+  line-height: 15px;
+}
+
+button.calendar-redirect.approved{
+  background-color: #63d063;
+  background: linear-gradient(0deg, rgb(174, 224, 174) 0%, #60c26085, #bbe5bbb8 100%);
+  padding:5px;
+  width: 100%;
+  line-height: 15px;
 }
 
 button.calendar-redirect:hover{

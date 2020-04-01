@@ -404,6 +404,7 @@ function Calendar(props) {
             }
         });
 
+        let statusIneligible = "";
         let status = "";
         let title = [];
 
@@ -412,7 +413,7 @@ function Calendar(props) {
                 if (pend.dates.includes(year() + "-" + mm + "-" + d)) {
                     status = "pending";
                     title.push(
-                        <button className="calendar-redirect" key={pend.title} onClick={() => RedirectToViewVacationRequest(pend)}>
+                        <button className={`calendar-redirect ${status}`} key={pend.title} onClick={() => RedirectToViewVacationRequest(pend)}>
                             <em>{pend.title}</em>
                         </button>);
 
@@ -422,7 +423,7 @@ function Calendar(props) {
                 if (appr.dates.includes(year() + "-" + mm + "-" + d)) {
                     status = "approved";
                     title.push(
-                        <button className="calendar-redirect" key={appr.title} onClick={() => RedirectToViewVacationRequest(appr)}>
+                        <button className={`calendar-redirect ${status}`} key={appr.title} onClick={() => RedirectToViewVacationRequest(appr)}>
                             <em>{appr.title}</em>
                         </button>);
                 }
@@ -431,7 +432,7 @@ function Calendar(props) {
                 if (den.dates.includes(year() + "-" + mm + "-" + d)) {
                     status = "denied";
                     title.push(
-                        <button className="calendar-redirect" key={den.title} onClick={() => RedirectToViewVacationRequest(den)}>
+                        <button className={`calendar-redirect ${status}`} key={den.title} onClick={() => RedirectToViewVacationRequest(den)}>
                             <em>{den.title}</em>
                         </button>);
                 }
@@ -439,7 +440,7 @@ function Calendar(props) {
         }
 
         if (ineligible.includes(year() + "-" + mm + "-" + d)) {
-            status = "ineligible"
+            statusIneligible = "ineligible"
 
         }
 
@@ -453,7 +454,7 @@ function Calendar(props) {
 
         daysInMonthArray.push(
 
-            <td id={`${year()}-${mm}-${d}`} key={d} className={`calendar-day ${status}`}>
+            <td id={`${year()}-${mm}-${d}`} key={d} className={`calendar-day ${statusIneligible}`}>
                 {/*`day${d}-${mm}-${year()}` === */}
                 <span className="float-left px-1"
                     onClick={e => {
@@ -464,7 +465,7 @@ function Calendar(props) {
 
                 </span>
                 <div>
-                    <p className="myReqTitle">{title}</p>
+                    <p className="myReqTitle" >{title}</p>
                     <div className="userVacation text-left">
                         {userDetails}
                     </div>
