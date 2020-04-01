@@ -24,7 +24,7 @@ function VacationSettings() {
             .catch(err => { console.error(err.message) })
     }, [])
 
-    useEffect(() => { console.log(maxVacation) }, [ineligiblePeriods, maxVacation])
+    useEffect(() => { }, [ineligiblePeriods, maxVacation])
 
     function handleDeleteIneligible(id) {
         deleteIneligiblePeriod(id)
@@ -47,12 +47,6 @@ function VacationSettings() {
                 alert("Success: you have set a new max for max vacation days")
             })
             .catch(err => console.log(err))
-
-
-
-
-
-
     }
 
     function checkMax() {
