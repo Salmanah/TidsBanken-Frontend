@@ -3,7 +3,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Main from "./views/main/";
 import 'mdbreact/dist/css/mdb.css'
-import {Container, Row, Col, Button } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import CreateVacationRequest from './views/create-vacation-request/index';
@@ -43,7 +43,7 @@ class App extends Component {
       authenticated: false,
       currentUser: null,
       loading: false,
-      goToLogin:false
+      goToLogin: false
     }
 
     this.loadCurrentlyLoggedInUser = this.loadCurrentlyLoggedInUser.bind(this);
@@ -90,49 +90,13 @@ class App extends Component {
     else if (!this.state.authenticated) {
       return (
         <div className="app">
-        <Router>
-          <div className="app-top-box">
-            <AppHeader authenticated={this.state.authenticated} currentUser={this.state.currentUser} onLogout={this.handleLogout} />
-          </div>
-          <div className="app-body">
-            <Switch>
-              <Route exact path="/" component={Login}></Route>
-              <PrivateRoute path="/profile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={Profile} />
-              <Route path="/login" render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>
-              <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>
-              <PrivateRoute path="/VacationRequests" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationRequests} />
-              <PrivateRoute path="/CreateVacationRequest" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={CreateVacationRequest} />
-              <PrivateRoute path="/ViewVacationRequest" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ViewVacationRequest} />
-              <PrivateRoute path="/ViewRequestHistory" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ViewRequestHistory} />
-              <PrivateRoute path="/CreateIneligiblePeriod" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={CreateIneligiblePeriod} />
-              <PrivateRoute path="/VacationRequests" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationRequests} />
-              {/** <PrivateRoute path="/UserProfile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={UserProfile} /> ->*/} 
-              <PrivateRoute path="/UserProfile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={UserProfile} />
-              <PrivateRoute path="/Users" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={Users} />
-              <PrivateRoute path="/VacationSettings" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationSettings} />
-              <PrivateRoute path="/VacationRequestHistory"  authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationRequestHistory} />
-              <PrivateRoute path="/MyProfile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={MyProfile} />
-              <PrivateRoute path="/Notifications"  authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={NotificationsView}/>
-              <PrivateRoute path="/AllVacationRequests" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={AllVacationRequests}/>
-              <Route component={NotFound}></Route>
-            </Switch>
-          </div>
-        </Router>
-      </div>
-      )
-    }
-
-    else if (this.state.authenticated) {
-      if (this.state.currentUser.emailVerified || this.state.currentUser.admin){
-        return (
-          <div className="app">
           <Router>
             <div className="app-top-box">
               <AppHeader authenticated={this.state.authenticated} currentUser={this.state.currentUser} onLogout={this.handleLogout} />
             </div>
             <div className="app-body">
               <Switch>
-                <Route exact path="/" component={Main}></Route>
+                <Route exact path="/" component={Login}></Route>
                 <PrivateRoute path="/profile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={Profile} />
                 <Route path="/login" render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>
                 <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>
@@ -142,60 +106,96 @@ class App extends Component {
                 <PrivateRoute path="/ViewRequestHistory" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ViewRequestHistory} />
                 <PrivateRoute path="/CreateIneligiblePeriod" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={CreateIneligiblePeriod} />
                 <PrivateRoute path="/VacationRequests" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationRequests} />
-                {/** <PrivateRoute path="/UserProfile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={UserProfile} /> ->*/} 
+                {/** <PrivateRoute path="/UserProfile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={UserProfile} /> ->*/}
                 <PrivateRoute path="/UserProfile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={UserProfile} />
                 <PrivateRoute path="/Users" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={Users} />
                 <PrivateRoute path="/VacationSettings" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationSettings} />
-                <PrivateRoute path="/VacationRequestHistory"  authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationRequestHistory} />
+                <PrivateRoute path="/VacationRequestHistory" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationRequestHistory} />
                 <PrivateRoute path="/MyProfile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={MyProfile} />
-                <PrivateRoute path="/Notifications"  authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={NotificationsView}/>
-                <PrivateRoute path="/AllVacationRequests" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={AllVacationRequests}/>
-
+                <PrivateRoute path="/Notifications" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={NotificationsView} />
+                <PrivateRoute path="/AllVacationRequests" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={AllVacationRequests} />
                 <Route component={NotFound}></Route>
               </Switch>
             </div>
           </Router>
         </div>
+      )
+    }
+
+    else if (this.state.authenticated) {
+      if (this.state.currentUser.emailVerified || this.state.currentUser.admin) {
+        return (
+          <div className="app">
+            <Router>
+              <div className="app-top-box">
+                <AppHeader authenticated={this.state.authenticated} currentUser={this.state.currentUser} onLogout={this.handleLogout} />
+              </div>
+              <div className="app-body">
+                <Switch>
+                  <Route exact path="/" component={Main}></Route>
+                  <PrivateRoute path="/profile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={Profile} />
+                  <Route path="/login" render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>
+                  <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>
+                  <PrivateRoute path="/VacationRequests" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationRequests} />
+                  <PrivateRoute path="/CreateVacationRequest" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={CreateVacationRequest} />
+                  <PrivateRoute path="/ViewVacationRequest" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ViewVacationRequest} />
+                  <PrivateRoute path="/ViewRequestHistory" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ViewRequestHistory} />
+                  <PrivateRoute path="/CreateIneligiblePeriod" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={CreateIneligiblePeriod} />
+                  <PrivateRoute path="/VacationRequests" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationRequests} />
+                  {/** <PrivateRoute path="/UserProfile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={UserProfile} /> ->*/}
+                  <PrivateRoute path="/UserProfile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={UserProfile} />
+                  <PrivateRoute path="/Users" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={Users} />
+                  <PrivateRoute path="/VacationSettings" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationSettings} />
+                  <PrivateRoute path="/VacationRequestHistory" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={VacationRequestHistory} />
+                  <PrivateRoute path="/MyProfile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={MyProfile} />
+                  <PrivateRoute path="/Notifications" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={NotificationsView} />
+                  <PrivateRoute path="/AllVacationRequests" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={AllVacationRequests} />
+
+                  <Route component={NotFound}></Route>
+                </Switch>
+              </div>
+            </Router>
+          </div>
         )
       } else {
         return (
           <div className="app">
-          <Router>
-            <div className="app-body">
-              <Switch>
-                {this.state.goToLogin ? (
-                  <Route exact path="/" component={Login}></Route>
-                ):
-                (
-                  <div>
-                    <Route exact path="/" component={Standby}></Route>
-                    <Container>
-                      <Row>
-                        <Col>
-                          <Button  onClick={e => {console.log("click"); this.setState({goToLogin:true})}}> Go to login page </Button>
-                        </Col>
-                      </Row>
-                    </Container>
-                  </div>
-                )}
-              </Switch>
-            </div>
-          </Router>
-        </div>
+            <Router>
+              <div className="app-body">
+                <Switch>
+                  {this.state.goToLogin ? (
+                    <Route exact path="/" component={Login}></Route>
+                  ) :
+                    (
+                      <div>
+                        <Route exact path="/" component={Standby}></Route>
+                        <Container>
+                          <Row>
+                            <Col className="text-center">
+                              <Button onClick={e => { console.log("click"); this.setState({ goToLogin: true }) }}> Go to login page </Button>
+                            </Col>
+                          </Row>
+                        </Container>
+                      </div>
+                    )}
+                </Switch>
+              </div>
+            </Router>
+          </div>
         )
       }
-      
+
     }
 
-    
-    
 
 
 
-    
-    
+
+
+
+
   }
 }
 
-export default App; 
+export default App;
 
