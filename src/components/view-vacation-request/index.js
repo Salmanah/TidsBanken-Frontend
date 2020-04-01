@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import './viewVacationRequest.css';
 import { List, ListItem, Divider, Collapse, ListItemText, Button } from '@material-ui/core';
 import { ExpandLess, ExpandMore } from '@material-ui/icons';
-import { Container, Col, Row, Modal, Alert } from 'react-bootstrap';
+import { Container, Col, Row, Modal } from 'react-bootstrap';
 import { adminEditVacationRequest, deleteVacationRequest, deleteVacationRequestAdmin } from "../../utils/APIUtils";
+import { printDate } from "../../utils/common";
 import CommentList from '../../components/comment-list/index';
 
 
@@ -14,7 +15,7 @@ import CommentList from '../../components/comment-list/index';
 //cannot be deleted anymore.
 const ViewVacationRequest = (props) => {
 
-    const [vacationRequest, setVacationRequest] = useState(props.location.state.request);
+    const [vacationRequest] = useState(props.location.state.request);
     const [status, setStatus] = useState(vacationRequest.status[0].status);
     const [commentRevealed, setCommentRevealed] = useState(false);
     const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
@@ -32,7 +33,7 @@ const ViewVacationRequest = (props) => {
     }
 
     console.log(vacationRequest)
-    
+
 
     function handleOpen() {
         setOpenConfirmDelete(true);
@@ -45,25 +46,26 @@ const ViewVacationRequest = (props) => {
         if (props.currentUser.admin) {
             console.log("deleting request " + vacationRequest.request_id + " as admin");
             deleteVacationRequestAdmin(vacationRequest.request_id)
-                .then(resp => {console.log("delete resp:");console.log(resp)})
+                .then(resp => { console.log("delete resp:"); console.log(resp) })
                 .catch(err => { console.error(err) });
             props.history.push({
-                pathname : "/VacationRequestHistory",
-                state : {
-                    user : vacationRequest.owner[0]
+                pathname: "/VacationRequestHistory",
+                state: {
+                    user: vacationRequest.owner[0]
                 }
             })
-        } else { console.log("deleting request " + vacationRequest.request_id + " as user");
+        } else {
+            console.log("deleting request " + vacationRequest.request_id + " as user");
 
             deleteVacationRequest(vacationRequest.request_id)
-                .then(resp => {console.log("delete resp:");console.log(resp)})
+                .then(resp => { console.log("delete resp:"); console.log(resp) })
                 .catch(err => { console.error(err) });
-                props.history.push({
-                    pathname : "/VacationRequestHistory",
-                    state : {
-                        user : props.currentUser
-                    }
-                })
+            props.history.push({
+                pathname: "/VacationRequestHistory",
+                state: {
+                    user: props.currentUser
+                }
+            })
         }
         setOpenConfirmDelete(false);
         //props.history.push("/")
@@ -142,7 +144,7 @@ const ViewVacationRequest = (props) => {
                             </ListItem>
                             <Divider />
                             <ListItem>
-                                <ListItemText>Period: {vacationRequest.period_start} to {vacationRequest.period_end}</ListItemText>
+                                <ListItemText>Period: {printDate(vacationRequest.period_start)} - {printDate(vacationRequest.period_end)}</ListItemText>
                             </ListItem>
                             <Divider />
                             <ListItem>
@@ -193,14 +195,14 @@ const ViewVacationRequest = (props) => {
                                 </ListItem>
                                 <Divider />
                                 <ListItem>
-                                    <ListItemText>Period: {vacationRequest.period_start} to {vacationRequest.period_end}</ListItemText>
+                                    <ListItemText>Period: {printDate(vacationRequest.period_start)} - {printDate(vacationRequest.period_end)}</ListItemText>
                                 </ListItem>
                                 <Divider />
                                 <ListItem>
                                     <ListItemText> Status: {status}</ListItemText>
                                 </ListItem>
                                 <Divider />
-                                { 
+                                {
                                     props.currentUser.admin || props.currentUser.id === vacationRequest.owner[0].id ? (
                                         (
                                             <div>
