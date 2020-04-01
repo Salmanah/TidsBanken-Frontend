@@ -31,6 +31,7 @@ const ViewVacationRequest = (props) => {
         setStatus(status)
     }
 
+    console.log(vacationRequest)
     
 
     function handleOpen() {
@@ -42,17 +43,30 @@ const ViewVacationRequest = (props) => {
 
     function handleDeleteRequest() {
         if (props.currentUser.admin) {
-            console.log("admin wants to delete request")
+            console.log("deleting request " + vacationRequest.request_id + " as admin");
             deleteVacationRequestAdmin(vacationRequest.request_id)
-                .then(resp => {
-                }).catch(err => { console.error(err) })
-        } else {
-            console.log("user wants to delete request")
+                .then(resp => {console.log("delete resp:");console.log(resp)})
+                .catch(err => { console.error(err) });
+            props.history.push({
+                pathname : "/VacationRequestHistory",
+                state : {
+                    user : vacationRequest.owner[0]
+                }
+            })
+        } else { console.log("deleting request " + vacationRequest.request_id + " as user");
+
             deleteVacationRequest(vacationRequest.request_id)
-                .catch(err => { console.error(err) })
+                .then(resp => {console.log("delete resp:");console.log(resp)})
+                .catch(err => { console.error(err) });
+                props.history.push({
+                    pathname : "/VacationRequestHistory",
+                    state : {
+                        user : props.currentUser
+                    }
+                })
         }
         setOpenConfirmDelete(false);
-        props.history.push("/")
+        //props.history.push("/")
     }
 
     function handleViewOwnerProfile() {

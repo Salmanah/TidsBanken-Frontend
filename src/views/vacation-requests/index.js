@@ -99,8 +99,6 @@ const VacationRequests = (props) => {
         }
     }, [radioValue])
 
-    console.log("got resp")
-    console.log(gotResponse)
 
 
     return (
