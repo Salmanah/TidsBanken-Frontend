@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import './vacationSettings.css';
-import 'react-confirm-alert/src/react-confirm-alert.css';
 import { Input, Button, ListItem, ListItemText, List, Collapse } from '@material-ui/core';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Modal } from 'react-bootstrap';
 import { ExpandMore, ExpandLess } from '@material-ui/icons';
-import { confirmAlert } from 'react-confirm-alert';
 import { printDate } from '../../utils/common';
 import { getAllIneligiblePeriods, deleteIneligiblePeriod, getMaxVacationDays, setMaxVacationDays } from '../../utils/APIUtils';
 
@@ -13,10 +11,12 @@ function VacationSettings() {
     const [openIneligible, setOpenIneligible] = useState(false);
     const [ineligiblePeriods, setIneligiblePeriods] = useState([]);
     const [maxVacation, setMaxVacation] = useState(0);
+    const [newMaxVacation, setNewMaxVacation] = useState(0);
+    const [showConfirm, setShowConfirm] = useState(false);
 
     useEffect(() => {
         getAllIneligiblePeriods().then(resp => { setIneligiblePeriods(resp) }).catch(err => { console.error(err.message) })
-        getMaxVacationDays().then(resp => { setMaxVacation(resp) }).catch(err => { console.error(err.message) })
+        getMaxVacationDays().then(resp => { setMaxVacation(resp); setNewMaxVacation(resp) }).catch(err => { console.error(err.message) })
     }, [])
 
     useEffect(() => { }, [ineligiblePeriods, maxVacation])
@@ -30,24 +30,34 @@ function VacationSettings() {
     }
 
     function handleSaveMaxVacation() {
-        let maxVacationNumber = document.getElementById("max-vacation-number").value
+        if (showConfirm == true) {
+            setShowConfirm(false);
+        }
 
+        if (newMaxVacation !== "") {
+            console.log(newMaxVacation)
 
+            setMaxVacationDays(newMaxVacation)
+                .then(resp => {
+                    console.log(resp);
+                    setMaxVacation(newMaxVacation)
+                    alert("Success: you have set a new max for max vacation days")
+                })
+                .catch(err => { console.error(err.message) })
+        }
+    }
 
-        if (confirm("Press a button!")) {
-            console.log("You pressed OK!");
+    function checkMax() {
+        if (maxVacation > newMaxVacation) {
+            setShowConfirm(!showConfirm)
         } else {
-            console.log("You pressed Cancel!");
+            handleSaveMaxVacation();
         }
-        if (maxVacationNumber !== "") {
+    }
 
-            /* setMaxVacationDays(maxVacationNumber)
-                 .then(resp => {
-                     console.log(resp);
-                     setMaxVacation(maxVacationNumber)
-                 })
-                 .catch(err => { console.error(err.message) })*/
-        }
+    function handleMaxVacationOnchange(e) {
+        let input = parseInt(e.target.value);
+        setNewMaxVacation(input)
     }
 
     return (
@@ -66,9 +76,8 @@ function VacationSettings() {
                                     <ListItemText className="mr-5">Max vacation days per request: {maxVacation}</ListItemText>
                                     <ListItemText className="text-right">
                                         <small className="mr-5 small-text">Change max number: </small>
-                                        {/*key forces defaultvalue to render */}
-                                        <Input key={`${Math.floor((Math.random() * 1000))}-min`} id="max-vacation-number" type="number" defaultValue={maxVacation}></Input>
-                                        <Button color="primary" onClick={() => handleSaveMaxVacation()}>save</Button>
+                                        <Input id="max-vacation-number" type="number" onChange={(e) => handleMaxVacationOnchange(e)} value={newMaxVacation}></Input>
+                                        <Button color="primary" onClick={() => checkMax()}>save</Button>
                                     </ListItemText>
                                 </ListItem>
                             </List>
@@ -90,7 +99,7 @@ function VacationSettings() {
                                     {ineligiblePeriods.length > 0 ?
                                         ineligiblePeriods.map((element) => {
                                             return (
-                                                <List>
+                                                <List key={element.ip_id}>
                                                     <ListItem className="pt-0">
                                                         <ListItemText>
                                                             Period: <em>{printDate(element.period_start)} - {printDate(element.period_end)} </em>
@@ -113,6 +122,22 @@ function VacationSettings() {
                         </Col>
                     </Row>
                 </Col>
+
+                <Modal show={showConfirm} onHide={() => setShowConfirm(!showConfirm)}>
+                    <Modal.Header>
+                        <Modal.Title>NB!</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <ListItemText>Completing this action results in a decrease of the user's available vacation days.
+                        Make sure the users of the system are aware of the decrease and have not already reached a
+                            total higher than the new max. Are you sure you'd like to complete this action?</ListItemText>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button className=" pr-2" onClick={() => setShowConfirm(!showConfirm)} >Cancel</Button>
+                        <Button onClick={() => handleSaveMaxVacation()} >Yes, I am sure</Button>
+                    </Modal.Footer>
+
+                </Modal>
             </Row>
         </Container >
     )
