@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import './vacationSettings.css';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import { Input, Button, ListItem, ListItemText, List, Collapse } from '@material-ui/core';
 import { Container, Row, Col } from 'react-bootstrap';
 import { ExpandMore, ExpandLess } from '@material-ui/icons';
+import { confirmAlert } from 'react-confirm-alert';
 import { printDate } from '../../utils/common';
 import { getAllIneligiblePeriods, deleteIneligiblePeriod, getMaxVacationDays, setMaxVacationDays } from '../../utils/APIUtils';
 
@@ -29,14 +31,22 @@ function VacationSettings() {
 
     function handleSaveMaxVacation() {
         let maxVacationNumber = document.getElementById("max-vacation-number").value
+
+
+
+        if (confirm("Press a button!")) {
+            console.log("You pressed OK!");
+        } else {
+            console.log("You pressed Cancel!");
+        }
         if (maxVacationNumber !== "") {
 
-            setMaxVacationDays(maxVacationNumber)
-                .then(resp => {
-                    console.log(resp);
-                    setMaxVacation(maxVacationNumber)
-                })
-                .catch(err => { console.error(err.message) })
+            /* setMaxVacationDays(maxVacationNumber)
+                 .then(resp => {
+                     console.log(resp);
+                     setMaxVacation(maxVacationNumber)
+                 })
+                 .catch(err => { console.error(err.message) })*/
         }
     }
 
